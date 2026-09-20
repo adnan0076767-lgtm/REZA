@@ -2,3461 +2,1687 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<meta name="theme-color" content="#070b16">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#050816">
 
-<title>REZA V6 — Pixel School RPG</title>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Press+Start+2P&display=swap" rel="stylesheet">
+<title>REZA V7 — MONSTER RPG ENGINE</title>
 
 <style>
-*{
-  box-sizing:border-box;
-  -webkit-tap-highlight-color:transparent;
-}
-
+*{box-sizing:border-box}
 html,body{
   margin:0;
+  width:100%;
   min-height:100%;
-  background:#050811;
+  background:#03050d;
   color:#fff;
-  font-family:Nunito,Arial,sans-serif;
+  font-family:monospace;
 }
+body{overflow-x:hidden}
 
-body{
-  overflow-x:hidden;
+:root{
+ --cyan:#00eaff;
+ --blue:#4777ff;
+ --purple:#a855f7;
+ --green:#35ff8b;
+ --yellow:#ffe66d;
+ --red:#ff426d;
+ --panel:rgba(8,14,30,.94);
 }
 
 button{
-  font:inherit;
-  cursor:pointer;
-  border:0;
+ font:inherit;
+ color:#fff;
+ border:1px solid #315070;
+ background:linear-gradient(180deg,#14243d,#091321);
+ border-radius:10px;
+ padding:12px 15px;
+ cursor:pointer;
+ transition:.15s;
 }
-
-.hidden{
-  display:none!important;
+button:hover{
+ border-color:var(--cyan);
+ transform:translateY(-1px);
+ box-shadow:0 0 15px #00eaff33;
 }
-
-/* =========================
-   CRT / BOOT
-========================= */
-
-.crt::before{
-  content:"";
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  z-index:9999;
-  background:
-    repeating-linear-gradient(
-      to bottom,
-      rgba(255,255,255,.025) 0px,
-      rgba(255,255,255,.025) 1px,
-      transparent 2px,
-      transparent 4px
-    );
-  mix-blend-mode:screen;
+button:active{transform:scale(.97)}
+button.primary{
+ background:linear-gradient(135deg,#087eaa,#4c24a8);
+ border-color:var(--cyan);
 }
-
-.crt::after{
-  content:"";
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  z-index:9998;
-  box-shadow:inset 0 0 100px rgba(0,0,0,.75);
-}
+button.good{border-color:var(--green)}
+button.warn{border-color:var(--yellow)}
+button.danger{border-color:var(--red)}
 
 #boot{
-  position:fixed;
-  inset:0;
-  z-index:5000;
-  background:
-    radial-gradient(circle at center,#17233e 0,#080d1b 48%,#03050a 100%);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:20px;
+ position:fixed;
+ inset:0;
+ z-index:1000;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ flex-direction:column;
+ background:#02040b;
 }
-
-.boot-box{
-  width:min(680px,100%);
-  border:3px solid #55e7ff;
-  background:rgba(3,7,18,.94);
-  padding:32px 22px;
-  text-align:center;
-  box-shadow:
-    0 0 20px rgba(85,231,255,.35),
-    inset 0 0 25px rgba(85,231,255,.05);
-}
-
 .boot-logo{
-  font-family:"Press Start 2P",monospace;
-  font-size:clamp(30px,8vw,68px);
-  letter-spacing:4px;
-  color:#62f5ff;
-  text-shadow:
-    4px 4px 0 #253b75,
-    0 0 25px rgba(98,245,255,.55);
-  margin-bottom:18px;
+ font-size:clamp(45px,12vw,110px);
+ font-weight:900;
+ letter-spacing:12px;
+ color:var(--cyan);
+ text-shadow:0 0 10px #00eaff,0 0 35px #00eaff;
+ animation:glitch 1.4s infinite;
 }
-
 .boot-sub{
-  font-family:"Press Start 2P",monospace;
-  font-size:11px;
-  color:#c9d8ff;
-  line-height:2;
+ color:#93a9c5;
+ margin-top:12px;
+ letter-spacing:4px;
+ text-align:center;
 }
-
-.boot-progress{
-  height:16px;
-  border:2px solid #55e7ff;
-  margin:28px auto 18px;
-  max-width:460px;
-  padding:2px;
+.boot-bar{
+ width:min(480px,80vw);
+ height:8px;
+ border:1px solid #315070;
+ margin-top:30px;
+ border-radius:20px;
+ overflow:hidden;
 }
-
-.boot-progress span{
-  display:block;
-  width:0%;
-  height:100%;
-  background:#55e7ff;
-  transition:width .15s linear;
+.boot-fill{
+ width:0%;
+ height:100%;
+ background:linear-gradient(90deg,var(--cyan),var(--purple));
+ animation:load 2.4s forwards;
 }
-
-.press{
-  font-family:"Press Start 2P",monospace;
-  color:#ffd84d;
-  animation:blink .8s infinite alternate;
-  font-size:12px;
-  margin-top:22px;
+@keyframes load{to{width:100%}}
+@keyframes glitch{
+ 0%,100%{transform:translate(0)}
+ 25%{transform:translate(2px,-1px)}
+ 50%{transform:translate(-2px,1px)}
+ 75%{transform:translate(1px,1px)}
 }
-
-@keyframes blink{
-  from{opacity:.35}
-  to{opacity:1}
-}
-
-/* =========================
-   APP
-========================= */
 
 #app{
-  min-height:100vh;
-  background:
-    radial-gradient(circle at 20% 0%,rgba(47,104,170,.18),transparent 32%),
-    radial-gradient(circle at 90% 30%,rgba(105,60,170,.14),transparent 30%),
-    #070b16;
+ display:none;
+ min-height:100vh;
+ position:relative;
+}
+#app:before{
+ content:"";
+ position:fixed;
+ inset:0;
+ pointer-events:none;
+ opacity:.09;
+ z-index:99;
+ background:repeating-linear-gradient(
+   to bottom,
+   transparent 0px,
+   transparent 3px,
+   #fff 4px
+ );
 }
 
-.topbar{
-  position:sticky;
-  top:0;
-  z-index:100;
-  background:rgba(5,9,20,.94);
-  border-bottom:2px solid #243455;
-  backdrop-filter:blur(10px);
-  padding:9px;
+header{
+ position:sticky;
+ top:0;
+ z-index:50;
+ padding:10px;
+ background:rgba(2,6,17,.92);
+ border-bottom:1px solid #173250;
+ backdrop-filter:blur(12px);
 }
-
+.top{
+ max-width:1200px;
+ margin:auto;
+ display:flex;
+ gap:8px;
+ align-items:center;
+ justify-content:space-between;
+ flex-wrap:wrap;
+}
+.logo{
+ font-weight:900;
+ color:var(--cyan);
+ letter-spacing:3px;
+ font-size:20px;
+}
 .stats{
-  max-width:1180px;
-  margin:auto;
-  display:grid;
-  grid-template-columns:1.2fr 1fr 1fr 1fr 1fr;
-  gap:7px;
+ display:flex;
+ gap:6px;
+ flex-wrap:wrap;
 }
-
 .stat{
-  min-width:0;
-  border:1px solid #2c416b;
-  background:#0b1222;
-  padding:8px;
-  border-radius:7px;
+ border:1px solid #203854;
+ background:#08111f;
+ border-radius:8px;
+ padding:7px 9px;
+ font-size:12px;
+}
+.stat b{color:var(--cyan)}
+
+main{
+ max-width:1200px;
+ margin:auto;
+ padding:16px;
+ position:relative;
+ z-index:2;
 }
 
-.stat small{
-  display:block;
-  color:#8da4d1;
-  font-size:10px;
-  font-weight:800;
-  text-transform:uppercase;
+.screen{display:none}
+.screen.active{display:block}
+
+.hero{
+ min-height:75vh;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ text-align:center;
 }
-
-.stat strong{
-  font-family:"Press Start 2P",monospace;
-  font-size:11px;
-  color:#fff;
+.hero-card{
+ width:min(850px,100%);
+ padding:35px 20px;
+ border:1px solid #204363;
+ border-radius:24px;
+ background:
+ radial-gradient(circle at 50% 0,#13244b,transparent 55%),
+ var(--panel);
+ box-shadow:0 0 70px #005eff18;
 }
-
-.exp-wrap{
-  margin-top:6px;
-  height:7px;
-  background:#18233a;
-  border-radius:99px;
-  overflow:hidden;
+.hero h1{
+ font-size:clamp(35px,8vw,75px);
+ margin:0;
+ color:var(--cyan);
+ text-shadow:0 0 20px #00eaff55;
 }
-
-#expBar{
-  width:0%;
-  height:100%;
-  background:#4ee7ff;
-  transition:width .25s;
+.hero h2{
+ color:#c5d7ee;
+ font-size:clamp(15px,3vw,23px);
 }
-
-/* =========================
-   MAIN
-========================= */
-
-.main{
-  max-width:1180px;
-  margin:auto;
-  padding:18px 12px 45px;
-}
-
-.screen-title{
-  font-family:"Press Start 2P",monospace;
-  font-size:16px;
-  line-height:1.8;
-  color:#66ecff;
-  margin:8px 0 16px;
+.hero p{color:#8298b5;line-height:1.7}
+.menu-grid{
+ display:grid;
+ grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+ gap:10px;
+ margin-top:25px;
 }
 
 .panel{
-  background:rgba(10,17,32,.94);
-  border:2px solid #25385f;
-  border-radius:10px;
-  padding:16px;
-  box-shadow:0 10px 35px rgba(0,0,0,.18);
+ border:1px solid #203854;
+ border-radius:18px;
+ background:var(--panel);
+ padding:15px;
+ margin-bottom:15px;
+ box-shadow:0 10px 40px #0005;
+}
+.panel h2,.panel h3{margin-top:0;color:var(--cyan)}
+
+.world-wrap{
+ display:grid;
+ grid-template-columns:minmax(0,1fr) 300px;
+ gap:14px;
+}
+@media(max-width:850px){
+ .world-wrap{grid-template-columns:1fr}
 }
 
-.menu-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:10px;
-}
-
-.menu-btn{
-  min-height:76px;
-  padding:13px;
-  color:#fff;
-  background:#101b31;
-  border:2px solid #304b78;
-  border-radius:8px;
-  text-align:left;
-  transition:.15s;
-}
-
-.menu-btn:hover,
-.menu-btn:active{
-  transform:translateY(-2px);
-  border-color:#62eaff;
-  background:#142541;
-}
-
-.menu-btn .icon{
-  font-size:24px;
-  display:block;
-  margin-bottom:5px;
-}
-
-.menu-btn b{
-  font-size:14px;
-}
-
-.menu-btn small{
-  display:block;
-  color:#8fa8d7;
-  margin-top:3px;
-}
-
-.world-btn{
-  grid-column:span 3;
-  background:#122742;
-  border-color:#4be5ff;
-  text-align:center;
-  font-weight:900;
-}
-
-.section{
-  margin-top:15px;
-}
-
-.subject-grid{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:10px;
-}
-
-.subject{
-  padding:14px 10px;
-  border:2px solid #2d456d;
-  background:#0c1528;
-  border-radius:8px;
-  color:white;
-  min-height:90px;
-  text-align:center;
-}
-
-.subject:hover{
-  border-color:#69ecff;
-}
-
-.subject .emoji{
-  font-size:28px;
-}
-
-.subject b{
-  display:block;
-  margin-top:6px;
-}
-
-.subject small{
-  color:#8da7d5;
-}
-
-/* =========================
-   WORLD
-========================= */
-
-.world{
-  position:relative;
-  width:100%;
-  height:min(650px,72vh);
-  min-height:460px;
-  overflow:hidden;
-  border:3px solid #344c76;
-  background:
-    linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px),
-    #16271d;
-  background-size:32px 32px;
-  border-radius:10px;
-  touch-action:none;
-}
-
-.world::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:
-    radial-gradient(circle at 15% 25%,rgba(80,140,80,.45),transparent 13%),
-    radial-gradient(circle at 80% 70%,rgba(50,100,60,.35),transparent 17%);
-  pointer-events:none;
-}
-
-.road{
-  position:absolute;
-  background:#8b7653;
-  border:2px solid #6e5c41;
-}
-
-.road.h{
-  left:0;
-  right:0;
-  height:72px;
-  top:49%;
-}
-
-.road.v{
-  top:0;
-  bottom:0;
-  width:72px;
-  left:49%;
-}
-
-.location{
-  position:absolute;
-  min-width:120px;
-  padding:12px 9px;
-  text-align:center;
-  background:#152239;
-  border:3px solid #5877a9;
-  border-radius:8px;
-  box-shadow:0 5px 0 rgba(0,0,0,.25);
-  user-select:none;
-}
-
-.location .big{
-  font-size:34px;
-}
-
-.location b{
-  display:block;
-  font-size:12px;
-  margin-top:4px;
-}
-
-.location small{
-  color:#a7badc;
-}
-
-#locSchool{left:7%;top:10%}
-#locLibrary{right:7%;top:10%}
-#locLab{left:7%;bottom:10%}
-#locArena{right:7%;bottom:10%}
-#locField{left:39%;top:6%}
-#locVillage{left:39%;bottom:6%}
-
-.player{
-  position:absolute;
-  width:48px;
-  height:58px;
-  z-index:20;
-  transform:translate(-50%,-50%);
-  text-align:center;
-  transition:none;
-  user-select:none;
-}
-
-.player-face{
-  width:34px;
-  height:34px;
-  margin:auto;
-  background:#ffd2a8;
-  border:3px solid #251b25;
-  border-radius:9px 9px 11px 11px;
-  position:relative;
-}
-
-.player-face::before{
-  content:"";
-  position:absolute;
-  top:-7px;
-  left:-3px;
-  right:-3px;
-  height:14px;
-  background:#382744;
-  border:3px solid #251b25;
-  border-bottom:0;
-  border-radius:12px 12px 3px 3px;
-}
-
-.player-body{
-  width:30px;
-  height:20px;
-  margin:-1px auto 0;
-  background:#55d7e8;
-  border:3px solid #251b25;
-  border-radius:6px 6px 4px 4px;
-}
-
-.npc{
-  position:absolute;
-  z-index:15;
-  transform:translate(-50%,-50%);
-  text-align:center;
-  width:70px;
-  user-select:none;
-}
-
-.npc-avatar{
-  width:42px;
-  height:42px;
-  margin:auto;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:30px;
-  background:#111c31;
-  border:3px solid #ffd34d;
-  border-radius:8px;
-}
-
-.npc-name{
-  font-size:10px;
-  font-weight:900;
-  color:#fff;
-  background:#08101d;
-  border:1px solid #384f78;
-  margin-top:3px;
-  padding:2px 4px;
-  white-space:nowrap;
-}
-
-.npc-hint{
-  color:#ffd84d;
-  font-size:8px;
-  font-weight:900;
-}
-
-#npcMath{left:31%;top:36%}
-#npcScience{left:69%;top:36%}
-#npcEnglish{left:31%;top:68%}
-#npcMentor{left:69%;top:68%}
-#npcShop{left:50%;top:82%}
-
-.world-info{
-  margin-top:10px;
-  color:#a9b9d7;
-  font-size:13px;
+#world{
+ width:100%;
+ aspect-ratio:16/9;
+ display:block;
+ background:#06101b;
+ border:2px solid #234968;
+ border-radius:16px;
+ image-rendering:pixelated;
+ box-shadow:0 0 30px #00eaff15;
+ touch-action:none;
 }
 
 .controls{
-  margin-top:12px;
-  display:flex;
-  justify-content:center;
-  gap:8px;
-  flex-wrap:wrap;
+ display:grid;
+ grid-template-columns:repeat(3,65px);
+ gap:7px;
+ justify-content:center;
+ margin-top:12px;
+}
+.controls button{
+ height:55px;
+ padding:0;
+ font-size:21px;
+}
+.controls .empty{visibility:hidden}
+
+.area-title{
+ color:var(--yellow);
+ font-size:16px;
+}
+.location-list{
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:7px;
+}
+.location-list button{font-size:12px}
+
+.dialog{
+ min-height:100px;
+ line-height:1.6;
+ color:#c9d8e9;
+}
+.dialog strong{color:var(--yellow)}
+
+.battle-stage{
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:15px;
+ align-items:center;
+}
+@media(max-width:700px){.battle-stage{grid-template-columns:1fr}}
+.battle-card{
+ min-height:250px;
+ border:1px solid #28445e;
+ border-radius:20px;
+ padding:18px;
+ background:
+ radial-gradient(circle at 50% 45%,#1a2840,transparent 50%),
+ #070d18;
+ position:relative;
+ overflow:hidden;
+}
+.monster-art{
+ font-size:100px;
+ text-align:center;
+ filter:drop-shadow(0 15px 10px #000);
+ animation:bob 1.5s infinite ease-in-out;
+}
+@keyframes bob{
+ 50%{transform:translateY(-8px)}
+}
+.hp{
+ height:13px;
+ background:#161d29;
+ border:1px solid #334257;
+ border-radius:20px;
+ overflow:hidden;
+}
+.hp i{
+ display:block;
+ height:100%;
+ width:100%;
+ background:linear-gradient(90deg,#20e77b,#dfff55);
+ transition:.3s;
+}
+.hp.enemy i{background:linear-gradient(90deg,#ff355e,#ffb52e)}
+.battle-actions{
+ display:grid;
+ grid-template-columns:repeat(2,1fr);
+ gap:8px;
+ margin-top:12px;
+}
+.question{
+ margin-top:15px;
+ padding:15px;
+ border:1px solid #334a66;
+ border-radius:15px;
+ background:#060c17;
+}
+.answers{
+ display:grid;
+ gap:8px;
+ margin-top:12px;
 }
 
-.dpad{
-  width:170px;
-  display:grid;
-  grid-template-columns:repeat(3,50px);
-  grid-template-rows:repeat(3,50px);
-  gap:5px;
-  justify-content:center;
+.card-grid{
+ display:grid;
+ grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+ gap:10px;
+}
+.monster-card{
+ border:1px solid #24425e;
+ border-radius:15px;
+ padding:15px;
+ background:#08111d;
+ text-align:center;
+}
+.monster-card .art{font-size:55px}
+.muted{color:#7188a3}
+.big{font-size:24px}
+.progress{
+ height:10px;
+ background:#121b29;
+ border-radius:20px;
+ overflow:hidden;
+}
+.progress i{
+ display:block;
+ height:100%;
+ background:linear-gradient(90deg,var(--cyan),var(--purple));
 }
 
-.dpad button{
-  background:#17243c;
-  color:white;
-  border:2px solid #405d8e;
-  border-radius:8px;
-  font-size:20px;
-  font-weight:900;
-  touch-action:none;
+.toast{
+ position:fixed;
+ left:50%;
+ bottom:25px;
+ transform:translateX(-50%) translateY(100px);
+ z-index:500;
+ background:#091425;
+ border:1px solid var(--cyan);
+ border-radius:12px;
+ padding:13px 18px;
+ box-shadow:0 0 25px #00eaff33;
+ transition:.3s;
+ max-width:90%;
+ text-align:center;
 }
+.toast.show{transform:translateX(-50%) translateY(0)}
 
-.dpad button:active{
-  background:#28466d;
+.quest{
+ padding:12px;
+ border:1px solid #263d57;
+ border-radius:12px;
+ margin-bottom:8px;
+ background:#07101c;
 }
+.quest.done{border-color:var(--green)}
 
-.up{grid-column:2}
-.left{grid-column:1;grid-row:2}
-.down{grid-column:2;grid-row:2}
-.right{grid-column:3;grid-row:2}
-
-/* =========================
-   MODALS
-========================= */
-
-#modalLayer{
-  position:fixed;
-  inset:0;
-  z-index:3000;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:15px;
-  background:rgba(0,0,0,.72);
+#mobileBar{
+ display:flex;
+ gap:7px;
+ flex-wrap:wrap;
+ margin-bottom:12px;
 }
+#mobileBar button{font-size:12px}
+
+.hidden{display:none!important}
 
 .modal{
-  width:min(760px,100%);
-  max-height:90vh;
-  overflow:auto;
-  background:#091120;
-  border:3px solid #53e8ff;
-  border-radius:10px;
-  padding:18px;
-  box-shadow:0 0 35px rgba(83,232,255,.22);
+ position:fixed;
+ inset:0;
+ background:#000b;
+ z-index:200;
+ display:none;
+ align-items:center;
+ justify-content:center;
+ padding:15px;
 }
-
-.modal h2{
-  font-family:"Press Start 2P",monospace;
-  color:#67ebff;
-  font-size:14px;
-  line-height:1.7;
-}
-
-.modal p{
-  color:#c0cce3;
-  line-height:1.6;
-}
-
-.close{
-  float:right;
-  background:#291829;
-  border:1px solid #8c527d;
-  color:#fff;
-  padding:7px 11px;
-  border-radius:6px;
-}
-
-.action{
-  padding:11px 15px;
-  border-radius:7px;
-  background:#183254;
-  border:2px solid #3f6fa5;
-  color:#fff;
-  font-weight:900;
-  margin:4px;
-}
-
-.action.primary{
-  background:#124453;
-  border-color:#58eaff;
-}
-
-.action.good{
-  background:#214b36;
-  border-color:#6ce79d;
-}
-
-.action.warn{
-  background:#513d19;
-  border-color:#ffd45c;
-}
-
-.action.danger{
-  background:#51242c;
-  border-color:#e66d7b;
-}
-
-/* =========================
-   BATTLE
-========================= */
-
-.battle{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:12px;
-}
-
-.fighter{
-  border:2px solid #314a76;
-  background:#0d1729;
-  border-radius:8px;
-  padding:15px;
-  text-align:center;
-}
-
-.monster-art{
-  font-size:76px;
-  min-height:100px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  filter:drop-shadow(0 8px 0 rgba(0,0,0,.3));
-}
-
-.hp{
-  height:12px;
-  border:2px solid #283b60;
-  background:#151d2c;
-  padding:2px;
-  margin:8px 0;
-}
-
-.hp span{
-  display:block;
-  height:100%;
-  width:100%;
-  background:#59e48b;
-  transition:.2s;
-}
-
-.hp.enemy span{
-  background:#ff6674;
-}
-
-.battle-log{
-  background:#050a12;
-  border:1px solid #273a5c;
-  min-height:90px;
-  padding:10px;
-  color:#b8c8e6;
-  line-height:1.5;
-  margin-top:10px;
-}
-
-.battle-actions{
-  margin-top:10px;
-  display:flex;
-  flex-wrap:wrap;
-  justify-content:center;
-}
-
-/* =========================
-   LESSON / QUIZ
-========================= */
-
-.lesson{
-  background:#0c172b;
-  border-left:4px solid #5ae8ff;
-  padding:13px;
-  margin:10px 0;
-  color:#c6d2e9;
-  line-height:1.65;
-}
-
-.question{
-  font-size:19px;
-  font-weight:900;
-  line-height:1.5;
-  margin:15px 0;
-}
-
-.answers{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:9px;
-}
-
-.answer{
-  padding:13px;
-  background:#121f36;
-  border:2px solid #314c78;
-  color:white;
-  border-radius:7px;
-  text-align:left;
-}
-
-.answer:hover{
-  border-color:#5ceaff;
-}
-
-.answer.correct{
-  border-color:#61e89a;
-  background:#183c2a;
-}
-
-.answer.wrong{
-  border-color:#ff6875;
-  background:#43232a;
-}
-
-.explain{
-  margin-top:12px;
-  padding:11px;
-  border:1px solid #52698f;
-  background:#101b2d;
-  color:#c4d3ea;
-}
-
-/* =========================
-   CARDS / LISTS
-========================= */
-
-.list{
-  display:grid;
-  gap:8px;
-}
-
-.item{
-  padding:11px;
-  border:1px solid #2d4268;
-  background:#0d1728;
-  border-radius:7px;
-}
-
-.item b{
-  color:#70edff;
-}
-
-.item small{
-  display:block;
-  color:#8ea5cc;
-  margin-top:3px;
-}
-
-.progress-row{
-  margin:10px 0;
-}
-
-.progress-label{
-  display:flex;
-  justify-content:space-between;
-  color:#c7d4e9;
-  font-size:13px;
-}
-
-.progress{
-  height:9px;
-  margin-top:5px;
-  background:#17233a;
-  border:1px solid #2f456b;
-}
-
-.progress span{
-  display:block;
-  height:100%;
-  background:#5ce6ff;
+.modal.open{display:flex}
+.modal-box{
+ width:min(650px,100%);
+ max-height:90vh;
+ overflow:auto;
+ border:1px solid #315070;
+ border-radius:20px;
+ background:#07101c;
+ padding:20px;
 }
 
 footer{
-  max-width:1180px;
-  margin:0 auto;
-  padding:20px 15px 40px;
-  text-align:center;
-  color:#7890b7;
-  border-top:1px solid #1e2d48;
-}
-
-footer strong{
-  color:#63eaff;
-}
-
-/* =========================
-   TOAST
-========================= */
-
-#toast{
-  position:fixed;
-  left:50%;
-  bottom:25px;
-  transform:translate(-50%,20px);
-  z-index:6000;
-  padding:12px 18px;
-  background:#081321;
-  border:2px solid #5de9ff;
-  border-radius:8px;
-  color:#fff;
-  font-weight:900;
-  opacity:0;
-  pointer-events:none;
-  transition:.25s;
-  text-align:center;
-  max-width:90%;
-}
-
-#toast.show{
-  opacity:1;
-  transform:translate(-50%,0);
-}
-
-/* =========================
-   MOBILE
-========================= */
-
-@media(max-width:850px){
-  .stats{
-    grid-template-columns:repeat(3,1fr);
-  }
-
-  .menu-grid{
-    grid-template-columns:1fr 1fr;
-  }
-
-  .world-btn{
-    grid-column:span 2;
-  }
-
-  .subject-grid{
-    grid-template-columns:1fr 1fr;
-  }
-
-  .world{
-    height:560px;
-  }
-
-  .location{
-    min-width:95px;
-    padding:7px 5px;
-  }
-
-  .location .big{
-    font-size:27px;
-  }
-
-  .battle{
-    grid-template-columns:1fr;
-  }
-}
-
-@media(max-width:560px){
-  .stats{
-    grid-template-columns:repeat(2,1fr);
-  }
-
-  .stat strong{
-    font-size:9px;
-  }
-
-  .main{
-    padding:12px 8px 30px;
-  }
-
-  .menu-grid{
-    grid-template-columns:1fr;
-  }
-
-  .world-btn{
-    grid-column:span 1;
-  }
-
-  .subject-grid{
-    grid-template-columns:1fr 1fr;
-  }
-
-  .world{
-    min-height:500px;
-    height:500px;
-  }
-
-  #locSchool{left:3%;top:7%}
-  #locLibrary{right:3%;top:7%}
-  #locLab{left:3%;bottom:7%}
-  #locArena{right:3%;bottom:7%}
-  #locField{left:38%;top:3%}
-  #locVillage{left:38%;bottom:3%}
-
-  #npcMath{left:27%;top:38%}
-  #npcScience{left:73%;top:38%}
-  #npcEnglish{left:27%;top:66%}
-  #npcMentor{left:73%;top:66%}
-  #npcShop{left:50%;top:82%}
-
-  .answers{
-    grid-template-columns:1fr;
-  }
-
-  .screen-title{
-    font-size:13px;
-  }
-
-  .boot-box{
-    padding:25px 13px;
-  }
+ text-align:center;
+ color:#536b86;
+ font-size:11px;
+ padding:30px 10px;
 }
 </style>
 </head>
 
-<body class="crt">
+<body>
 
-<!-- =========================
-     BOOT
-========================= -->
+<div id="boot">
+ <div class="boot-logo">REZA</div>
+ <div class="boot-sub">MONSTER RPG ENGINE • V7</div>
+ <div class="boot-bar"><div class="boot-fill"></div></div>
+ <div style="margin-top:15px;color:#4e6882;font-size:11px">INITIALIZING WORLD...</div>
+</div>
 
-<section id="boot">
-  <div class="boot-box">
-    <div class="boot-logo">REZA</div>
-    <div class="boot-sub">
-      PIXEL SCHOOL RPG<br>
-      V6 PLAYABLE WORLD
-    </div>
+<div id="app">
 
-    <div class="boot-progress">
-      <span id="bootBar"></span>
-    </div>
-
-    <div id="bootText" class="boot-sub">
-      INITIALIZING...
-    </div>
-
-    <div id="pressStart" class="press hidden">
-      PRESS START
-    </div>
+<header>
+ <div class="top">
+  <div class="logo">◈ REZA V7</div>
+  <div class="stats">
+   <div class="stat">LV <b id="uiLevel">1</b></div>
+   <div class="stat">EXP <b id="uiExp">0/100</b></div>
+   <div class="stat">🪙 <b id="uiCoins">50</b></div>
+   <div class="stat">🔥 <b id="uiStreak">0</b></div>
+   <div class="stat">❤️ <b id="uiHP">100</b></div>
   </div>
+ </div>
+</header>
+
+<main>
+
+<section id="home" class="screen active">
+ <div class="hero">
+  <div class="hero-card">
+   <div style="color:#607895;letter-spacing:5px">WELCOME TRAINER</div>
+   <h1>REZA</h1>
+   <h2>MONSTER RPG ENGINE</h2>
+   <p>
+    Jelajahi dunia. Temui karakter. Kumpulkan monster.
+    Hadapi battle dan gunakan pengetahuanmu untuk menang.
+   </p>
+
+   <div class="menu-grid">
+    <button class="primary" onclick="startAdventure()">🎮 START ADVENTURE</button>
+    <button onclick="openLearning()">📚 LEARNING</button>
+    <button onclick="openExam()">📝 EXAM MODE</button>
+    <button onclick="openProgress()">📊 PROGRESS</button>
+    <button onclick="openCollection()">👾 MONSTERS</button>
+    <button onclick="openAchievements()">🏆 ACHIEVEMENTS</button>
+    <button onclick="openInventory()">🎒 INVENTORY</button>
+    <button onclick="saveGame();toast('Game berhasil disimpan!')">💾 SAVE GAME</button>
+   </div>
+  </div>
+ </div>
 </section>
 
-<!-- =========================
-     APP
-========================= -->
+<section id="worldScreen" class="screen">
 
-<div id="app" class="hidden">
+ <div id="mobileBar">
+  <button onclick="goHome()">← MENU</button>
+  <button onclick="saveGame();toast('Game disimpan')">💾 SAVE</button>
+  <button onclick="toggleMusic()">🎵 MUSIC</button>
+ </div>
 
-  <header class="topbar">
-    <div class="stats">
+ <div class="world-wrap">
 
-      <div class="stat">
-        <small>Player</small>
-        <strong>REZA</strong>
-      </div>
+  <div>
+   <canvas id="world" width="960" height="540"></canvas>
 
-      <div class="stat">
-        <small>Level</small>
-        <strong id="levelText">1</strong>
-      </div>
+   <div class="controls">
+    <button class="empty">.</button>
+    <button onpointerdown="movePlayer(0,-1)">▲</button>
+    <button class="empty">.</button>
+    <button onpointerdown="movePlayer(-1,0)">◀</button>
+    <button onclick="interact()">A</button>
+    <button onpointerdown="movePlayer(1,0)">▶</button>
+    <button class="empty">.</button>
+    <button onpointerdown="movePlayer(0,1)">▼</button>
+    <button class="empty">.</button>
+   </div>
+  </div>
 
-      <div class="stat">
-        <small>EXP</small>
-        <strong id="expText">0/100</strong>
-        <div class="exp-wrap">
-          <div id="expBar"></div>
-        </div>
-      </div>
-
-      <div class="stat">
-        <small>Coins</small>
-        <strong>🪙 <span id="coinsText">100</span></strong>
-      </div>
-
-      <div class="stat">
-        <small>Streak</small>
-        <strong>🔥 <span id="streakText">0</span></strong>
-      </div>
-
+  <aside>
+   <div class="panel">
+    <div class="area-title">📍 <span id="areaName">SCHOOL</span></div>
+    <div class="dialog" id="dialog">
+     Gunakan <strong>WASD / Arrow</strong> untuk bergerak.
+     Dekati NPC atau objek lalu tekan <strong>SPACE</strong>.
     </div>
-  </header>
+   </div>
 
-  <main class="main">
+   <div class="panel">
+    <h3>🗺️ WORLD</h3>
+    <div class="location-list">
+     <button onclick="teleport('school')">🏫 School</button>
+     <button onclick="teleport('village')">🏘️ Village</button>
+     <button onclick="teleport('forest')">🌲 Forest</button>
+     <button onclick="teleport('cave')">🪨 Cave</button>
+     <button onclick="teleport('lab')">🧪 Lab</button>
+     <button onclick="teleport('arena')">⚔️ Arena</button>
+    </div>
+   </div>
 
-    <!-- HOME -->
-    <section id="homeScreen">
+   <div class="panel">
+    <h3>📜 ACTIVE QUEST</h3>
+    <div id="questMini"></div>
+   </div>
 
-      <div class="screen-title">
-        REZA PIXEL SCHOOL RPG
-      </div>
+   <div class="panel">
+    <h3>🎒 QUICK ITEM</h3>
+    <div id="quickItems"></div>
+   </div>
+  </aside>
+ </div>
+</section>
 
-      <div class="panel">
-        <div class="menu-grid">
+<section id="learningScreen" class="screen">
+ <div class="panel">
+  <button onclick="goHome()">← MENU</button>
+  <h2>📚 LEARNING MODE</h2>
+  <p class="muted">Pilih pelajaran dan pelajari materi sebelum masuk battle.</p>
+  <div id="subjectGrid" class="card-grid"></div>
+ </div>
+ <div id="lessonBox"></div>
+</section>
 
-          <button class="menu-btn world-btn" onclick="openWorld()">
-            <span class="icon">🗺️</span>
-            <b>START ADVENTURE</b>
-            <small>Jelajahi dunia sekolah REZA</small>
-          </button>
+<section id="examScreen" class="screen">
+ <div class="panel">
+  <button onclick="goHome()">← MENU</button>
+  <h2>📝 EXAM MODE</h2>
+  <p class="muted">10 soal campuran. Hadiah EXP dan Coins berdasarkan hasil.</p>
+  <button class="primary" onclick="startExam()">START EXAM</button>
+  <div id="examBox" style="margin-top:15px"></div>
+ </div>
+</section>
 
-          <button class="menu-btn" onclick="openSubjects()">
-            <span class="icon">📚</span>
-            <b>LEARNING MODE</b>
-            <small>Belajar 12 mata pelajaran</small>
-          </button>
+<section id="progressScreen" class="screen">
+ <div class="panel">
+  <button onclick="goHome()">← MENU</button>
+  <h2>📊 MY PROGRESS</h2>
+  <div id="progressBox"></div>
+ </div>
+</section>
 
-          <button class="menu-btn" onclick="startExam()">
-            <span class="icon">📝</span>
-            <b>EXAM MODE</b>
-            <small>Ujian campuran SMP</small>
-          </button>
+<section id="collectionScreen" class="screen">
+ <div class="panel">
+  <button onclick="goHome()">← MENU</button>
+  <h2>👾 MONSTER COLLECTION</h2>
+  <p class="muted">Monster original dunia REZA.</p>
+  <div id="collectionBox" class="card-grid"></div>
+ </div>
+</section>
 
-          <button class="menu-btn" onclick="openProgress()">
-            <span class="icon">📊</span>
-            <b>MY PROGRESS</b>
-            <small>Lihat perkembangan belajar</small>
-          </button>
+<section id="achievementScreen" class="screen">
+ <div class="panel">
+  <button onclick="goHome()">← MENU</button>
+  <h2>🏆 ACHIEVEMENTS</h2>
+  <div id="achievementBox"></div>
+ </div>
+</section>
 
-          <button class="menu-btn" onclick="openCollection()">
-            <span class="icon">👾</span>
-            <b>MONSTER COLLECTION</b>
-            <small>Koleksi monster original</small>
-          </button>
+<section id="inventoryScreen" class="screen">
+ <div class="panel">
+  <button onclick="goHome()">← MENU</button>
+  <h2>🎒 INVENTORY</h2>
+  <div id="inventoryBox" class="card-grid"></div>
+ </div>
+</section>
 
-          <button class="menu-btn" onclick="openAchievements()">
-            <span class="icon">🏆</span>
-            <b>ACHIEVEMENTS</b>
-            <small>Prestasi petualangan</small>
-          </button>
+<section id="battleScreen" class="screen">
+ <div class="panel">
+  <button onclick="runFromBattle()">← RUN</button>
+  <h2>⚔️ MONSTER BATTLE</h2>
 
-          <button class="menu-btn" onclick="openMission()">
-            <span class="icon">🎯</span>
-            <b>DAILY MISSION</b>
-            <small>Misi belajar harian</small>
-          </button>
+  <div class="battle-stage">
 
-          <button class="menu-btn" onclick="openInventory()">
-            <span class="icon">🎒</span>
-            <b>INVENTORY</b>
-            <small>Item & perlengkapan</small>
-          </button>
+   <div class="battle-card">
+    <div style="color:#8aa1ba">WILD MONSTER</div>
+    <h3 id="enemyName">---</h3>
+    <div class="monster-art" id="enemyArt">👾</div>
+    <div class="hp enemy"><i id="enemyHPBar"></i></div>
+    <small id="enemyHPText">100/100 HP</small>
+   </div>
 
-          <button class="menu-btn" onclick="openProfile()">
-            <span class="icon">👤</span>
-            <b>PROFILE</b>
-            <small>Data pemain</small>
-          </button>
+   <div class="battle-card">
+    <div style="color:#8aa1ba">YOUR MONSTER</div>
+    <h3 id="playerMonsterName">---</h3>
+    <div class="monster-art" id="playerArt">⚡</div>
+    <div class="hp"><i id="playerHPBar"></i></div>
+    <small id="playerHPText">100/100 HP</small>
+   </div>
 
-          <button class="menu-btn" onclick="toggleMusic()">
-            <span class="icon">🎵</span>
-            <b>MUSIC</b>
-            <small id="musicText">ON</small>
-          </button>
+  </div>
 
-          <button class="menu-btn" onclick="saveGame()">
-            <span class="icon">💾</span>
-            <b>SAVE GAME</b>
-            <small>Simpan progress</small>
-          </button>
+  <div id="battleQuestion" class="question"></div>
 
-          <button class="menu-btn" onclick="resetGame()">
-            <span class="icon">♻️</span>
-            <b>RESET DATA</b>
-            <small>Mulai dari awal</small>
-          </button>
+  <div class="battle-actions">
+   <button class="primary" onclick="useBattleSkill()">⚔️ ANSWER & ATTACK</button>
+   <button onclick="usePotionBattle()">🧪 POTION</button>
+   <button onclick="captureMonster()">🔮 CAPTURE</button>
+   <button onclick="runFromBattle()">🏃 RUN</button>
+  </div>
+ </div>
+</section>
 
-        </div>
-      </div>
+<footer>
+ REZA V7 • Original Monster RPG Learning Game<br>
+ Built as a standalone project
+</footer>
 
-      <div class="section panel">
-        <b>🎮 QUICK START</b>
-        <p style="color:#9db0d0;line-height:1.6">
-          Masuk ke <b>Start Adventure</b>, gerakkan REZA menggunakan
-          WASD / tombol panah. Dekati karakter lalu tekan <b>SPACE</b>
-          atau tombol INTERACT untuk berbicara, belajar, menerima quest,
-          atau memulai battle.
-        </p>
-      </div>
+</main>
 
-    </section>
-
-    <!-- SUBJECTS -->
-    <section id="subjectsScreen" class="hidden">
-
-      <div class="screen-title">📚 MATA PELAJARAN SMP</div>
-
-      <div class="panel">
-
-        <div id="subjectGrid" class="subject-grid"></div>
-
-      </div>
-
-      <button class="action" onclick="goHome()">← Kembali</button>
-
-    </section>
-
-    <!-- WORLD -->
-    <section id="worldScreen" class="hidden">
-
-      <div class="screen-title">🗺️ REZA WORLD</div>
-
-      <div class="world" id="world">
-
-        <div class="road h"></div>
-        <div class="road v"></div>
-
-        <div class="location" id="locSchool">
-          <div class="big">🏫</div>
-          <b>SEKOLAH</b>
-          <small>Belajar</small>
-        </div>
-
-        <div class="location" id="locLibrary">
-          <div class="big">📖</div>
-          <b>PERPUSTAKAAN</b>
-          <small>Materi</small>
-        </div>
-
-        <div class="location" id="locLab">
-          <div class="big">🔬</div>
-          <b>SCIENCE LAB</b>
-          <small>IPA</small>
-        </div>
-
-        <div class="location" id="locArena">
-          <div class="big">⚔️</div>
-          <b>BATTLE ARENA</b>
-          <small>Battle</small>
-        </div>
-
-        <div class="location" id="locField">
-          <div class="big">🏟️</div>
-          <b>SPORT FIELD</b>
-          <small>PJOK</small>
-        </div>
-
-        <div class="location" id="locVillage">
-          <div class="big">🏘️</div>
-          <b>VILLAGE</b>
-          <small>NPC & Shop</small>
-        </div>
-
-        <!-- NPC -->
-        <div class="npc" id="npcMath">
-          <div class="npc-avatar">👨‍🏫</div>
-          <div class="npc-name">Pak Arga</div>
-          <div class="npc-hint">SPACE</div>
-        </div>
-
-        <div class="npc" id="npcScience">
-          <div class="npc-avatar">👩‍🔬</div>
-          <div class="npc-name">Bu Naya</div>
-          <div class="npc-hint">SPACE</div>
-        </div>
-
-        <div class="npc" id="npcEnglish">
-          <div class="npc-avatar">👨‍💼</div>
-          <div class="npc-name">Mr. Ryan</div>
-          <div class="npc-hint">SPACE</div>
-        </div>
-
-        <div class="npc" id="npcMentor">
-          <div class="npc-avatar">🧙</div>
-          <div class="npc-name">Mentor Raka</div>
-          <div class="npc-hint">SPACE</div>
-        </div>
-
-        <div class="npc" id="npcShop">
-          <div class="npc-avatar">🧑‍🍳</div>
-          <div class="npc-name">Kak Bimo</div>
-          <div class="npc-hint">SHOP</div>
-        </div>
-
-        <!-- PLAYER -->
-        <div id="player" class="player" style="left:50%;top:50%">
-          <div class="player-face"></div>
-          <div class="player-body"></div>
-        </div>
-
-      </div>
-
-      <div class="world-info">
-        🕹️ <b>WASD / Arrow</b> untuk bergerak |
-        <b>SPACE / E</b> untuk interaksi |
-        Dekati NPC atau lokasi penting.
-      </div>
-
-      <div class="controls">
-
-        <div class="dpad">
-          <button class="up" data-dir="up">▲</button>
-          <button class="left" data-dir="left">◀</button>
-          <button class="down" data-dir="down">▼</button>
-          <button class="right" data-dir="right">▶</button>
-        </div>
-
-        <button class="action primary" onclick="interact()">✋ INTERACT</button>
-        <button class="action" onclick="goHome()">🏠 MENU</button>
-
-      </div>
-
-    </section>
-
-  </main>
-
-  <footer>
-    <strong>REZA PIXEL SCHOOL RPG V6</strong><br>
-    Educational Pixel RPG • Learning • Quiz • Adventure<br><br>
-    Created by <strong>ALFA DESIGN</strong><br>
-    Website Development & Creative Technology<br>
-    WhatsApp: 083870874140<br>
-    Email: adnanfarisi007@gmail.com
-  </footer>
+<div id="toast" class="toast"></div>
 
 </div>
 
-<!-- MODAL -->
-<div id="modalLayer" class="hidden"></div>
-
-<div id="toast"></div>
-
 <script>
-/* ==========================================================
-   REZA V6
-   PLAYABLE RPG + LEARNING SYSTEM
-========================================================== */
+/* ============================================================
+   REZA V7 — MONSTER RPG ENGINE
+   Single-file standalone build
+============================================================ */
 
-const SAVE_KEY = "reza_pixel_school_v6";
+const SAVE_KEY="reza_pixel_school_v7";
 
-const $ = id => document.getElementById(id);
+const subjects=[
+ {id:"math",name:"Matematika",icon:"➗",tip:"Fokus pada operasi bilangan, aljabar dan logika."},
+ {id:"ipa",name:"IPA",icon:"🧪",tip:"Pelajari makhluk hidup, energi dan lingkungan."},
+ {id:"ips",name:"IPS",icon:"🌍",tip:"Kenali masyarakat, ekonomi, sejarah dan geografi."},
+ {id:"indo",name:"Bahasa Indonesia",icon:"📖",tip:"Pahami ide pokok, teks dan kaidah bahasa."},
+ {id:"english",name:"English",icon:"🇺🇸",tip:"Latihan vocabulary dan grammar dasar."},
+ {id:"informatika",name:"Informatika",icon:"💻",tip:"Kenali algoritma, data dan teknologi."},
+ {id:"ppkn",name:"PPKn",icon:"🇮🇩",tip:"Pelajari norma, hak, kewajiban dan konstitusi."},
+ {id:"agama",name:"Pendidikan Agama",icon:"🕌",tip:"Materi umum tentang akhlak dan nilai kebaikan."},
+ {id:"seni",name:"Seni Budaya",icon:"🎨",tip:"Kenali unsur seni, musik dan budaya."},
+ {id:"pjok",name:"PJOK",icon:"⚽",tip:"Pelajari kesehatan dan aktivitas fisik."},
+ {id:"prakarya",name:"Prakarya",icon:"🔧",tip:"Kenali kreativitas, bahan dan proses produksi."},
+ {id:"sunda",name:"Bahasa Sunda",icon:"🗣️",tip:"Latihan kosakata dan ungkapan dasar Sunda."}
+];
 
-let state = {
-  level:1,
-  exp:0,
-  coins:100,
-  streak:0,
-  questions:0,
-  correct:0,
-  music:true,
-  inventory:{
-    potion:3,
-    studyBook:1,
-    energyDrink:2
-  },
-  monsters:[],
-  achievements:[],
-  subjects:{},
-  daily:{
-    date:"",
-    count:0,
-    claimed:false
-  },
-  quests:{
-    mentor:false,
-    teacher:false,
-    battle:false
-  }
+const questions=[
+ {s:"math",q:"Berapakah 15 × 4?",a:["45","50","60","75"],c:2},
+ {s:"math",q:"Jika x + 7 = 15, nilai x adalah...",a:["6","7","8","9"],c:2},
+ {s:"math",q:"Luas persegi dengan sisi 8 cm adalah...",a:["16","32","64","80"],c:2},
+
+ {s:"ipa",q:"Organ yang memompa darah adalah...",a:["Paru-paru","Jantung","Lambung","Ginjal"],c:1},
+ {s:"ipa",q:"Tumbuhan membuat makanan terutama melalui...",a:["Respirasi","Fotosintesis","Evaporasi","Filtrasi"],c:1},
+ {s:"ipa",q:"Perubahan air menjadi uap disebut...",a:["Membeku","Mencair","Menguap","Mengembun"],c:2},
+
+ {s:"ips",q:"Kegiatan menghasilkan barang disebut...",a:["Konsumsi","Produksi","Distribusi","Transportasi"],c:1},
+ {s:"ips",q:"Indonesia berada di antara dua benua yaitu...",a:["Asia-Afrika","Asia-Eropa","Eropa-Afrika","Australia-Eropa"],c:0},
+ {s:"ips",q:"Alat untuk menunjukkan lokasi di permukaan bumi adalah...",a:["Peta","Kamus","Kalkulator","Termometer"],c:0},
+
+ {s:"indo",q:"Gagasan utama dalam paragraf disebut...",a:["Kalimat penjelas","Ide pokok","Judul","Kata kerja"],c:1},
+ {s:"indo",q:"Antonim kata 'besar' adalah...",a:["tinggi","panjang","kecil","lebar"],c:2},
+ {s:"indo",q:"Teks yang bertujuan menjelaskan proses disebut...",a:["Eksplanasi","Narasi","Puisi","Dialog"],c:0},
+
+ {s:"english",q:"What is the opposite of 'hot'?",a:["Warm","Cold","Big","Fast"],c:1},
+ {s:"english",q:"She ___ a student.",a:["am","are","is","be"],c:2},
+ {s:"english",q:"'Book' means...",a:["Buku","Meja","Rumah","Pintu"],c:0},
+
+ {s:"informatika",q:"Langkah-langkah terurut untuk menyelesaikan masalah disebut...",a:["Algoritma","Folder","Monitor","Browser"],c:0},
+ {s:"informatika",q:"Perangkat yang digunakan untuk memasukkan teks adalah...",a:["Keyboard","Speaker","Monitor","Printer"],c:0},
+ {s:"informatika",q:"HTML terutama digunakan untuk membuat...",a:["Struktur halaman web","Kabel","Baterai","Kamera"],c:0},
+
+ {s:"ppkn",q:"Aturan dasar negara Indonesia adalah...",a:["UUD 1945","Kamus","Peraturan kelas","Jadwal"],c:0},
+ {s:"ppkn",q:"Gotong royong mencerminkan sikap...",a:["Individualisme","Kerja sama","Persaingan","Acuh"],c:1},
+ {s:"ppkn",q:"Menghormati hak orang lain merupakan...",a:["Kewajiban sosial","Permainan","Hukuman","Hadiah"],c:0},
+
+ {s:"agama",q:"Sikap berkata sesuai kenyataan disebut...",a:["Jujur","Marah","Malas","Sombong"],c:0},
+ {s:"agama",q:"Membantu orang yang membutuhkan merupakan sikap...",a:["Peduli","Iri","Egois","Ceroboh"],c:0},
+
+ {s:"seni",q:"Unsur dasar seni rupa antara lain...",a:["Titik","Harga","Cuaca","Kecepatan"],c:0},
+ {s:"seni",q:"Campuran merah dan kuning menghasilkan...",a:["Hijau","Ungu","Oranye","Biru"],c:2},
+
+ {s:"pjok",q:"Pemanasan dilakukan sebelum olahraga untuk...",a:["Mempersiapkan tubuh","Tidur","Mengurangi gerak","Makan"],c:0},
+ {s:"pjok",q:"Olahraga yang melatih daya tahan adalah...",a:["Lari","Tidur","Membaca","Menggambar"],c:0},
+
+ {s:"prakarya",q:"Bahan yang berasal dari tumbuhan disebut bahan...",a:["Nabati","Logam","Mineral","Sintetis"],c:0},
+ {s:"prakarya",q:"Proses mengubah bahan menjadi produk disebut...",a:["Produksi","Tidur","Browsing","Voting"],c:0},
+
+ {s:"sunda",q:"Kata 'hatur nuhun' berarti...",a:["Terima kasih","Selamat pagi","Permisi","Maaf"],c:0},
+ {s:"sunda",q:"'Wilujeng enjing' berarti...",a:["Selamat malam","Selamat pagi","Terima kasih","Sampai jumpa"],c:1}
+];
+
+const monsters=[
+ {id:"voltix",name:"Voltix",art:"⚡",type:"ELECTRO",hp:90,pow:18},
+ {id:"flamora",name:"Flamora",art:"🔥",type:"FIRE",hp:100,pow:20},
+ {id:"aquari",name:"Aquari",art:"💧",type:"WATER",hp:110,pow:17},
+ {id:"leafin",name:"Leafin",art:"🌿",type:"NATURE",hp:95,pow:16},
+ {id:"lumina",name:"Lumina",art:"✨",type:"LIGHT",hp:85,pow:22},
+ {id:"noctra",name:"Noctra",art:"🌙",type:"DARK",hp:100,pow:21},
+ {id:"rockon",name:"Rockon",art:"🪨",type:"EARTH",hp:125,pow:14},
+ {id:"frozzi",name:"Frozzi",art:"❄️",type:"ICE",hp:90,pow:19},
+ {id:"buzzar",name:"Buzzar",art:"🐝",type:"BUG",hp:80,pow:20},
+ {id:"drakoon",name:"Drakoon",art:"🐉",type:"DRAGON",hp:130,pow:24},
+ {id:"mossar",name:"Mossar",art:"🍃",type:"FOREST",hp:105,pow:17},
+ {id:"sparkid",name:"Sparkid",art:"🔆",type:"ENERGY",hp:75,pow:25}
+];
+
+const areas={
+ school:{name:"SCHOOL",color:"#172c4b"},
+ village:{name:"VILLAGE",color:"#293d28"},
+ forest:{name:"FOREST",color:"#102d20"},
+ cave:{name:"CAVE",color:"#201d31"},
+ lab:{name:"SCIENCE LAB",color:"#17333c"},
+ arena:{name:"BATTLE ARENA",color:"#39241f"}
 };
 
-const subjects = [
-  {
-    id:"math",
-    name:"Matematika",
-    emoji:"➗",
-    color:"cyan",
-    lesson:
-      "Aljabar membantu kita menggunakan simbol untuk mewakili nilai yang belum diketahui. Contoh: jika x + 5 = 12, maka x = 7.",
-    tips:[
-      "Pindahkan operasi ke sisi lain dengan operasi kebalikan.",
-      "Sederhanakan bentuk sebelum menghitung.",
-      "Periksa kembali jawaban dengan substitusi."
-    ],
-    qs:[
-      ["Jika x + 7 = 15, nilai x adalah...",["6","7","8","9"],2,"Kurangi 7 dari kedua sisi: x = 8."],
-      ["Hasil 3 × 8 adalah...",["21","24","27","32"],1,"3 dikali 8 = 24."],
-      ["2/4 jika disederhanakan menjadi...",["1/2","1/3","2/3","3/4"],0,"2/4 dibagi 2 menjadi 1/2."],
-      ["Keliling persegi sisi 6 cm adalah...",["12 cm","18 cm","24 cm","36 cm"],2,"Keliling = 4 × sisi = 24 cm."],
-      ["Hasil 5² adalah...",["10","15","20","25"],3,"5 × 5 = 25."]
-    ]
-  },
-
-  {
-    id:"ipa",
-    name:"IPA",
-    emoji:"🔬",
-    lesson:
-      "IPA mempelajari makhluk hidup, materi, energi, gaya, dan berbagai fenomena alam melalui pengamatan dan percobaan.",
-    tips:[
-      "Gunakan bukti hasil pengamatan.",
-      "Bedakan fakta dengan dugaan.",
-      "Pahami hubungan sebab dan akibat."
-    ],
-    qs:[
-      ["Organ utama pernapasan manusia adalah...",["Jantung","Paru-paru","Lambung","Ginjal"],1,"Paru-paru menjadi organ utama pertukaran gas."],
-      ["Tumbuhan membuat makanan melalui...",["Respirasi","Fotosintesis","Evaporasi","Fermentasi"],1,"Fotosintesis menggunakan cahaya untuk membuat makanan."],
-      ["Satuan SI untuk gaya adalah...",["Joule","Watt","Newton","Pascal"],2,"Gaya diukur dalam Newton."],
-      ["Air mendidih pada tekanan normal sekitar...",["50°C","75°C","100°C","150°C"],2,"Pada tekanan 1 atm, air mendidih sekitar 100°C."],
-      ["Contoh perubahan kimia adalah...",["Es mencair","Air membeku","Kertas terbakar","Air menguap"],2,"Pembakaran menghasilkan zat baru."]
-    ]
-  },
-
-  {
-    id:"ips",
-    name:"IPS",
-    emoji:"🌏",
-    lesson:
-      "IPS menghubungkan sejarah, geografi, ekonomi, dan kehidupan sosial agar kita memahami masyarakat dan lingkungan.",
-    tips:[
-      "Perhatikan lokasi dan kondisi wilayah.",
-      "Hubungkan peristiwa dengan sebab-akibat.",
-      "Bedakan kebutuhan dan keinginan."
-    ],
-    qs:[
-      ["Kegiatan menghasilkan barang/jasa disebut...",["Konsumsi","Produksi","Distribusi","Promosi"],1,"Produksi adalah kegiatan menghasilkan barang atau jasa."],
-      ["Garis khatulistiwa melewati wilayah...",["Indonesia","Jepang","Inggris","Mesir"],0,"Indonesia berada di sekitar garis khatulistiwa."],
-      ["Kegiatan menyalurkan barang disebut...",["Produksi","Distribusi","Konsumsi","Investasi"],1,"Distribusi menyalurkan barang dari produsen ke konsumen."],
-      ["Peta digunakan terutama untuk...",["Mengukur suara","Menunjukkan lokasi","Memasak","Menghitung massa"],1,"Peta menggambarkan lokasi dan kondisi suatu wilayah."],
-      ["Sejarah mempelajari...",["Peristiwa masa lalu","Cuaca besok","Harga saham saja","Rumus fisika"],0,"Sejarah mempelajari peristiwa manusia di masa lampau."]
-    ]
-  },
-
-  {
-    id:"indo",
-    name:"Bahasa Indonesia",
-    emoji:"📖",
-    lesson:
-      "Kemampuan membaca membantu menemukan gagasan utama, informasi penting, makna kata, serta struktur teks.",
-    tips:[
-      "Cari kalimat yang paling mewakili isi paragraf.",
-      "Baca pertanyaan sebelum menentukan jawaban.",
-      "Gunakan konteks untuk memahami kata."
-    ],
-    qs:[
-      ["Gagasan utama adalah...",["Detail terkecil","Pokok pembahasan","Judul buku","Nama penulis"],1,"Gagasan utama adalah pokok pembahasan paragraf."],
-      ["Antonim kata 'besar' adalah...",["tinggi","panjang","kecil","luas"],2,"Lawan kata besar adalah kecil."],
-      ["Kalimat yang digunakan untuk bertanya disebut...",["Deklaratif","Interogatif","Imperatif","Eksklamatif"],1,"Kalimat interogatif digunakan untuk bertanya."],
-      ["Kata baku yang benar adalah...",["resiko","risiko","resikko","riziko"],1,"Bentuk baku yang umum digunakan adalah risiko."],
-      ["Cerita yang memiliki tokoh dan alur termasuk...",["Narasi","Tabel","Grafik","Data"],0,"Narasi menyampaikan rangkaian peristiwa."]
-    ]
-  },
-
-  {
-    id:"english",
-    name:"Bahasa Inggris",
-    emoji:"🇬🇧",
-    lesson:
-      "Simple Present digunakan untuk kebiasaan, fakta umum, dan aktivitas yang terjadi secara rutin.",
-    tips:[
-      "He/She/It biasanya memakai verb + s/es.",
-      "I/You/We/They menggunakan bentuk dasar.",
-      "Perhatikan konteks waktu."
-    ],
-    qs:[
-      ["She ___ to school every day.",["go","goes","going","gone"],1,"Subjek She menggunakan goes."],
-      ["I ___ football on Sunday.",["play","plays","playing","played"],0,"Subjek I menggunakan play."],
-      ["The meaning of 'book' is...",["Buku","Meja","Rumah","Sekolah"],0,"Book berarti buku."],
-      ["'Good morning' digunakan pada...",["Pagi","Malam","Tengah malam","Kemarin"],0,"Good morning berarti selamat pagi."],
-      ["They ___ students.",["is","am","are","be"],2,"They berpasangan dengan are."]
-    ]
-  },
-
-  {
-    id:"informatics",
-    name:"Informatika",
-    emoji:"💻",
-    lesson:
-      "Algoritma adalah langkah-langkah terurut untuk menyelesaikan masalah. Pemrograman menerjemahkan logika tersebut ke dalam bahasa komputer.",
-    tips:[
-      "Pecah masalah menjadi langkah kecil.",
-      "Gunakan kondisi jika diperlukan.",
-      "Uji program dengan beberapa input."
-    ],
-    qs:[
-      ["HTML digunakan untuk...",["Struktur halaman web","Menggoreng","Menggambar peta","Mengukur suhu"],0,"HTML menyusun struktur konten halaman web."],
-      ["CSS digunakan untuk...",["Mengatur tampilan","Menyimpan bensin","Mengukur berat","Membuat listrik"],0,"CSS mengatur style/tampilan."],
-      ["JavaScript banyak digunakan untuk...",["Interaksi web","Memasak","Mencetak uang","Mengukur panjang"],0,"JavaScript menambahkan logika dan interaksi."],
-      ["Urutan langkah penyelesaian masalah disebut...",["Algoritma","Monitor","Keyboard","Server"],0,"Algoritma adalah langkah terurut."],
-      ["Contoh input komputer adalah...",["Keyboard","Output speaker","Monitor saja","Lampu"],0,"Keyboard dapat digunakan memasukkan data."]
-    ]
-  },
-
-  {
-    id:"ppkn",
-    name:"PPKn",
-    emoji:"🇮🇩",
-    lesson:
-      "PPKn membahas nilai kebangsaan, hak dan kewajiban, aturan, musyawarah, serta kehidupan bersama.",
-    tips:[
-      "Pahami perbedaan hak dan kewajiban.",
-      "Musyawarah mencari keputusan bersama.",
-      "Hormati perbedaan dalam masyarakat."
-    ],
-    qs:[
-      ["Dasar negara Indonesia adalah...",["Pancasila","UUD saja","Bendera","Lagu"],0,"Pancasila merupakan dasar negara Indonesia."],
-      ["Keputusan bersama dapat dilakukan melalui...",["Musyawarah","Paksaan","Ancaman","Ejekan"],0,"Musyawarah mengutamakan pembahasan bersama."],
-      ["Contoh kewajiban siswa adalah...",["Belajar","Mendapat nilai","Liburan","Bermain"],0,"Belajar merupakan tanggung jawab siswa."],
-      ["Semboyan Indonesia adalah...",["Bhinneka Tunggal Ika","Tut Wuri","Merdeka Belajar","Garuda Jaya"],0,"Bhinneka Tunggal Ika adalah semboyan Indonesia."],
-      ["Menghormati teman berbeda pendapat merupakan sikap...",["Toleransi","Permusuhan","Egois","Acuh"],0,"Toleransi berarti menghargai perbedaan."]
-    ]
-  },
-
-  {
-    id:"religion",
-    name:"Pendidikan Agama",
-    emoji:"🕌",
-    lesson:
-      "Pendidikan agama mengajarkan nilai moral, tanggung jawab, kejujuran, kepedulian, dan perilaku baik dalam kehidupan.",
-    tips:[
-      "Kejujuran membangun kepercayaan.",
-      "Tanggung jawab berarti menjalankan kewajiban.",
-      "Kebaikan diterapkan dalam kehidupan sehari-hari."
-    ],
-    qs:[
-      ["Sikap berkata sesuai kenyataan disebut...",["Jujur","Marah","Sombong","Iri"],0,"Jujur berarti berkata dan bertindak sesuai kebenaran."],
-      ["Membantu orang yang membutuhkan merupakan...",["Kepedulian","Kesombongan","Kemalasan","Perselisihan"],0,"Membantu sesama adalah bentuk kepedulian."],
-      ["Menjaga amanah berarti...",["Menjalankan kepercayaan","Menghindari tugas","Berbohong","Mengambil milik orang"],0,"Amanah berarti dapat dipercaya."],
-      ["Mengakui kesalahan menunjukkan sikap...",["Tanggung jawab","Egois","Ceroboh","Sombong"],0,"Mengakui kesalahan merupakan bagian dari tanggung jawab."],
-      ["Berbuat baik kepada sesama termasuk...",["Akhlak baik","Perselisihan","Kecurangan","Pelanggaran"],0,"Berbuat baik mencerminkan akhlak baik."]
-    ]
-  },
-
-  {
-    id:"arts",
-    name:"Seni Budaya",
-    emoji:"🎨",
-    lesson:
-      "Seni budaya mencakup seni rupa, musik, tari, dan teater yang berkembang dalam masyarakat.",
-    tips:[
-      "Kenali unsur dasar seni.",
-      "Perhatikan fungsi karya seni.",
-      "Budaya dapat berbeda antarwilayah."
-    ],
-    qs:[
-      ["Seni menggunakan warna dan bentuk termasuk...",["Seni rupa","Seni musik","Seni tari","Olahraga"],0,"Seni rupa mengolah unsur visual."],
-      ["Alat untuk mengukur tempo musik adalah...",["Metronom","Termometer","Barometer","Kompas"],0,"Metronom membantu menjaga tempo."],
-      ["Gerakan tubuh yang teratur dalam seni disebut...",["Tari","Grafik","Peta","Algoritma"],0,"Tari menggunakan gerak tubuh sebagai unsur utama."],
-      ["Karya seni yang dipentaskan dengan peran disebut...",["Teater","Peta","Poster","Diagram"],0,"Teater melibatkan pemeranan."],
-      ["Batik merupakan bagian dari...",["Budaya","Olahraga","Astronomi","Matematika"],0,"Batik merupakan warisan budaya Indonesia."]
-    ]
-  },
-
-  {
-    id:"pjok",
-    name:"PJOK",
-    emoji:"⚽",
-    lesson:
-      "PJOK membantu memahami kebugaran, gerak dasar, kesehatan, olahraga, dan pola hidup aktif.",
-    tips:[
-      "Lakukan pemanasan sebelum olahraga.",
-      "Jaga hidrasi.",
-      "Latihan teratur membantu kebugaran."
-    ],
-    qs:[
-      ["Pemanasan dilakukan sebelum...",["Olahraga","Tidur","Makan","Belajar"],0,"Pemanasan menyiapkan tubuh sebelum aktivitas fisik."],
-      ["Latihan lari terutama melatih...",["Daya tahan","Warna","Pendengaran","Tulisan"],0,"Lari dapat melatih daya tahan tubuh."],
-      ["Minuman utama untuk menjaga hidrasi adalah...",["Air","Minyak","Sirup saja","Saus"],0,"Air membantu menjaga keseimbangan cairan tubuh."],
-      ["Pendinginan dilakukan setelah...",["Olahraga","Bangun tidur saja","Makan","Membaca"],0,"Pendinginan dilakukan setelah aktivitas fisik."],
-      ["Contoh olahraga permainan adalah...",["Sepak bola","Membaca","Menggambar","Menulis"],0,"Sepak bola adalah olahraga permainan."]
-    ]
-  },
-
-  {
-    id:"craft",
-    name:"Prakarya",
-    emoji:"🛠️",
-    lesson:
-      "Prakarya mengajarkan proses membuat produk dengan memanfaatkan bahan, alat, kreativitas, dan perencanaan.",
-    tips:[
-      "Buat rancangan sebelum produksi.",
-      "Gunakan alat dengan aman.",
-      "Evaluasi hasil setelah selesai."
-    ],
-    qs:[
-      ["Langkah sebelum membuat produk adalah...",["Perencanaan","Membuang bahan","Menjual langsung","Mengabaikan desain"],0,"Perencanaan membantu menentukan bahan dan proses."],
-      ["Bahan yang digunakan untuk membuat produk disebut...",["Bahan baku","Output saja","Nilai","Harga"],0,"Bahan baku merupakan material utama."],
-      ["Kegiatan menghasilkan produk disebut...",["Produksi","Konsumsi","Tidur","Distribusi saja"],0,"Produksi menghasilkan barang atau jasa."],
-      ["Desain digunakan untuk...",["Merancang produk","Menghapus data","Menghitung umur","Mengukur cuaca"],0,"Desain menjadi gambaran rancangan produk."],
-      ["Keselamatan kerja penting agar...",["Risiko kecelakaan berkurang","Pekerjaan berhenti","Alat rusak","Bahan hilang"],0,"Keselamatan membantu mengurangi risiko."]
-    ]
-  },
-
-  {
-    id:"sunda",
-    name:"Bahasa Sunda",
-    emoji:"🗣️",
-    lesson:
-      "Bahasa Sunda merupakan bahasa daerah yang digunakan terutama di wilayah Jawa Barat. Pembelajaran mencakup kosakata dan penggunaan bahasa dalam konteks.",
-    tips:[
-      "Perhatikan konteks percakapan.",
-      "Gunakan ragam bahasa dengan tepat.",
-      "Pelajari kosakata secara bertahap."
-    ],
-    qs:[
-      ["'Hatur nuhun' artinya...",["Terima kasih","Selamat pagi","Sampai jumpa","Permisi"],0,"Hatur nuhun berarti terima kasih."],
-      ["'Wilujeng enjing' artinya...",["Selamat pagi","Selamat malam","Terima kasih","Maaf"],0,"Wilujeng enjing berarti selamat pagi."],
-      ["'Punten' biasa digunakan untuk...",["Permisi/maaf","Makan","Tidur","Berlari"],0,"Punten digunakan antara lain untuk meminta permisi."],
-      ["'Kumaha damang?' berarti...",["Apa kabar?","Siapa namamu?","Mau ke mana?","Berapa umurmu?"],0,"Kumaha damang berarti apa kabar."],
-      ["Bahasa Sunda banyak digunakan di wilayah...",["Jawa Barat","Papua","Maluku","Bali"],0,"Bahasa Sunda merupakan bahasa daerah yang banyak digunakan di Jawa Barat."]
-    ]
-  }
-];
-
-/* ==========================================================
-   MONSTERS
-========================================================== */
-
-const monsters = [
-  {id:"volt",name:"Volt",emoji:"⚡",hp:70,atk:12},
-  {id:"flamo",name:"Flamo",emoji:"🔥",hp:75,atk:13},
-  {id:"aqua",name:"Aqua",emoji:"💧",hp:80,atk:11},
-  {id:"leafy",name:"Leafy",emoji:"🌿",hp:72,atk:12},
-  {id:"lumio",name:"Lumio",emoji:"✨",hp:85,atk:14},
-  {id:"shadow",name:"Shadow",emoji:"🌑",hp:90,atk:15},
-  {id:"rocko",name:"Rocko",emoji:"🪨",hp:105,atk:12},
-  {id:"frosto",name:"Frosto",emoji:"❄️",hp:88,atk:14},
-  {id:"buzzo",name:"Buzzo",emoji:"🐝",hp:76,atk:13},
-  {id:"drako",name:"Drako",emoji:"🐉",hp:120,atk:17},
-  {id:"mossy",name:"Mossy",emoji:"🍀",hp:82,atk:12},
-  {id:"spark",name:"Spark",emoji:"🌟",hp:92,atk:15}
-];
-
-/* ==========================================================
-   ACHIEVEMENTS
-========================================================== */
-
-const achievementData = [
-  ["first","First Answer","Menjawab soal pertama"],
-  ["ten","Quiz Rookie","Menjawab 10 soal"],
-  ["fifty","Scholar","Menjawab 50 soal"],
-  ["perfect","Perfect Answer","Menjawab 5 soal berturut-turut benar"],
-  ["battle","Monster Hunter","Memenangkan battle"],
-  ["collector","Collector","Mengumpulkan 5 monster"],
-  ["explorer","Explorer","Menjelajah dunia REZA"],
-  ["level5","Level 5","Mencapai Level 5"],
-  ["daily","Daily Learner","Menyelesaikan misi harian"],
-  ["exam","Exam Master","Mendapat nilai ujian minimal 80%"]
-];
-
-/* ==========================================================
-   GAME DATA
-========================================================== */
-
-let quiz = null;
-
-let battle = null;
-
-let audioCtx = null;
-
-let worldState = {
-  x:50,
-  y:50,
-  explored:false
+const npcs={
+ school:[
+  {x:250,y:220,name:"Pak Arga",art:"🧑‍🏫",text:"Selamat datang di School Zone! Belajar dengan baik, Trainer."},
+  {x:700,y:300,name:"Bu Naya",art:"👩‍🏫",text:"Jawaban yang benar akan membuat seranganmu lebih kuat!"}
+ ],
+ village:[
+  {x:250,y:280,name:"Kak Bimo",art:"🧑",text:"Village adalah tempat istirahat. Jangan lupa membawa Potion."}
+ ],
+ lab:[
+  {x:300,y:250,name:"Mr. Ryan",art:"🧑‍🔬",text:"Monster memiliki tipe berbeda. Kenali kemampuanmu!"}
+ ],
+ arena:[
+  {x:300,y:250,name:"Mentor Raka",art:"🥋",text:"Berani masuk arena? Pengetahuan adalah senjatamu."}
+ ]
 };
 
-let keys = {};
+let state={
+ level:1,exp:0,coins:50,streak:0,hp:100,maxHP:100,
+ area:"school",px:480,py:360,
+ activeMonster:"voltix",
+ owned:["voltix"],
+ items:{potion:3,studyBook:2,energyDrink:1},
+ wins:0,questions:0,correct:0,
+ quests:{explore:false,battle:false,learn:false},
+ achievements:[],
+ learned:[],
+ music:true
+};
 
-let moveTimer = null;
+let battle=null;
+let exam=null;
+let currentLesson=null;
 
-/* ==========================================================
-   INIT
-========================================================== */
-
-function init(){
-
-  loadGame();
-
-  subjects.forEach(s=>{
-    if(!state.subjects[s.id]){
-      state.subjects[s.id]={
-        answered:0,
-        correct:0,
-        xp:0
-      };
-    }
-  });
-
-  updateUI();
-
-  buildSubjects();
-
-  startBoot();
-
-}
-
-function startBoot(){
-
-  let p=0;
-
-  const timer=setInterval(()=>{
-
-    p+=10;
-
-    $("bootBar").style.width=p+"%";
-
-    if(p<30){
-      $("bootText").textContent="LOADING WORLD...";
-    }else if(p<60){
-      $("bootText").textContent="LOADING CHARACTERS...";
-    }else if(p<90){
-      $("bootText").textContent="LOADING LEARNING SYSTEM...";
-    }else{
-      $("bootText").textContent="READY!";
-    }
-
-    if(p>=100){
-
-      clearInterval(timer);
-
-      $("pressStart").classList.remove("hidden");
-
-      setTimeout(()=>{
-
-        $("boot").classList.add("hidden");
-        $("app").classList.remove("hidden");
-
-        playTone(520,.08,"square");
-
-      },700);
-
-    }
-
-  },120);
-
-}
-
-/* ==========================================================
-   SAVE
-========================================================== */
-
-function saveGame(){
-
-  localStorage.setItem(SAVE_KEY,JSON.stringify(state));
-
-  toast("💾 Progress berhasil disimpan!");
-
-}
+function $(id){return document.getElementById(id)}
 
 function loadGame(){
-
-  try{
-
-    const raw=localStorage.getItem(SAVE_KEY);
-
-    if(raw){
-
-      const saved=JSON.parse(raw);
-
-      state=Object.assign(state,saved);
-
-      if(!state.inventory) state.inventory={potion:3,studyBook:1,energyDrink:2};
-
-    }
-
-  }catch(e){
-
-    console.warn(e);
-
-  }
-
-  const today=new Date().toISOString().slice(0,10);
-
-  if(!state.daily || state.daily.date!==today){
-
-    state.daily={
-      date:today,
-      count:0,
-      claimed:false
-    };
-
-  }
-
+ try{
+  const raw=localStorage.getItem(SAVE_KEY);
+  if(raw) state=Object.assign(state,JSON.parse(raw));
+ }catch(e){console.log(e)}
 }
 
-/* ==========================================================
-   UI
-========================================================== */
+function saveGame(){
+ localStorage.setItem(SAVE_KEY,JSON.stringify(state));
+}
+
+function resetGame(){
+ if(confirm("Reset semua progress REZA V7?")){
+  localStorage.removeItem(SAVE_KEY);
+  location.reload();
+ }
+}
+
+function toast(msg){
+ const t=$("toast");
+ t.textContent=msg;
+ t.classList.add("show");
+ clearTimeout(window.toastTimer);
+ window.toastTimer=setTimeout(()=>t.classList.remove("show"),2200);
+}
+
+function showScreen(id){
+ document.querySelectorAll(".screen").forEach(x=>x.classList.remove("active"));
+ $(id).classList.add("active");
+ window.scrollTo({top:0,behavior:"smooth"});
+ updateUI();
+}
+
+function goHome(){showScreen("home")}
+
+function startAdventure(){
+ showScreen("worldScreen");
+ initAudio();
+ drawWorld();
+ setDialog("Selamat datang di dunia REZA! Jelajahi map dan dekati NPC atau area tertentu.");
+}
+
+function setDialog(html){
+ $("dialog").innerHTML=html;
+}
 
 function updateUI(){
+ $("uiLevel").textContent=state.level;
+ $("uiExp").textContent=state.exp+"/"+expNeeded();
+ $("uiCoins").textContent=state.coins;
+ $("uiStreak").textContent=state.streak;
+ $("uiHP").textContent=state.hp+"/"+state.maxHP;
 
-  $("levelText").textContent=state.level;
+ $("areaName").textContent=areas[state.area].name;
 
-  $("expText").textContent=
-    `${state.exp}/${state.level*100}`;
+ const q=[];
+ if(!state.quests.explore)q.push("🗺️ Jelajahi 3 area");
+ else q.push("✅ Jelajahi 3 area");
 
-  $("coinsText").textContent=state.coins;
+ if(!state.quests.battle)q.push("⚔️ Menangkan 1 battle");
+ else q.push("✅ Menangkan battle");
 
-  $("streakText").textContent=state.streak;
+ if(!state.quests.learn)q.push("📚 Selesaikan 1 pelajaran");
+ else q.push("✅ Belajar selesai");
 
-  const max=state.level*100;
+ $("questMini").innerHTML=q.map(x=>`<div class="quest">${x}</div>`).join("");
 
-  $("expBar").style.width=
-    Math.min(100,(state.exp/max)*100)+"%";
-
-  $("musicText").textContent=
-    state.music?"ON":"OFF";
-
+ $("quickItems").innerHTML=
+ `🧪 Potion: <b>${state.items.potion}</b><br>
+ 📖 Study Book: <b>${state.items.studyBook}</b><br>
+ ⚡ Energy Drink: <b>${state.items.energyDrink}</b>`;
 }
 
-function hideScreens(){
+function expNeeded(){return state.level*100}
 
-  $("homeScreen").classList.add("hidden");
-  $("subjectsScreen").classList.add("hidden");
-  $("worldScreen").classList.add("hidden");
-
+function addExp(n){
+ state.exp+=n;
+ while(state.exp>=expNeeded()){
+  state.exp-=expNeeded();
+  state.level++;
+  state.maxHP+=10;
+  state.hp=state.maxHP;
+  state.coins+=30;
+  toast("🎉 LEVEL UP! Kamu sekarang Level "+state.level);
+  sound(660,.12);
+ }
+ saveGame();
+ updateUI();
 }
 
-function goHome(){
-
-  hideScreens();
-  $("homeScreen").classList.remove("hidden");
-
+function addCoins(n){
+ state.coins+=n;
+ saveGame();
+ updateUI();
 }
 
-function openSubjects(){
-
-  hideScreens();
-  $("subjectsScreen").classList.remove("hidden");
-  buildSubjects();
-
+function markQuest(type){
+ state.quests[type]=true;
+ checkAchievements();
+ saveGame();
 }
 
-function buildSubjects(){
-
-  const grid=$("subjectGrid");
-
-  if(!grid)return;
-
-  grid.innerHTML="";
-
-  subjects.forEach(s=>{
-
-    const p=state.subjects[s.id]||{answered:0,correct:0};
-
-    const percent=p.answered
-      ?Math.round((p.correct/p.answered)*100)
-      :0;
-
-    const btn=document.createElement("button");
-
-    btn.className="subject";
-
-    btn.innerHTML=`
-      <div class="emoji">${s.emoji}</div>
-      <b>${s.name}</b>
-      <small>${p.answered} soal • ${percent}% benar</small>
-    `;
-
-    btn.onclick=()=>openLesson(s.id);
-
-    grid.appendChild(btn);
-
-  });
-
-}
-
-/* ==========================================================
-   LESSON
-========================================================== */
-
-function openLesson(id){
-
-  const s=subjects.find(x=>x.id===id);
-
-  if(!s)return;
-
-  showModal(`
-    <button class="close" onclick="closeModal()">✕</button>
-
-    <h2>${s.emoji} ${s.name}</h2>
-
-    <div class="lesson">
-      <b>📘 MATERI</b><br>
-      ${s.lesson}
-    </div>
-
-    <div class="lesson">
-      <b>💡 TIPS</b>
-      <ul>
-        ${s.tips.map(x=>`<li>${x}</li>`).join("")}
-      </ul>
-    </div>
-
-    <button class="action primary"
-      onclick="startSubjectQuiz('${id}')">
-      🎮 LATIHAN SOAL
-    </button>
-
-    <button class="action"
-      onclick="closeModal()">
-      KEMBALI
-    </button>
-  `);
-
-}
-
-/* ==========================================================
-   QUIZ
-========================================================== */
-
-function startSubjectQuiz(id){
-
-  closeModal();
-
-  const s=subjects.find(x=>x.id===id);
-
-  if(!s)return;
-
-  const q=s.qs[Math.floor(Math.random()*s.qs.length)];
-
-  quiz={
-    subject:id,
-    data:q,
-    answered:false
-  };
-
-  renderQuiz();
-
-}
-
-function renderQuiz(){
-
-  if(!quiz)return;
-
-  const s=subjects.find(x=>x.id===quiz.subject);
-
-  const q=quiz.data;
-
-  showModal(`
-    <button class="close" onclick="closeModal()">✕</button>
-
-    <h2>${s.emoji} ${s.name}</h2>
-
-    <div class="question">${q[0]}</div>
-
-    <div class="answers">
-
-      ${q[1].map((a,i)=>`
-        <button
-          class="answer"
-          onclick="answerQuiz(${i})">
-          ${String.fromCharCode(65+i)}. ${a}
-        </button>
-      `).join("")}
-
-    </div>
-
-    <div id="quizResult"></div>
-
-  `);
-
-}
-
-function answerQuiz(index){
-
-  if(!quiz || quiz.answered)return;
-
-  quiz.answered=true;
-
-  const s=subjects.find(x=>x.id===quiz.subject);
-
-  const q=quiz.data;
-
-  const buttons=document.querySelectorAll(".answer");
-
-  buttons.forEach((b,i)=>{
-
-    if(i===q[2])b.classList.add("correct");
-
-    if(i===index && i!==q[2])b.classList.add("wrong");
-
-    b.disabled=true;
-
-  });
-
-  state.questions++;
-
-  state.subjects[quiz.subject].answered++;
-
-  const correct=index===q[2];
-
-  if(correct){
-
-    state.correct++;
-
-    state.subjects[quiz.subject].correct++;
-
-    state.subjects[quiz.subject].xp+=20;
-
-    state.streak++;
-
-    gainExp(25);
-
-    state.coins+=10;
-
-    playTone(880,.12,"square");
-
-    addDaily();
-
-    unlock("first");
-
-    if(state.questions>=10)unlock("ten");
-    if(state.questions>=50)unlock("fifty");
-
-  }else{
-
-    state.streak=0;
-
-    playTone(180,.16,"sawtooth");
-
+function checkAchievements(){
+ const ach=[];
+ if(state.level>=3)ach.push("level3");
+ if(state.wins>=1)ach.push("firstwin");
+ if(state.wins>=5)ach.push("warrior");
+ if(state.correct>=10)ach.push("scholar");
+ if(state.owned.length>=5)ach.push("collector");
+ if(state.area!=="school")ach.push("explorer");
+
+ const names={
+  level3:"⚡ Rising Trainer — mencapai Level 3",
+  firstwin:"⚔️ First Victory — menang battle pertama",
+  warrior:"🔥 Battle Veteran — menang 5 battle",
+  scholar:"📚 Knowledge Master — 10 jawaban benar",
+  collector:"👾 Monster Collector — punya 5 monster",
+  explorer:"🗺️ World Explorer — keluar dari School"
+ };
+
+ ach.forEach(id=>{
+  if(!state.achievements.includes(id)){
+   state.achievements.push(id);
+   toast("🏆 Achievement: "+names[id]);
   }
-
-  if(state.streak>=5)unlock("perfect");
-
-  updateUI();
-
-  saveGame();
-
-  $("quizResult").innerHTML=`
-
-    <div class="explain">
-
-      <b>${correct?"✅ BENAR!":"❌ BELUM TEPAT"}</b><br><br>
-
-      ${q[3]}
-
-      <br><br>
-
-      ${correct
-        ?"+25 EXP • +10 Coins"
-        :"Tetap semangat. Coba lagi!"}
-
-      <br><br>
-
-      <button class="action primary"
-        onclick="nextQuiz('${quiz.subject}')">
-        SOAL BERIKUTNYA →
-      </button>
-
-    </div>
-
-  `;
-
+ });
 }
 
-function nextQuiz(id){
+function teleport(area){
+ state.area=area;
+ state.px=480;
+ state.py=360;
 
-  startSubjectQuiz(id);
+ if(area!=="school")state.quests.explore=true;
 
+ showScreen("worldScreen");
+ setDialog(
+  `<strong>📍 ${areas[area].name}</strong><br>
+   Kamu tiba di area baru. Jelajahi tempat ini dan cari event.`
+ );
+
+ drawWorld();
+ checkAchievements();
+ saveGame();
+ sound(420,.08);
 }
 
-/* ==========================================================
-   EXP / LEVEL
-========================================================== */
+function randomEncounter(){
+ const chance={
+  forest:.22,
+  cave:.28,
+  arena:.16,
+  lab:.10,
+  village:.03,
+  school:.02
+ }[state.area]||.02;
 
-function gainExp(amount){
-
-  state.exp+=amount;
-
-  while(state.exp>=state.level*100){
-
-    state.exp-=state.level*100;
-
-    state.level++;
-
-    state.coins+=50;
-
-    unlock("level5");
-
-    playLevelUp();
-
-    toast(`🎉 LEVEL UP! Sekarang Level ${state.level}`);
-
-  }
-
-  updateUI();
-
+ if(Math.random()<chance){
+  startBattle();
+ }
 }
 
-/* ==========================================================
-   DAILY
-========================================================== */
+function movePlayer(dx,dy){
+ if(!$("worldScreen").classList.contains("active"))return;
 
-function addDaily(){
+ const speed=22;
+ const nx=state.px+dx*speed;
+ const ny=state.py+dy*speed;
 
-  const today=new Date().toISOString().slice(0,10);
+ state.px=Math.max(40,Math.min(920,nx));
+ state.py=Math.max(70,Math.min(500,ny));
 
-  if(state.daily.date!==today){
+ drawWorld();
 
-    state.daily={
-      date:today,
-      count:0,
-      claimed:false
-    };
+ if(dx||dy)randomEncounter();
 
-  }
-
-  state.daily.count++;
-
-  if(state.daily.count>=5 && !state.daily.claimed){
-
-    state.daily.claimed=true;
-
-    state.coins+=50;
-
-    gainExp(50);
-
-    unlock("daily");
-
-    toast("🎯 Daily Mission selesai! +50 EXP +50 Coins");
-
-  }
-
-}
-
-function openMission(){
-
-  showModal(`
-    <button class="close" onclick="closeModal()">✕</button>
-
-    <h2>🎯 DAILY MISSION</h2>
-
-    <div class="lesson">
-      Jawab <b>5 soal</b> hari ini.
-    </div>
-
-    <div class="progress-row">
-
-      <div class="progress-label">
-        <span>Progress</span>
-        <b>${Math.min(5,state.daily.count)}/5</b>
-      </div>
-
-      <div class="progress">
-        <span style="width:${Math.min(100,state.daily.count/5*100)}%"></span>
-      </div>
-
-    </div>
-
-    <p>
-      Reward: <b>50 EXP + 50 Coins</b>
-    </p>
-  `);
-
-}
-
-/* ==========================================================
-   EXAM
-========================================================== */
-
-let exam=null;
-
-function startExam(){
-
-  const all=[];
-
-  subjects.forEach(s=>{
-
-    s.qs.forEach(q=>{
-
-      all.push({
-        subject:s.id,
-        subjectName:s.name,
-        data:q
-      });
-
-    });
-
-  });
-
-  all.sort(()=>Math.random()-.5);
-
-  exam={
-    questions:all.slice(0,10),
-    index:0,
-    score:0
-  };
-
-  renderExam();
-
-}
-
-function renderExam(){
-
-  const item=exam.questions[exam.index];
-
-  const q=item.data;
-
-  showModal(`
-    <button class="close" onclick="closeModal()">✕</button>
-
-    <h2>📝 EXAM MODE</h2>
-
-    <p>
-      Soal ${exam.index+1} / ${exam.questions.length}
-      • ${item.subjectName}
-    </p>
-
-    <div class="question">${q[0]}</div>
-
-    <div class="answers">
-
-      ${q[1].map((a,i)=>`
-        <button class="answer"
-          onclick="answerExam(${i})">
-          ${String.fromCharCode(65+i)}. ${a}
-        </button>
-      `).join("")}
-
-    </div>
-
-    <div id="examResult"></div>
-  `);
-
-}
-
-function answerExam(index){
-
-  const item=exam.questions[exam.index];
-
-  const q=item.data;
-
-  const buttons=document.querySelectorAll(".answer");
-
-  buttons.forEach((b,i)=>{
-
-    if(i===q[2])b.classList.add("correct");
-
-    if(i===index && i!==q[2])b.classList.add("wrong");
-
-    b.disabled=true;
-
-  });
-
-  if(index===q[2]){
-
-    exam.score++;
-
-    state.questions++;
-    state.correct++;
-
-    state.subjects[item.subject].answered++;
-    state.subjects[item.subject].correct++;
-
-    gainExp(30);
-    state.coins+=15;
-    state.streak++;
-
-    playTone(900,.12,"square");
-
-  }else{
-
-    state.questions++;
-    state.subjects[item.subject].answered++;
-    state.streak=0;
-
-    playTone(180,.12,"sawtooth");
-
-  }
-
-  addDaily();
-
-  const result=$("examResult");
-
-  result.innerHTML=`
-
-    <div class="explain">
-
-      ${q[3]}
-
-      <br><br>
-
-      <button class="action primary"
-        onclick="nextExam()">
-        ${exam.index<9?"SOAL BERIKUTNYA →":"LIHAT HASIL"}
-      </button>
-
-    </div>
-  `;
-
-  updateUI();
-
-}
-
-function nextExam(){
-
-  exam.index++;
-
-  if(exam.index>=exam.questions.length){
-
-    finishExam();
-
-  }else{
-
-    renderExam();
-
-  }
-
-}
-
-function finishExam(){
-
-  const percent=exam.score*10;
-
-  if(percent>=80){
-
-    unlock("exam");
-
-  }
-
-  gainExp(50);
-
-  saveGame();
-
-  showModal(`
-    <button class="close" onclick="closeModal()">✕</button>
-
-    <h2>🏆 HASIL UJIAN</h2>
-
-    <div class="lesson" style="text-align:center">
-
-      <div style="font-size:52px">🎓</div>
-
-      <h3>${exam.score}/10</h3>
-
-      <p>Nilai: <b>${percent}%</b></p>
-
-      <p>
-        ${percent>=80
-          ?"Mantap! Kamu menyelesaikan ujian dengan baik."
-          :"Terus belajar dan coba lagi."}
-      </p>
-
-    </div>
-
-    <button class="action primary" onclick="closeModal()">
-      SELESAI
-    </button>
-  `);
-
-}
-
-/* ==========================================================
-   WORLD
-========================================================== */
-
-function openWorld(){
-
-  hideScreens();
-
-  $("worldScreen").classList.remove("hidden");
-
-  worldState.explored=true;
-
-  unlock("explorer");
-
-  updatePlayer();
-
-  startWorldMusic();
-
-}
-
-function updatePlayer(){
-
-  $("player").style.left=worldState.x+"%";
-  $("player").style.top=worldState.y+"%";
-
-}
-
-function move(dx,dy){
-
-  worldState.x=Math.max(4,Math.min(96,worldState.x+dx));
-  worldState.y=Math.max(5,Math.min(95,worldState.y+dy));
-
-  updatePlayer();
-
-  checkLocation();
-
-}
-
-function checkLocation(){
-
-  const x=worldState.x;
-  const y=worldState.y;
-
-  if(x<18 && y<24){
-
-    toast("🏫 Sekolah — tempat belajar!");
-
-  }else if(x>82 && y<24){
-
-    toast("📖 Perpustakaan — buka materi pelajaran!");
-
-  }else if(x<18 && y>76){
-
-    toast("🔬 Science Lab — belajar IPA!");
-
-  }else if(x>82 && y>76){
-
-    toast("⚔️ Battle Arena — siap bertarung!");
-
-  }
-
-}
-
-function near(id){
-
-  const el=$(id);
-
-  if(!el)return false;
-
-  const r=el.getBoundingClientRect();
-
-  const pr=$("player").getBoundingClientRect();
-
-  const px=pr.left+pr.width/2;
-  const py=pr.top+pr.height/2;
-
-  const ex=r.left+r.width/2;
-  const ey=r.top+r.height/2;
-
-  return Math.hypot(px-ex,py-ey)<100;
-
+ if(Math.random()<.025){
+  interact();
+ }
 }
 
 function interact(){
+ const list=npcs[state.area]||[];
+ let nearest=null;
+ let dist=999;
 
-  if(near("npcMath")){
+ list.forEach(n=>{
+  const d=Math.hypot(n.x-state.px,n.y-state.py);
+  if(d<dist){dist=d;nearest=n}
+ });
 
-    teacherDialogue("math","Pak Arga");
+ if(nearest && dist<100){
+  setDialog(
+   `<strong>${nearest.art} ${nearest.name}</strong><br>${nearest.text}`
+  );
+  sound(520,.08);
+  return;
+ }
 
-  }else if(near("npcScience")){
+ if(state.area==="forest"||state.area==="cave"){
+  startBattle();
+  return;
+ }
 
-    teacherDialogue("ipa","Bu Naya");
-
-  }else if(near("npcEnglish")){
-
-    teacherDialogue("english","Mr. Ryan");
-
-  }else if(near("npcMentor")){
-
-    mentorDialogue();
-
-  }else if(near("npcShop")){
-
-    openShop();
-
-  }else{
-
-    const x=worldState.x;
-    const y=worldState.y;
-
-    if(x<22 && y<28){
-
-      openSubjects();
-
-    }else if(x>78 && y<28){
-
-      openLibrary();
-
-    }else if(x<22 && y>72){
-
-      openLesson("ipa");
-
-    }else if(x>78 && y>72){
-
-      startBattle();
-
-    }else{
-
-      toast("🔎 Tidak ada yang bisa diajak bicara di sini.");
-
-    }
-
-  }
-
+ setDialog("<strong>REZA:</strong> Tidak ada yang bisa diinteraksikan di sini. Coba eksplorasi lagi.");
 }
 
-/* keyboard */
+function drawWorld(){
+ const c=$("world");
+ const ctx=c.getContext("2d");
+ const W=c.width,H=c.height;
 
-document.addEventListener("keydown",e=>{
+ ctx.clearRect(0,0,W,H);
 
-  if(e.key==="ArrowUp"||e.key.toLowerCase()==="w"){
-    e.preventDefault();
-    move(0,-2);
+ ctx.fillStyle=areas[state.area].color;
+ ctx.fillRect(0,0,W,H);
+
+ // grid
+ ctx.strokeStyle="#ffffff0b";
+ ctx.lineWidth=1;
+ for(let x=0;x<W;x+=32){
+  ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();
+ }
+ for(let y=0;y<H;y+=32){
+  ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();
+ }
+
+ // environment
+ if(state.area==="school"){
+  building(ctx,100,100,260,150,"🏫","SCHOOL");
+  building(ctx,600,90,250,130,"📚","LIBRARY");
+  for(let x=70;x<900;x+=110)tree(ctx,x,450);
+ }
+ else if(state.area==="village"){
+  building(ctx,120,120,230,140,"🏠","HOME");
+  building(ctx,590,120,250,140,"🛒","SHOP");
+  for(let x=80;x<900;x+=140)tree(ctx,x,430);
+ }
+ else if(state.area==="forest"){
+  for(let x=50;x<930;x+=85)tree(ctx,x,100+((x*7)%300));
+  for(let i=0;i<15;i++){
+   const x=(i*137)%900+30,y=(i*91)%400+80;
+   rock(ctx,x,y);
   }
-
-  if(e.key==="ArrowDown"||e.key.toLowerCase()==="s"){
-    e.preventDefault();
-    move(0,2);
+ }
+ else if(state.area==="cave"){
+  ctx.fillStyle="#0c0b15";
+  ctx.fillRect(60,70,840,420);
+  for(let x=80;x<900;x+=80){
+   rock(ctx,x,100);
+   rock(ctx,x+30,470);
   }
+  ctx.fillStyle="#7b65ff";
+  ctx.fillRect(400,180,150,30);
+  ctx.fillStyle="#bbaeff";
+  ctx.font="bold 18px monospace";
+  ctx.textAlign="center";
+  ctx.fillText("CRYSTAL CAVERN",475,200);
+ }
+ else if(state.area==="lab"){
+  building(ctx,90,100,300,180,"🧪","RESEARCH LAB");
+  building(ctx,570,100,290,180,"🔬","MONSTER LAB");
+  for(let x=100;x<900;x+=90)crystal(ctx,x,430);
+ }
+ else if(state.area==="arena"){
+  ctx.strokeStyle="#e9a83a";
+  ctx.lineWidth=8;
+  ctx.strokeRect(180,110,600,330);
+  ctx.fillStyle="#59351d";
+  ctx.fillRect(200,130,560,290);
+  ctx.strokeStyle="#ffcf55";
+  ctx.lineWidth=3;
+  ctx.strokeRect(320,190,320,170);
+  ctx.fillStyle="#ffe66d";
+  ctx.font="bold 25px monospace";
+  ctx.textAlign="center";
+  ctx.fillText("BATTLE ARENA",480,160);
+ }
 
-  if(e.key==="ArrowLeft"||e.key.toLowerCase()==="a"){
-    e.preventDefault();
-    move(-2,0);
-  }
+ // NPC
+ (npcs[state.area]||[]).forEach(n=>{
+  character(ctx,n.x,n.y,n.art,n.name);
+ });
 
-  if(e.key==="ArrowRight"||e.key.toLowerCase()==="d"){
-    e.preventDefault();
-    move(2,0);
-  }
+ // player
+ character(ctx,state.px,state.py,"🧑","REZA",true);
 
-  if(e.code==="Space"||e.key.toLowerCase()==="e"){
+ // interaction marker
+ ctx.fillStyle="#00eaff";
+ ctx.font="bold 13px monospace";
+ ctx.textAlign="center";
+ ctx.fillText("PLAYER",state.px,state.py+40);
 
-    if(!$("worldScreen").classList.contains("hidden")){
+ // exits
+ ctx.fillStyle="#00eaff55";
+ ctx.fillRect(0,250,35,80);
+ ctx.fillRect(W-35,250,35,80);
+}
 
-      e.preventDefault();
-      interact();
+function building(ctx,x,y,w,h,icon,label){
+ ctx.fillStyle="#091423";
+ ctx.fillRect(x,y,w,h);
+ ctx.strokeStyle="#42627f";
+ ctx.strokeRect(x,y,w,h);
+ ctx.font="55px sans-serif";
+ ctx.textAlign="center";
+ ctx.fillText(icon,x+w/2,y+h/2);
+ ctx.fillStyle="#d5e8ff";
+ ctx.font="bold 15px monospace";
+ ctx.fillText(label,x+w/2,y+h-15);
+}
 
-    }
+function tree(ctx,x,y){
+ ctx.fillStyle="#07150f";
+ ctx.fillRect(x-7,y+20,14,30);
+ ctx.fillStyle="#26704c";
+ ctx.beginPath();
+ ctx.arc(x,y,27,0,Math.PI*2);
+ ctx.fill();
+ ctx.fillStyle="#3b9b67";
+ ctx.beginPath();
+ ctx.arc(x-12,y-10,15,0,Math.PI*2);
+ ctx.fill();
+}
 
-  }
+function rock(ctx,x,y){
+ ctx.fillStyle="#4b4f60";
+ ctx.beginPath();
+ ctx.moveTo(x-22,y+15);
+ ctx.lineTo(x-12,y-18);
+ ctx.lineTo(x+18,y-25);
+ ctx.lineTo(x+27,y+12);
+ ctx.lineTo(x+4,y+25);
+ ctx.closePath();
+ ctx.fill();
+}
 
+function crystal(ctx,x,y){
+ ctx.fillStyle="#45eaff";
+ ctx.beginPath();
+ ctx.moveTo(x,y-25);
+ ctx.lineTo(x+15,y);
+ ctx.lineTo(x,y+25);
+ ctx.lineTo(x-15,y);
+ ctx.closePath();
+ ctx.fill();
+}
+
+function character(ctx,x,y,emoji,name,player=false){
+ ctx.save();
+ ctx.translate(x,y);
+
+ ctx.fillStyle="#0008";
+ ctx.beginPath();
+ ctx.ellipse(0,22,27,8,0,0,Math.PI*2);
+ ctx.fill();
+
+ ctx.font=player?"38px sans-serif":"34px sans-serif";
+ ctx.textAlign="center";
+ ctx.textBaseline="middle";
+ ctx.fillText(emoji,0,0);
+
+ if(!player){
+  ctx.fillStyle="#fff";
+  ctx.font="11px monospace";
+  ctx.fillText(name,0,-28);
+ }
+ ctx.restore();
+}
+
+window.addEventListener("keydown",e=>{
+ const k=e.key.toLowerCase();
+
+ if(["arrowup","arrowdown","arrowleft","arrowright"," ","w","a","s","d"].includes(k)){
+  e.preventDefault();
+ }
+
+ if(k==="w"||k==="arrowup")movePlayer(0,-1);
+ if(k==="s"||k==="arrowdown")movePlayer(0,1);
+ if(k==="a"||k==="arrowleft")movePlayer(-1,0);
+ if(k==="d"||k==="arrowright")movePlayer(1,0);
+ if(k===" ")interact();
 });
-
-/* mobile dpad */
-
-document.querySelectorAll(".dpad button").forEach(btn=>{
-
-  const dir=btn.dataset.dir;
-
-  const action=()=>{
-
-    if(dir==="up")move(0,-2);
-    if(dir==="down")move(0,2);
-    if(dir==="left")move(-2,0);
-    if(dir==="right")move(2,0);
-
-  };
-
-  btn.addEventListener("pointerdown",e=>{
-
-    e.preventDefault();
-
-    action();
-
-    clearInterval(moveTimer);
-
-    moveTimer=setInterval(action,100);
-
-  });
-
-  ["pointerup","pointercancel","pointerleave"].forEach(ev=>{
-
-    btn.addEventListener(ev,()=>clearInterval(moveTimer));
-
-  });
-
-});
-
-/* ==========================================================
-   NPC
-========================================================== */
-
-function teacherDialogue(subjectId,name){
-
-  const s=subjects.find(x=>x.id===subjectId);
-
-  showModal(`
-    <button class="close" onclick="closeModal()">✕</button>
-
-    <h2>👨‍🏫 ${name}</h2>
-
-    <div class="lesson">
-
-      <b>${name}:</b><br><br>
-
-      "Halo REZA! Kalau mau menjadi lebih kuat,
-      kamu harus rajin belajar."
-
-      <br><br>
-
-      Hari ini kita belajar:
-      <b>${s.name}</b>.
-
-    </div>
-
-    <button class="action primary"
-      onclick="startSubjectQuiz('${subjectId}')">
-      📚 BELAJAR SEKARANG
-    </button>
-
-    <button class="action warn"
-      onclick="teacherQuest('${subjectId}')">
-      🎯 AMBIL QUEST
-    </button>
-  `);
-
-}
-
-function teacherQuest(subjectId){
-
-  closeModal();
-
-  state.quests.teacher=true;
-
-  gainExp(15);
-
-  toast("🎯 Quest guru diterima! Jawab latihan untuk mendapatkan reward.");
-
-  setTimeout(()=>startSubjectQuiz(subjectId),500);
-
-}
-
-function mentorDialogue(){
-
-  if(!state.quests.mentor){
-
-    state.quests.mentor=true;
-
-    state.coins+=25;
-
-    gainExp(20);
-
-    saveGame();
-
-    showModal(`
-      <button class="close" onclick="closeModal()">✕</button>
-
-      <h2>🧙 MENTOR RAKA</h2>
-
-      <div class="lesson">
-
-        "Selamat datang di dunia REZA."
-
-        <br><br>
-
-        Misi pertamamu adalah menjelajahi dunia,
-        belajar dari para guru, dan menghadapi
-        monster dengan pengetahuanmu.
-
-      </div>
-
-      <p>🎁 Bonus awal: +20 EXP +25 Coins</p>
-
-      <button class="action primary" onclick="closeModal()">
-        LANJUTKAN PETUALANGAN
-      </button>
-    `);
-
-  }else{
-
-    showModal(`
-      <button class="close" onclick="closeModal()">✕</button>
-
-      <h2>🧙 MENTOR RAKA</h2>
-
-      <div class="lesson">
-
-        "Ingat, REZA: pengetahuan adalah
-        perlengkapan terkuat seorang petualang."
-
-      </div>
-
-      <button class="action primary"
-        onclick="startBattle()">
-        ⚔️ LATIHAN BATTLE
-      </button>
-    `);
-
-  }
-
-}
-
-/* ==========================================================
-   LIBRARY
-========================================================== */
-
-function openLibrary(){
-
-  showModal(`
-    <button class="close" onclick="closeModal()">✕</button>
-
-    <h2>📖 PERPUSTAKAAN</h2>
-
-    <p>
-      Pilih materi yang ingin kamu baca.
-    </p>
-
-    <div class="list">
-
-      ${subjects.map(s=>`
-        <button class="item"
-          onclick="openLesson('${s.id}')">
-          <b>${s.emoji} ${s.name}</b>
-          <small>Klik untuk membuka materi</small>
-        </button>
-      `).join("")}
-
-    </div>
-  `);
-
-}
-
-/* ==========================================================
-   SHOP / INVENTORY
-========================================================== */
-
-function openShop(){
-
-  showModal(`
-    <button class="close" onclick="closeModal()">✕</button>
-
-    <h2>🛒 TOKO KAK BIMO</h2>
-
-    <p>Coins kamu: 🪙 <b>${state.coins}</b></p>
-
-    <div class="list">
-
-      <div class="item">
-        🧪 <b>Potion</b>
-        <small>Memulihkan HP +30 saat battle</small>
-
-        <button class="action primary"
-          onclick="buyItem('potion',25)">
-          BELI 25 COINS
-        </button>
-      </div>
-
-      <div class="item">
-        📘 <b>Study Book</b>
-        <small>Bonus EXP saat belajar</small>
-
-        <button class="action primary"
-          onclick="buyItem('studyBook',40)">
-          BELI 40 COINS
-        </button>
-      </div>
-
-      <div class="item">
-        ⚡ <b>Energy Drink</b>
-        <small>Serangan ekstra saat battle</small>
-
-        <button class="action primary"
-          onclick="buyItem('energyDrink',35)">
-          BELI 35 COINS
-        </button>
-      </div>
-
-    </div>
-  `);
-
-}
-
-function buyItem(item,price){
-
-  if(state.coins<price){
-
-    toast("❌ Coins tidak cukup!");
-
-    return;
-
-  }
-
-  state.coins-=price;
-
-  state.inventory[item]=(state.inventory[item]||0)+1;
-
-  updateUI();
-  saveGame();
-
-  toast("🛒 Item berhasil dibeli!");
-
-}
-
-function openInventory(){
-
-  showModal(`
-    <button class="close" onclick="closeModal()">✕</button>
-
-    <h2>🎒 INVENTORY</h2>
-
-    <div class="list">
-
-      <div class="item">
-        🧪 <b>Potion</b>
-        <small>Jumlah: ${state.inventory.potion||0}</small>
-      </div>
-
-      <div class="item">
-        📘 <b>Study Book</b>
-        <small>Jumlah: ${state.inventory.studyBook||0}</small>
-      </div>
-
-      <div class="item">
-        ⚡ <b>Energy Drink</b>
-        <small>Jumlah: ${state.inventory.energyDrink||0}</small>
-      </div>
-
-    </div>
-
-    <button class="action primary" onclick="openShop()">
-      🛒 SHOP
-    </button>
-  `);
-
-}
-
-/* ==========================================================
-   BATTLE
-========================================================== */
 
 function startBattle(){
+ const pool=monsters.filter(m=>m.id!==state.activeMonster);
+ const enemy=pool[Math.floor(Math.random()*pool.length)];
 
-  closeModal();
+ const player=monsters.find(m=>m.id===state.activeMonster)||monsters[0];
 
-  const m=monsters[Math.floor(Math.random()*monsters.length)];
+ battle={
+  enemy:{...enemy,current:enemy.hp},
+  player:{...player,current:player.hp},
+  q:null,
+  locked:false
+ };
 
-  battle={
-    monster:m,
-    playerHP:100,
-    maxHP:100,
-    enemyHP:m.hp,
-    maxEnemyHP:m.hp,
-    combo:0,
-    turn:true
-  };
-
-  state.quests.battle=true;
-
-  renderBattle();
-
+ state.hp=Math.min(state.hp,state.maxHP);
+ createBattleQuestion();
+ showScreen("battleScreen");
+ updateBattleUI();
+ sound(180,.18);
 }
 
-function renderBattle(log="Monster muncul! Jawab pertanyaan untuk menyerang."){
+function createBattleQuestion(){
+ const qPool=questions.filter(q=>q.s===randomSubject());
+ const q=qPool.length?qPool[Math.floor(Math.random()*qPool.length)]:questions[Math.floor(Math.random()*questions.length)];
+ battle.q=q;
+ battle.locked=false;
 
-  const m=battle.monster;
-
-  showModal(`
-    <button class="close" onclick="closeModal()">✕</button>
-
-    <h2>⚔️ BATTLE ARENA</h2>
-
-    <div class="battle">
-
-      <div class="fighter">
-
-        <small>REZA</small>
-
-        <div class="monster-art">🧑‍🎓</div>
-
-        <div class="hp">
-          <span style="width:${battle.playerHP}%"></span>
-        </div>
-
-        <b>${battle.playerHP}/100 HP</b>
-
-      </div>
-
-      <div class="fighter">
-
-        <small>${m.name}</small>
-
-        <div class="monster-art">${m.emoji}</div>
-
-        <div class="hp enemy">
-          <span style="width:${battle.enemyHP/battle.maxEnemyHP*100}%"></span>
-        </div>
-
-        <b>${Math.max(0,battle.enemyHP)}/${battle.maxEnemyHP} HP</b>
-
-      </div>
-
-    </div>
-
-    <div class="battle-log">
-      ${log}
-    </div>
-
-    <div class="battle-actions">
-
-      <button class="action primary"
-        onclick="battleQuestion()">
-        🧠 QUIZ ATTACK
-      </button>
-
-      <button class="action good"
-        onclick="usePotion()">
-        🧪 POTION (${state.inventory.potion||0})
-      </button>
-
-      <button class="action warn"
-        onclick="useEnergy()">
-        ⚡ ENERGY (${state.inventory.energyDrink||0})
-      </button>
-
-      <button class="action"
-        onclick="fleeBattle()">
-        🏃 FLEE
-      </button>
-
-    </div>
-  `);
-
+ $("battleQuestion").innerHTML=
+ `<strong>🧠 ${subjectName(q.s)}</strong>
+  <div style="margin-top:8px">${q.q}</div>
+  <div class="answers">
+   ${q.a.map((a,i)=>
+    `<button onclick="answerBattle(${i})">${String.fromCharCode(65+i)}. ${a}</button>`
+   ).join("")}
+  </div>`;
 }
 
-function battleQuestion(){
-
-  const s=subjects[Math.floor(Math.random()*subjects.length)];
-
-  const q=s.qs[Math.floor(Math.random()*s.qs.length)];
-
-  battle.quiz={
-    subject:s.id,
-    q
-  };
-
-  showModal(`
-    <button class="close" onclick="closeModal()">✕</button>
-
-    <h2>🧠 QUIZ ATTACK</h2>
-
-    <p>${s.emoji} ${s.name}</p>
-
-    <div class="question">${q[0]}</div>
-
-    <div class="answers">
-
-      ${q[1].map((a,i)=>`
-        <button class="answer"
-          onclick="battleAnswer(${i})">
-          ${String.fromCharCode(65+i)}. ${a}
-        </button>
-      `).join("")}
-
-    </div>
-
-  `);
-
+function randomSubject(){
+ return subjects[Math.floor(Math.random()*subjects.length)].id;
 }
 
-function battleAnswer(index){
+function subjectName(id){
+ return subjects.find(s=>s.id===id)?.name||id;
+}
 
-  const q=battle.quiz.q;
+function answerBattle(index){
+ if(!battle||battle.locked)return;
 
-  const buttons=document.querySelectorAll(".answer");
+ battle.locked=true;
+ state.questions++;
 
-  buttons.forEach((b,i)=>{
+ const correct=index===battle.q.c;
 
-    if(i===q[2])b.classList.add("correct");
+ if(correct){
+  state.correct++;
+  state.streak++;
+  const damage=battle.player.pow+state.level*3+Math.floor(Math.random()*10);
+  battle.enemy.current=Math.max(0,battle.enemy.current-damage);
 
-    if(i===index && i!==q[2])b.classList.add("wrong");
+  setDialog(`<strong>⚔️ HIT!</strong> Jawaban benar. ${battle.player.name} memberikan ${damage} damage!`);
+  addExp(25);
+  addCoins(5);
+  sound(760,.12);
 
-    b.disabled=true;
-
-  });
-
-  if(index===q[2]){
-
-    battle.combo++;
-
-    let damage=15+battle.combo*3;
-
-    if(state.inventory.studyBook>0){
-
-      damage+=3;
-
-    }
-
-    battle.enemyHP-=damage;
-
-    state.questions++;
-    state.correct++;
-
-    gainExp(20);
-    state.coins+=8;
-
-    addDaily();
-
-    playBattleTone();
-
-    setTimeout(()=>{
-
-      if(battle.enemyHP<=0){
-
-        winBattle();
-
-      }else{
-
-        enemyTurn(
-          `⚡ Serangan berhasil! Damage ${damage}.`
-        );
-
-      }
-
-    },450);
-
-  }else{
-
-    battle.combo=0;
-
-    enemyTurn("❌ Jawaban kurang tepat!");
-
+  if(battle.enemy.current<=0){
+   winBattle();
+   return;
   }
+ }else{
+  state.streak=0;
+  const damage=battle.enemy.pow+Math.floor(Math.random()*8);
+  state.hp=Math.max(0,state.hp-damage);
+  battle.player.current=Math.max(0,battle.player.current-damage);
 
+  setDialog(`<strong>💥 MISS!</strong> Jawaban belum tepat. Monster menyerang balik ${damage} damage.`);
+  sound(120,.16);
+
+  if(state.hp<=0){
+   loseBattle();
+   return;
+  }
+ }
+
+ updateBattleUI();
+
+ setTimeout(()=>{
+  if(battle){
+   createBattleQuestion();
+   updateBattleUI();
+  }
+ },700);
+
+ saveGame();
+ updateUI();
 }
 
-function enemyTurn(log){
-
-  const damage=Math.max(
-    5,
-    battle.monster.atk+Math.floor(Math.random()*6)
-  );
-
-  battle.playerHP-=damage;
-
-  if(battle.playerHP<=0){
-
-    battle.playerHP=0;
-
-    renderBattle(
-      log+
-      `<br><br>💥 ${battle.monster.name} menyerang ${damage} damage.`
-    );
-
-    setTimeout(()=>{
-
-      toast("💫 Kamu kalah! Tidak apa-apa, coba lagi.");
-
-      battle=null;
-
-      closeModal();
-
-    },1000);
-
-    return;
-
-  }
-
-  renderBattle(
-    log+
-    `<br><br>💥 ${battle.monster.name} menyerang ${damage} damage.`
-  );
-
+function useBattleSkill(){
+ if(!battle)return;
+ setDialog("Pilih salah satu jawaban pada soal untuk menyerang.");
 }
 
-function usePotion(){
+function usePotionBattle(){
+ if(!battle)return;
 
-  if(!battle)return;
+ if(state.items.potion<=0){
+  toast("Potion habis!");
+  return;
+ }
 
-  if((state.inventory.potion||0)<=0){
+ state.items.potion--;
+ state.hp=Math.min(state.maxHP,state.hp+35);
+ battle.player.current=Math.min(battle.player.hp,battle.player.current+35);
 
-    toast("❌ Potion habis!");
-
-    return;
-
-  }
-
-  state.inventory.potion--;
-
-  battle.playerHP=Math.min(
-    battle.maxHP,
-    battle.playerHP+30
-  );
-
-  renderBattle("🧪 Potion digunakan! +30 HP.");
-
-  saveGame();
-
+ setDialog("<strong>🧪 POTION!</strong> HP pulih 35.");
+ saveGame();
+ updateBattleUI();
+ updateUI();
+ sound(500,.08);
 }
 
-function useEnergy(){
+function captureMonster(){
+ if(!battle||battle.enemy.current>battle.enemy.hp*.30){
+  toast("Turunkan HP monster sampai 30% atau kurang!");
+  return;
+ }
 
-  if(!battle)return;
+ if(state.owned.includes(battle.enemy.id)){
+  toast("Monster ini sudah kamu miliki.");
+  return;
+ }
 
-  if((state.inventory.energyDrink||0)<=0){
+ if(state.coins<20){
+  toast("Butuh 20 Coins untuk capture!");
+  return;
+ }
 
-    toast("❌ Energy Drink habis!");
-
-    return;
-
-  }
-
-  state.inventory.energyDrink--;
-
-  battle.enemyHP-=25;
-
-  renderBattle("⚡ Energy Drink! Monster terkena 25 damage.");
-
-  if(battle.enemyHP<=0){
-
-    setTimeout(winBattle,500);
-
-  }
-
-  saveGame();
-
-}
-
-function fleeBattle(){
-
-  battle=null;
-
-  closeModal();
-
-  toast("🏃 Kamu meninggalkan arena.");
-
+ state.coins-=20;
+ state.owned.push(battle.enemy.id);
+ toast("👾 "+battle.enemy.name+" berhasil ditambahkan!");
+ endBattle(true);
 }
 
 function winBattle(){
+ state.wins++;
+ state.quests.battle=true;
+ addExp(60);
+ addCoins(25);
+ checkAchievements();
 
-  const m=battle.monster;
+ toast("🏆 BATTLE MENANG! +60 EXP +25 Coins");
+ saveGame();
 
-  state.monsters=state.monsters||[];
-
-  if(!state.monsters.includes(m.id)){
-
-    state.monsters.push(m.id);
-
-  }
-
-  unlock("battle");
-
-  if(state.monsters.length>=5){
-
-    unlock("collector");
-
-  }
-
-  const rewardExp=40+m.hp;
-
-  const rewardCoins=25+m.atk;
-
-  gainExp(rewardExp);
-
-  state.coins+=rewardCoins;
-
-  saveGame();
-
-  playVictory();
-
-  showModal(`
-    <button class="close" onclick="closeModal()">✕</button>
-
-    <h2>🏆 VICTORY!</h2>
-
-    <div class="lesson" style="text-align:center">
-
-      <div style="font-size:75px">${m.emoji}</div>
-
-      <h3>${m.name} dikalahkan!</h3>
-
-      <p>
-        🎁 +${rewardExp} EXP<br>
-        🪙 +${rewardCoins} Coins
-      </p>
-
-      <p>
-        ${state.monsters.includes(m.id)
-          ?"Monster tercatat di Collection!"
-          :"Monster baru masuk Collection!"}
-      </p>
-
-    </div>
-
-    <button class="action primary" onclick="closeModal()">
-      LANJUT
-    </button>
-  `);
-
+ setTimeout(()=>{
   battle=null;
-
+  showScreen("worldScreen");
+  setDialog("<strong>🏆 VICTORY!</strong><br>Kamu memenangkan battle. Terus jelajahi dunia REZA!");
+  drawWorld();
+ },900);
 }
 
-/* ==========================================================
-   COLLECTION
-========================================================== */
+function loseBattle(){
+ state.hp=Math.max(1,Math.floor(state.maxHP*.35));
+ state.coins=Math.max(0,state.coins-10);
+
+ toast("💥 Kamu kalah. HP dipulihkan sebagian.");
+ saveGame();
+
+ setTimeout(()=>{
+  battle=null;
+  showScreen("worldScreen");
+  setDialog("Kamu kembali ke area dengan sebagian HP. Jangan menyerah, Trainer!");
+  drawWorld();
+ },900);
+}
+
+function endBattle(captured=false){
+ battle=null;
+ saveGame();
+ setTimeout(()=>{
+  showScreen("worldScreen");
+  setDialog(captured?
+   "<strong>👾 CAPTURE SUCCESS!</strong><br>Monster baru masuk collection!":
+   "Battle selesai."
+  );
+  drawWorld();
+  updateUI();
+ },500);
+}
+
+function runFromBattle(){
+ if(!battle){
+  showScreen("worldScreen");
+  return;
+ }
+ battle=null;
+ showScreen("worldScreen");
+ setDialog("🏃 Kamu memilih mundur dari battle.");
+ drawWorld();
+}
+
+function updateBattleUI(){
+ if(!battle)return;
+
+ $("enemyName").textContent=battle.enemy.name+" • "+battle.enemy.type;
+ $("enemyArt").textContent=battle.enemy.art;
+ $("playerMonsterName").textContent=battle.player.name+" • "+battle.player.type;
+ $("playerArt").textContent=battle.player.art;
+
+ const ep=Math.max(0,battle.enemy.current/battle.enemy.hp*100);
+ const pp=Math.max(0,battle.player.current/battle.player.hp*100);
+
+ $("enemyHPBar").style.width=ep+"%";
+ $("playerHPBar").style.width=pp+"%";
+
+ $("enemyHPText").textContent=
+ `${Math.max(0,battle.enemy.current)}/${battle.enemy.hp} HP`;
+
+ $("playerHPText").textContent=
+ `${Math.max(0,battle.player.current)}/${battle.player.hp} HP`;
+}
+
+function openLearning(){
+ showScreen("learningScreen");
+ $("subjectGrid").innerHTML=subjects.map(s=>`
+  <button onclick="openLesson('${s.id}')">
+   <div class="big">${s.icon}</div>
+   <b>${s.name}</b>
+   <div class="muted" style="margin-top:5px">${state.learned.includes(s.id)?"✓ Learned":"Start lesson"}</div>
+  </button>
+ `).join("");
+}
+
+function openLesson(id){
+ const s=subjects.find(x=>x.id===id);
+ currentLesson=id;
+
+ $("lessonBox").innerHTML=`
+ <div class="panel">
+  <h2>${s.icon} ${s.name}</h2>
+  <p>${s.tip}</p>
+  <div class="quest">
+   <strong>📌 Misi belajar</strong><br>
+   Pahami konsep dasar ${s.name}, lalu jawab latihan.
+  </div>
+  <button class="primary" onclick="lessonQuiz('${id}')">START PRACTICE</button>
+ </div>`;
+}
+
+function lessonQuiz(id){
+ const pool=questions.filter(q=>q.s===id);
+ if(!pool.length)return;
+
+ const q=pool[Math.floor(Math.random()*pool.length)];
+
+ $("lessonBox").innerHTML=`
+ <div class="panel">
+  <h3>🧠 Practice — ${subjectName(id)}</h3>
+  <div class="question">
+   <b>${q.q}</b>
+   <div class="answers">
+    ${q.a.map((a,i)=>`
+     <button onclick="answerLesson('${id}',${i},${q.c})">${a}</button>
+    `).join("")}
+   </div>
+  </div>
+ </div>`;
+}
+
+function answerLesson(id,index,c){
+ state.questions++;
+
+ if(index===c){
+  state.correct++;
+  state.streak++;
+  state.learned=[...new Set([...state.learned,id])];
+  state.quests.learn=true;
+  addExp(35);
+  addCoins(10);
+  toast("📚 BENAR! +35 EXP");
+  sound(700,.1);
+ }else{
+  state.streak=0;
+  toast("Belum tepat. Coba lagi!");
+ }
+
+ checkAchievements();
+ saveGame();
+ openLearning();
+}
+
+function startExam(){
+ exam={
+  list:[...questions].sort(()=>Math.random()-.5).slice(0,10),
+  index:0,
+  score:0
+ };
+ renderExam();
+}
+
+function renderExam(){
+ if(exam.index>=exam.list.length){
+  const reward=exam.score*15;
+  const exp=exam.score*25;
+
+  addExp(exp);
+  addCoins(reward);
+
+  $("examBox").innerHTML=`
+   <div class="panel">
+    <h2>🏁 EXAM COMPLETE</h2>
+    <div class="big">${exam.score}/10</div>
+    <p>+${exp} EXP • +${reward} Coins</p>
+    <button onclick="startExam()">TRY AGAIN</button>
+   </div>`;
+  exam=null;
+  return;
+ }
+
+ const q=exam.list[exam.index];
+
+ $("examBox").innerHTML=`
+  <div class="question">
+   <div class="muted">Question ${exam.index+1}/10 • ${subjectName(q.s)}</div>
+   <h3>${q.q}</h3>
+   <div class="answers">
+   ${q.a.map((a,i)=>`
+    <button onclick="answerExam(${i})">${a}</button>
+   `).join("")}
+   </div>
+  </div>`;
+}
+
+function answerExam(i){
+ const q=exam.list[exam.index];
+
+ if(i===q.c){
+  exam.score++;
+  state.correct++;
+  state.streak++;
+ }else{
+  state.streak=0;
+ }
+
+ state.questions++;
+ exam.index++;
+ renderExam();
+ checkAchievements();
+ saveGame();
+}
+
+function openProgress(){
+ showScreen("progressScreen");
+
+ const rate=state.questions?
+  Math.round(state.correct/state.questions*100):0;
+
+ $("progressBox").innerHTML=`
+ <div class="card-grid">
+  <div class="panel"><div class="muted">LEVEL</div><div class="big">${state.level}</div></div>
+  <div class="panel"><div class="muted">TOTAL EXP</div><div class="big">${state.exp}/${expNeeded()}</div></div>
+  <div class="panel"><div class="muted">BATTLES WON</div><div class="big">${state.wins}</div></div>
+  <div class="panel"><div class="muted">QUESTIONS</div><div class="big">${state.questions}</div></div>
+  <div class="panel"><div class="muted">CORRECT</div><div class="big">${state.correct}</div></div>
+  <div class="panel"><div class="muted">ACCURACY</div><div class="big">${rate}%</div></div>
+ </div>
+
+ <div class="panel">
+  <h3>EXP PROGRESS</h3>
+  <div class="progress"><i style="width:${state.exp/expNeeded()*100}%"></i></div>
+ </div>
+
+ <div class="panel">
+  <h3>📚 LEARNED SUBJECTS</h3>
+  ${subjects.map(s=>`
+   <div class="quest ${state.learned.includes(s.id)?"done":""}">
+    ${s.icon} ${s.name} ${state.learned.includes(s.id)?"✓":"—"}
+   </div>
+  `).join("")}
+ </div>`;
+}
 
 function openCollection(){
+ showScreen("collectionScreen");
 
-  const owned=state.monsters||[];
-
-  showModal(`
-    <button class="close" onclick="closeModal()">✕</button>
-
-    <h2>👾 MONSTER COLLECTION</h2>
-
-    <p>
-      ${owned.length}/${monsters.length} monster ditemukan.
-    </p>
-
-    <div class="subject-grid">
-
-      ${monsters.map(m=>{
-
-        const yes=owned.includes(m.id);
-
-        return `
-          <div class="subject">
-
-            <div class="emoji">
-              ${yes?m.emoji:"❔"}
-            </div>
-
-            <b>${yes?m.name:"Unknown"}</b>
-
-            <small>
-              ${yes?"COLLECTED":"NOT FOUND"}
-            </small>
-
-          </div>
-        `;
-
-      }).join("")}
-
-    </div>
-  `);
-
-}
-
-/* ==========================================================
-   ACHIEVEMENTS
-========================================================== */
-
-function unlock(id){
-
-  if(!state.achievements.includes(id)){
-
-    state.achievements.push(id);
-
-    const a=achievementData.find(x=>x[0]===id);
-
-    if(a){
-
-      toast(`🏆 Achievement: ${a[1]}`);
-
-      state.coins+=20;
-
-    }
-
-    saveGame();
-
-  }
-
+ $("collectionBox").innerHTML=monsters.map(m=>{
+  const owned=state.owned.includes(m.id);
+  return `
+   <div class="monster-card">
+    <div class="art">${owned?m.art:"❔"}</div>
+    <h3>${owned?m.name:"UNKNOWN"}</h3>
+    <div class="muted">${owned?m.type:"Not discovered"}</div>
+    ${owned?`
+     <div>HP ${m.hp}</div>
+     <div>POWER ${m.pow}</div>
+    `:""}
+   </div>`;
+ }).join("");
 }
 
 function openAchievements(){
+ showScreen("achievementScreen");
 
-  showModal(`
-    <button class="close" onclick="closeModal()">✕</button>
+ const all=[
+  ["level3","⚡ Rising Trainer"],
+  ["firstwin","⚔️ First Victory"],
+  ["warrior","🔥 Battle Veteran"],
+  ["scholar","📚 Knowledge Master"],
+  ["collector","👾 Monster Collector"],
+  ["explorer","🗺️ World Explorer"]
+ ];
 
-    <h2>🏆 ACHIEVEMENTS</h2>
-
-    <div class="list">
-
-      ${achievementData.map(a=>{
-
-        const yes=state.achievements.includes(a[0]);
-
-        return `
-          <div class="item">
-
-            ${yes?"🏆":"🔒"}
-
-            <b>${a[1]}</b>
-
-            <small>${a[2]}</small>
-
-          </div>
-        `;
-
-      }).join("")}
-
-    </div>
-  `);
-
+ $("achievementBox").innerHTML=all.map(a=>`
+  <div class="quest ${state.achievements.includes(a[0])?"done":""}">
+   ${state.achievements.includes(a[0])?"🏆":"🔒"} ${a[1]}
+  </div>
+ `).join("");
 }
 
-/* ==========================================================
-   PROGRESS
-========================================================== */
+function openInventory(){
+ showScreen("inventoryScreen");
 
-function openProgress(){
+ $("inventoryBox").innerHTML=`
+  <div class="monster-card">
+   <div class="art">🧪</div>
+   <h3>POTION</h3>
+   <p>Restore 35 HP.</p>
+   <b>${state.items.potion}</b>
+   <br><button onclick="usePotionMenu()">USE</button>
+  </div>
 
-  showModal(`
-    <button class="close" onclick="closeModal()">✕</button>
+  <div class="monster-card">
+   <div class="art">📖</div>
+   <h3>STUDY BOOK</h3>
+   <p>Bonus learning item.</p>
+   <b>${state.items.studyBook}</b>
+   <br><button onclick="useStudyBook()">USE</button>
+  </div>
 
-    <h2>📊 MY PROGRESS</h2>
-
-    <div class="lesson">
-      Total soal: <b>${state.questions}</b><br>
-      Jawaban benar: <b>${state.correct}</b><br>
-      Akurasi:
-      <b>
-        ${state.questions
-          ?Math.round(state.correct/state.questions*100)
-          :0}%
-      </b>
-    </div>
-
-    ${subjects.map(s=>{
-
-      const p=state.subjects[s.id]||{
-        answered:0,
-        correct:0
-      };
-
-      const percent=p.answered
-        ?Math.round(p.correct/p.answered*100)
-        :0;
-
-      return `
-        <div class="progress-row">
-
-          <div class="progress-label">
-            <span>${s.emoji} ${s.name}</span>
-            <b>${percent}%</b>
-          </div>
-
-          <div class="progress">
-            <span style="width:${percent}%"></span>
-          </div>
-
-        </div>
-      `;
-
-    }).join("")}
-  `);
-
+  <div class="monster-card">
+   <div class="art">⚡</div>
+   <h3>ENERGY DRINK</h3>
+   <p>Restore full HP.</p>
+   <b>${state.items.energyDrink}</b>
+   <br><button onclick="useEnergy()">USE</button>
+  </div>`;
 }
 
-/* ==========================================================
-   PROFILE
-========================================================== */
-
-function openProfile(){
-
-  showModal(`
-    <button class="close" onclick="closeModal()">✕</button>
-
-    <h2>👤 PROFILE</h2>
-
-    <div class="lesson">
-
-      <b>PLAYER:</b> REZA<br><br>
-
-      LEVEL: ${state.level}<br>
-      EXP: ${state.exp}<br>
-      COINS: ${state.coins}<br>
-      STREAK: ${state.streak}<br>
-      QUESTIONS: ${state.questions}<br>
-      CORRECT: ${state.correct}<br>
-      MONSTERS: ${(state.monsters||[]).length}/${monsters.length}
-
-    </div>
-
-    <p>
-      REZA Pixel School RPG adalah game edukasi
-      original dengan sistem belajar, quest, battle,
-      dan eksplorasi.
-    </p>
-  `);
-
+function usePotionMenu(){
+ if(state.items.potion<=0)return toast("Potion habis!");
+ state.items.potion--;
+ state.hp=Math.min(state.maxHP,state.hp+35);
+ saveGame();
+ openInventory();
+ updateUI();
+ toast("🧪 HP +35");
 }
 
-/* ==========================================================
-   MODAL
-========================================================== */
-
-function showModal(html){
-
-  $("modalLayer").innerHTML=
-    `<div class="modal">${html}</div>`;
-
-  $("modalLayer").classList.remove("hidden");
-
+function useStudyBook(){
+ if(state.items.studyBook<=0)return toast("Study Book habis!");
+ state.items.studyBook--;
+ addExp(40);
+ saveGame();
+ openInventory();
+ toast("📖 +40 EXP");
 }
 
-function closeModal(){
-
-  $("modalLayer").classList.add("hidden");
-  $("modalLayer").innerHTML="";
-
+function useEnergy(){
+ if(state.items.energyDrink<=0)return toast("Energy Drink habis!");
+ state.items.energyDrink--;
+ state.hp=state.maxHP;
+ saveGame();
+ openInventory();
+ updateUI();
+ toast("⚡ HP FULL!");
 }
 
-/* ==========================================================
-   TOAST
-========================================================== */
+let audioCtx=null;
+let musicTimer=null;
 
-let toastTimer;
-
-function toast(message){
-
-  const el=$("toast");
-
-  el.textContent=message;
-
-  el.classList.add("show");
-
-  clearTimeout(toastTimer);
-
-  toastTimer=setTimeout(()=>{
-
-    el.classList.remove("show");
-
-  },2200);
-
+function initAudio(){
+ if(!state.music)return;
+ if(!audioCtx){
+  audioCtx=new(window.AudioContext||window.webkitAudioContext)();
+ }
 }
 
-/* ==========================================================
-   MUSIC ENGINE
-========================================================== */
+function sound(freq,duration=.1){
+ if(!state.music)return;
+ try{
+  initAudio();
+  const o=audioCtx.createOscillator();
+  const g=audioCtx.createGain();
 
-function ensureAudio(){
+  o.type="square";
+  o.frequency.value=freq;
+  g.gain.setValueAtTime(.035,audioCtx.currentTime);
+  g.gain.exponentialRampToValueAtTime(
+   .001,audioCtx.currentTime+duration
+  );
 
-  if(!audioCtx){
-
-    audioCtx=
-      new(window.AudioContext||window.webkitAudioContext)();
-
-  }
-
-  if(audioCtx.state==="suspended"){
-
-    audioCtx.resume();
-
-  }
-
-}
-
-function playTone(freq,duration=.1,type="square"){
-
-  if(!state.music)return;
-
-  try{
-
-    ensureAudio();
-
-    const osc=audioCtx.createOscillator();
-
-    const gain=audioCtx.createGain();
-
-    osc.type=type;
-    osc.frequency.value=freq;
-
-    gain.gain.setValueAtTime(.035,audioCtx.currentTime);
-
-    gain.gain.exponentialRampToValueAtTime(
-      .001,
-      audioCtx.currentTime+duration
-    );
-
-    osc.connect(gain);
-    gain.connect(audioCtx.destination);
-
-    osc.start();
-    osc.stop(audioCtx.currentTime+duration);
-
-  }catch(e){}
-
-}
-
-function playLevelUp(){
-
-  if(!state.music)return;
-
-  [523,659,784,1047].forEach((f,i)=>{
-
-    setTimeout(()=>playTone(f,.16,"square"),i*120);
-
-  });
-
-}
-
-function playBattleTone(){
-
-  if(!state.music)return;
-
-  [300,420,560].forEach((f,i)=>{
-
-    setTimeout(()=>playTone(f,.08,"square"),i*70);
-
-  });
-
-}
-
-function playVictory(){
-
-  if(!state.music)return;
-
-  [523,659,784,1047,1318].forEach((f,i)=>{
-
-    setTimeout(()=>playTone(f,.16,"square"),i*100);
-
-  });
-
-}
-
-function startWorldMusic(){
-
-  if(!state.music)return;
-
-  playTone(262,.12,"triangle");
-
+  o.connect(g);
+  g.connect(audioCtx.destination);
+  o.start();
+  o.stop(audioCtx.currentTime+duration);
+ }catch(e){}
 }
 
 function toggleMusic(){
+ state.music=!state.music;
+ if(state.music)initAudio();
+ toast(state.music?"🎵 Music ON":"🔇 Music OFF");
+ saveGame();
+}
 
-  state.music=!state.music;
+function startMusic(){
+ if(!state.music)return;
+ initAudio();
 
+ if(musicTimer)return;
+
+ const notes=[220,277,330,440,330,277,247,330];
+ let i=0;
+
+ musicTimer=setInterval(()=>{
+  if(state.music)sound(notes[i++%notes.length],.07);
+ },420);
+}
+
+window.addEventListener("load",()=>{
+ loadGame();
+
+ setTimeout(()=>{
+  $("boot").style.display="none";
+  $("app").style.display="block";
   updateUI();
+  startMusic();
+ },2500);
+});
 
-  saveGame();
-
-  if(state.music){
-
-    ensureAudio();
-
-    playTone(660,.15,"square");
-
-  }
-
-}
-
-/* ==========================================================
-   RESET
-========================================================== */
-
-function resetGame(){
-
-  const ok=confirm(
-    "Reset semua progress REZA V6?"
-  );
-
-  if(!ok)return;
-
-  localStorage.removeItem(SAVE_KEY);
-
-  location.reload();
-
-}
-
-/* ==========================================================
-   AUTO SAVE
-========================================================== */
-
-setInterval(()=>{
-
-  if(!$("app").classList.contains("hidden")){
-
-    localStorage.setItem(
-      SAVE_KEY,
-      JSON.stringify(state)
-    );
-
-  }
-
-},15000);
-
-/* ==========================================================
-   START
-========================================================== */
-
-init();
+window.addEventListener("beforeunload",saveGame);
 
 </script>
-
 </body>
 </html>
+  
