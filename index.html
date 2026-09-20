@@ -2,40 +2,24 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#070b18">
-
-<title>REZA | Pixel School RPG</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b1020">
+<title>REZA — Pixel Monster RPG</title>
 
 <style>
-:root{
-  --bg:#070b18;
-  --panel:#10182b;
-  --panel2:#17233d;
-  --line:#33476f;
-  --cyan:#48eaff;
-  --blue:#4f7cff;
-  --green:#5dff9a;
-  --yellow:#ffe45e;
-  --red:#ff5577;
-  --purple:#b46cff;
-  --white:#f4f7ff;
-  --muted:#9caed0;
-  --shadow:0 0 25px rgba(72,234,255,.14);
-}
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
 *{
   box-sizing:border-box;
-  margin:0;
-  padding:0;
+  -webkit-tap-highlight-color:transparent;
 }
 
 html,body{
-  width:100%;
+  margin:0;
   min-height:100%;
-  background:var(--bg);
-  color:var(--white);
-  font-family:"Courier New",monospace;
+  background:#05070d;
+  color:#fff;
+  font-family:"Press Start 2P",monospace;
 }
 
 body{
@@ -44,197 +28,144 @@ body{
 
 button{
   font-family:inherit;
-}
-
-.hidden{
-  display:none!important;
-}
-
-/* =========================
-   BOOT SCREEN
-========================= */
-
-#bootScreen{
-  position:fixed;
-  inset:0;
-  z-index:9999;
-  background:
-    radial-gradient(circle at center,#101d38 0,#070b18 55%,#02040a 100%);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  overflow:hidden;
-}
-
-#bootScreen::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:
-    repeating-linear-gradient(
-      0deg,
-      rgba(255,255,255,.025) 0,
-      rgba(255,255,255,.025) 1px,
-      transparent 1px,
-      transparent 4px
-    );
-  pointer-events:none;
-}
-
-.boot-grid{
-  position:absolute;
-  inset:0;
-  opacity:.18;
-  background-image:
-    linear-gradient(rgba(72,234,255,.12) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(72,234,255,.12) 1px,transparent 1px);
-  background-size:35px 35px;
-  transform:perspective(500px) rotateX(55deg) scale(1.8);
-  transform-origin:center bottom;
-  animation:gridMove 5s linear infinite;
-}
-
-@keyframes gridMove{
-  from{background-position:0 0,0 0}
-  to{background-position:0 35px,35px 0}
-}
-
-.boot-box{
-  width:min(680px,90%);
-  text-align:center;
-  position:relative;
-  z-index:2;
-  border:3px solid var(--cyan);
-  padding:34px 24px;
-  background:rgba(7,11,24,.9);
-  box-shadow:
-    0 0 10px var(--cyan),
-    0 0 45px rgba(72,234,255,.18),
-    inset 0 0 35px rgba(72,234,255,.06);
-}
-
-.logo-pixel{
-  font-size:clamp(34px,8vw,76px);
-  font-weight:900;
-  letter-spacing:8px;
-  color:var(--cyan);
-  text-shadow:
-    4px 4px 0 #243c75,
-    0 0 20px var(--cyan);
-  margin-bottom:10px;
-}
-
-.boot-sub{
-  color:var(--yellow);
-  font-size:13px;
-  letter-spacing:3px;
-  margin-bottom:28px;
-}
-
-.boot-status{
-  color:var(--green);
-  font-size:13px;
-  min-height:20px;
-  margin-bottom:10px;
-}
-
-.progress-wrap{
-  height:18px;
-  border:2px solid var(--line);
-  background:#050812;
-  padding:3px;
-  margin:12px auto 24px;
-  max-width:520px;
-}
-
-#progressBar{
-  width:0%;
-  height:100%;
-  background:var(--cyan);
-  box-shadow:0 0 12px var(--cyan);
-  transition:width .15s linear;
-}
-
-.start-button{
-  border:3px solid var(--yellow);
-  background:#12192c;
-  color:var(--yellow);
-  padding:14px 25px;
-  font-weight:900;
-  font-size:16px;
-  letter-spacing:2px;
   cursor:pointer;
-  box-shadow:5px 5px 0 #6f6020;
-  transition:.15s;
 }
-
-.start-button:hover{
-  transform:translate(-2px,-2px);
-  box-shadow:7px 7px 0 #6f6020;
-  background:#1a2540;
-}
-
-.start-button:active{
-  transform:translate(3px,3px);
-  box-shadow:2px 2px 0 #6f6020;
-}
-
-/* =========================
-   APP
-========================= */
 
 #app{
   min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:14px;
   background:
-    radial-gradient(circle at 15% 10%,rgba(79,124,255,.10),transparent 25%),
-    radial-gradient(circle at 85% 20%,rgba(180,108,255,.09),transparent 25%),
-    var(--bg);
+    radial-gradient(circle at 50% 20%,#1c2854 0,#090d1b 35%,#03050a 75%);
+}
+
+/* CRT */
+#app:before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:1000;
+  background:repeating-linear-gradient(
+    to bottom,
+    rgba(255,255,255,.035) 0px,
+    rgba(255,255,255,.035) 1px,
+    transparent 2px,
+    transparent 4px
+  );
+}
+
+#app:after{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:999;
+  box-shadow:inset 0 0 100px rgba(0,0,0,.9);
+}
+
+.screen{
+  width:min(1050px,100%);
+  min-height:680px;
+  position:relative;
+  border:7px solid #30394d;
+  background:#101729;
+  box-shadow:
+    0 0 0 5px #070a12,
+    0 25px 70px rgba(0,0,0,.8),
+    inset 0 0 40px #000;
+  overflow:hidden;
+}
+
+/* BOOT */
+#boot{
+  min-height:680px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  background:
+    radial-gradient(circle,#1d2c52,#070a12 65%);
+}
+
+.bootBox{
+  width:min(700px,90%);
+}
+
+.logoPixel{
+  font-size:clamp(42px,9vw,100px);
+  letter-spacing:8px;
+  color:#fff;
+  text-shadow:
+    5px 5px 0 #334cff,
+    10px 10px 0 #10152a;
+  animation:logoPulse 1.3s infinite alternate;
+}
+
+.bootSub{
+  margin-top:22px;
+  color:#7df9ff;
+  font-size:12px;
+  line-height:2;
+}
+
+.loading{
+  margin:35px auto 22px;
+  height:24px;
+  border:4px solid #fff;
+  padding:3px;
+  width:min(520px,90%);
+}
+
+.loadingFill{
+  height:100%;
+  width:0;
+  background:#6df7ff;
+  transition:.15s;
+}
+
+.bootStatus{
+  color:#ffd84a;
+  font-size:10px;
+  min-height:20px;
+}
+
+.press{
+  margin-top:38px;
+  color:#fff;
+  font-size:13px;
+  animation:blink .8s infinite;
+}
+
+@keyframes logoPulse{
+  from{transform:scale(1)}
+  to{transform:scale(1.025)}
+}
+
+@keyframes blink{
+  50%{opacity:.15}
+}
+
+/* HEADER */
+#game{
+  display:none;
 }
 
 .topbar{
-  position:sticky;
-  top:0;
-  z-index:100;
-  min-height:74px;
-  padding:12px 18px;
   display:flex;
-  align-items:center;
   justify-content:space-between;
-  gap:14px;
-  border-bottom:2px solid var(--line);
-  background:rgba(7,11,24,.94);
-  backdrop-filter:blur(10px);
-  box-shadow:0 4px 20px rgba(0,0,0,.25);
+  align-items:center;
+  gap:10px;
+  padding:12px;
+  background:#151e34;
+  border-bottom:5px solid #30394d;
 }
 
 .brand{
-  display:flex;
-  align-items:center;
-  gap:12px;
-}
-
-.brand-icon{
-  width:45px;
-  height:45px;
-  display:grid;
-  place-items:center;
-  border:3px solid var(--cyan);
-  color:var(--cyan);
-  background:#0b1224;
-  font-size:20px;
-  box-shadow:0 0 15px rgba(72,234,255,.2);
-}
-
-.brand-title{
-  font-size:18px;
-  font-weight:900;
-  color:var(--cyan);
-}
-
-.brand-small{
-  font-size:10px;
-  color:var(--muted);
-  margin-top:3px;
+  color:#7df9ff;
+  font-size:16px;
 }
 
 .stats{
@@ -245,750 +176,504 @@ button{
 }
 
 .stat{
-  border:2px solid var(--line);
-  background:#0d1427;
-  padding:8px 11px;
-  font-size:11px;
-  min-width:70px;
+  padding:9px 11px;
+  border:3px solid #59667e;
+  background:#090d18;
+  font-size:9px;
+}
+
+.soundBtn{
+  border:3px solid #ffd84a;
+  background:#17120a;
+  color:#ffd84a;
+  padding:9px;
+  font-size:9px;
+}
+
+/* MENU */
+.menu{
+  padding:18px;
+}
+
+.hero{
   text-align:center;
+  padding:22px 10px 28px;
+  border:4px solid #394865;
+  background:#0a0f1d;
+  box-shadow:inset 0 0 30px #000;
 }
 
-.stat b{
-  display:block;
-  font-size:14px;
-  margin-top:2px;
-}
-
-.stat.level{
-  color:var(--yellow);
-  border-color:#655b28;
-}
-
-.stat.exp{
-  color:var(--green);
-  border-color:#285d45;
-}
-
-.stat.coin{
-  color:var(--yellow);
-  border-color:#655b28;
-}
-
-/* =========================
-   MAIN MENU
-========================= */
-
-.menu-screen{
-  width:min(1050px,94%);
-  margin:35px auto;
-}
-
-.hero-panel{
-  border:3px solid var(--cyan);
-  background:
-    linear-gradient(135deg,rgba(72,234,255,.07),transparent 45%),
-    var(--panel);
-  padding:32px;
-  box-shadow:var(--shadow);
-  position:relative;
-  overflow:hidden;
-}
-
-.hero-panel::after{
-  content:"REZA";
-  position:absolute;
-  right:-25px;
-  bottom:-50px;
-  font-size:150px;
-  font-weight:900;
-  color:rgba(72,234,255,.035);
-  pointer-events:none;
-}
-
-.hero-label{
-  color:var(--green);
-  font-size:11px;
-  letter-spacing:3px;
-  margin-bottom:12px;
-}
-
-.hero-title{
-  font-size:clamp(28px,6vw,54px);
-  color:var(--white);
-  line-height:1;
-  text-shadow:4px 4px 0 #1c2c51;
-}
-
-.hero-title span{
-  color:var(--cyan);
-}
-
-.hero-text{
-  max-width:650px;
-  color:var(--muted);
-  margin-top:15px;
+.hero h1{
+  font-size:clamp(19px,4vw,32px);
   line-height:1.7;
-  font-size:13px;
+  margin:5px 0 10px;
+  color:#fff;
+  text-shadow:3px 3px 0 #2638a0;
 }
 
-.menu-grid{
+.hero p{
+  color:#8fa3c9;
+  font-size:9px;
+  line-height:2;
+}
+
+.menuGrid{
   display:grid;
   grid-template-columns:repeat(2,1fr);
-  gap:15px;
-  margin-top:20px;
+  gap:12px;
+  max-width:700px;
+  margin:25px auto;
 }
 
-.menu-btn{
-  min-height:90px;
-  text-align:left;
-  padding:18px;
-  cursor:pointer;
-  border:3px solid var(--line);
-  background:var(--panel);
-  color:var(--white);
-  box-shadow:5px 5px 0 #080c18;
-  transition:.15s;
-}
-
-.menu-btn:hover{
-  transform:translate(-2px,-2px);
-  border-color:var(--cyan);
-  box-shadow:7px 7px 0 #080c18;
-}
-
-.menu-btn:active{
-  transform:translate(3px,3px);
-  box-shadow:2px 2px 0 #080c18;
-}
-
-.menu-btn.primary{
-  border-color:var(--cyan);
-  background:linear-gradient(135deg,#112640,#10182b);
-}
-
-.menu-btn .icon{
-  font-size:27px;
-  margin-bottom:8px;
-}
-
-.menu-btn strong{
-  display:block;
-  color:var(--cyan);
-  font-size:14px;
-}
-
-.menu-btn small{
-  color:var(--muted);
-  display:block;
-  margin-top:5px;
+.pixelBtn{
+  position:relative;
+  min-height:68px;
+  border:4px solid #59667e;
+  border-right-color:#1c2436;
+  border-bottom-color:#1c2436;
+  background:#182137;
+  color:#fff;
+  padding:12px;
   font-size:10px;
+  line-height:1.7;
+  transition:.08s;
 }
 
-/* =========================
-   GAME
-========================= */
-
-.game-screen{
-  width:min(1100px,94%);
-  margin:25px auto 60px;
+.pixelBtn:hover{
+  background:#263457;
+  color:#7df9ff;
 }
 
-.back-row{
+.pixelBtn:active{
+  transform:translate(4px,4px);
+  border-color:#1c2436;
+}
+
+.pixelBtn.primary{
+  background:#263ca2;
+  border-color:#7388ff #111b55 #111b55 #7388ff;
+}
+
+.pixelBtn.danger{
+  color:#ff7f91;
+}
+
+.footerTip{
+  text-align:center;
+  color:#65738d;
+  font-size:8px;
+  line-height:2;
+}
+
+/* SUBJECTS */
+#subjects{
+  display:none;
+  padding:18px;
+}
+
+.sectionTitle{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  margin-bottom:15px;
   gap:10px;
+  margin-bottom:15px;
+  font-size:12px;
+  color:#7df9ff;
 }
 
-.back-btn{
-  border:2px solid var(--line);
-  background:#0d1427;
-  color:var(--muted);
-  padding:9px 13px;
-  cursor:pointer;
-}
-
-.back-btn:hover{
-  border-color:var(--cyan);
-  color:var(--cyan);
-}
-
-.location{
-  color:var(--green);
-  font-size:11px;
-}
-
-.subject-grid{
+.subjectGrid{
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  gap:14px;
+  gap:12px;
 }
 
-.subject-card{
-  border:3px solid var(--line);
-  background:var(--panel);
-  padding:20px;
-  cursor:pointer;
-  min-height:150px;
-  position:relative;
-  overflow:hidden;
-  transition:.15s;
-  box-shadow:5px 5px 0 #080c18;
+.subject{
+  min-height:130px;
+  text-align:left;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
 }
 
-.subject-card:hover{
-  transform:translate(-3px,-3px);
-  border-color:var(--cyan);
-  box-shadow:8px 8px 0 #080c18;
+.subjectIcon{
+  font-size:30px;
 }
 
-.subject-card::before{
-  content:"";
-  position:absolute;
-  width:80px;
-  height:80px;
-  right:-30px;
-  bottom:-30px;
-  border:2px solid rgba(72,234,255,.12);
-  transform:rotate(45deg);
+.subject small{
+  color:#8494b5;
+  font-size:7px;
+  line-height:1.8;
 }
 
-.subject-icon{
-  font-size:32px;
-  margin-bottom:14px;
+/* BATTLE */
+#battle{
+  display:none;
+  padding:15px;
 }
 
-.subject-name{
-  font-weight:900;
-  color:var(--cyan);
-  font-size:15px;
-}
-
-.subject-desc{
-  color:var(--muted);
-  font-size:10px;
-  line-height:1.5;
-  margin-top:7px;
-}
-
-/* =========================
-   BATTLE
-========================= */
-
-.battle-screen{
-  width:min(1050px,94%);
-  margin:25px auto 60px;
-}
-
-.battle-header{
+.battleTop{
   display:flex;
   justify-content:space-between;
-  align-items:center;
-  gap:10px;
-  margin-bottom:15px;
-}
-
-.battle-title{
-  color:var(--yellow);
-  font-weight:900;
-  letter-spacing:2px;
-}
-
-.combo{
-  color:var(--purple);
-  font-weight:900;
-  font-size:12px;
+  font-size:9px;
+  color:#8fa3c9;
+  margin-bottom:10px;
 }
 
 .arena{
-  border:3px solid var(--cyan);
-  background:
-    radial-gradient(circle at 50% 30%,rgba(72,234,255,.10),transparent 30%),
-    linear-gradient(#0b1427,#07101f);
-  min-height:340px;
-  padding:25px;
   position:relative;
+  min-height:410px;
   overflow:hidden;
+  border:5px solid #46536e;
+  background:
+    linear-gradient(#14203a 0 48%,#182d23 48% 100%);
 }
 
-.arena::before{
-  content:"";
+.cloud{
   position:absolute;
+  width:110px;
+  height:20px;
+  background:#31415d;
+  opacity:.45;
+  top:55px;
+  left:8%;
+}
+
+.cloud.c2{
+  top:110px;
+  left:auto;
+  right:12%;
+  width:150px;
+}
+
+.ground{
+  position:absolute;
+  bottom:0;
   left:0;
   right:0;
-  bottom:0;
-  height:90px;
+  height:48%;
   background:
-    linear-gradient(135deg,transparent 25%,rgba(72,234,255,.06) 25%,rgba(72,234,255,.06) 50%,transparent 50%),
-    linear-gradient(45deg,transparent 25%,rgba(72,234,255,.04) 25%,rgba(72,234,255,.04) 50%,transparent 50%);
-  background-size:40px 40px;
-  opacity:.5;
+    repeating-linear-gradient(
+      0deg,
+      transparent 0 15px,
+      rgba(0,0,0,.12) 16px 17px
+    );
 }
 
-.battle-monsters{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  align-items:center;
-  gap:20px;
-  position:relative;
-  z-index:2;
+.monster{
+  position:absolute;
+  z-index:5;
+  width:150px;
+  text-align:center;
+  animation:floatMonster 1.7s infinite ease-in-out;
 }
 
-.monster-side{
-  min-width:0;
+.enemyMonster{
+  top:35px;
+  right:12%;
 }
 
-.enemy{
-  text-align:right;
-}
-
-.monster-name{
-  font-size:14px;
-  font-weight:900;
-  color:var(--white);
-  margin-bottom:8px;
-}
-
-.hp-wrap{
-  height:17px;
-  border:2px solid var(--line);
-  background:#050812;
-  padding:2px;
-  width:min(260px,100%);
-  margin-left:auto;
-}
-
-.player-side .hp-wrap{
-  margin-left:0;
-}
-
-.hp{
-  width:100%;
-  height:100%;
-  background:var(--green);
-  transition:.3s;
-}
-
-.enemy .hp{
-  background:var(--red);
-}
-
-.monster-art{
-  font-size:90px;
-  margin-top:15px;
-  filter:drop-shadow(0 0 15px rgba(72,234,255,.25));
-  animation:floatMonster 1.7s ease-in-out infinite;
-}
-
-.enemy .monster-art{
+.playerMonster{
+  bottom:45px;
+  left:12%;
   animation-delay:.3s;
 }
 
-@keyframes floatMonster{
-  0%,100%{transform:translateY(0)}
-  50%{transform:translateY(-8px)}
+.monsterEmoji{
+  font-size:88px;
+  display:block;
+  filter:drop-shadow(8px 8px 0 rgba(0,0,0,.35));
+  image-rendering:pixelated;
 }
 
-.question-panel{
-  position:relative;
-  z-index:3;
-  margin-top:20px;
-  border:3px solid var(--yellow);
-  background:#0e172b;
-  padding:20px;
-  box-shadow:0 0 25px rgba(255,228,94,.08);
+.enemyMonster .monsterEmoji{
+  transform:scaleX(-1);
 }
 
-.question-number{
-  color:var(--green);
-  font-size:10px;
-  margin-bottom:9px;
+.monsterName{
+  margin-top:5px;
+  font-size:9px;
+  color:#fff;
+  text-shadow:2px 2px #000;
 }
 
-.question-text{
-  font-size:17px;
-  line-height:1.5;
-  font-weight:900;
+.hpBox{
+  width:190px;
+  border:3px solid #fff;
+  background:#090d14;
+  padding:5px;
+  box-shadow:4px 4px 0 #000;
+}
+
+.enemyMonster .hpBox{
+  margin-left:-35px;
+}
+
+.playerMonster .hpBox{
+  margin-left:-5px;
+}
+
+.hpLine{
+  height:11px;
+  background:#401c28;
+  border:2px solid #000;
+}
+
+.hpFill{
+  height:100%;
+  width:100%;
+  background:#63e66b;
+  transition:.3s;
+}
+
+.battleMessage{
+  position:absolute;
+  z-index:20;
+  left:15px;
+  right:15px;
+  bottom:15px;
+  min-height:82px;
+  padding:14px;
+  border:4px solid #fff;
+  background:rgba(5,8,15,.94);
+  font-size:9px;
+  line-height:2;
 }
 
 .answers{
+  margin-top:14px;
   display:grid;
   grid-template-columns:repeat(2,1fr);
   gap:10px;
-  margin-top:18px;
 }
 
-.answer-btn{
-  min-height:54px;
-  border:2px solid var(--line);
-  background:#111b30;
-  color:var(--white);
-  text-align:left;
-  padding:12px;
-  cursor:pointer;
-  font-size:12px;
-  transition:.12s;
+.answerBtn{
+  min-height:65px;
+  border:4px solid #59667e;
+  background:#121a2d;
+  color:#fff;
+  font-size:9px;
+  line-height:1.7;
 }
 
-.answer-btn:hover{
-  border-color:var(--cyan);
-  background:#172642;
+.answerBtn:hover{
+  background:#263b6c;
 }
 
-.answer-btn.correct{
-  border-color:var(--green);
-  background:rgba(93,255,154,.13);
-  color:var(--green);
+.answerBtn.correct{
+  background:#14652d;
+  border-color:#5dff88;
 }
 
-.answer-btn.wrong{
-  border-color:var(--red);
-  background:rgba(255,85,119,.13);
-  color:var(--red);
+.answerBtn.wrong{
+  background:#721d2d;
+  border-color:#ff6175;
 }
 
-.answer-btn:disabled{
-  cursor:not-allowed;
-  opacity:.9;
+.question{
+  border:4px solid #59667e;
+  background:#080c17;
+  padding:15px;
+  font-size:11px;
+  line-height:2;
+  margin-bottom:12px;
 }
 
-.battle-message{
-  min-height:25px;
-  margin-top:14px;
-  color:var(--yellow);
-  font-size:12px;
-  font-weight:900;
+.combo{
+  color:#ffd84a;
 }
 
-.reward{
-  text-align:center;
-  color:var(--green);
-  margin-top:8px;
-  min-height:22px;
-  font-weight:900;
+@keyframes floatMonster{
+  50%{transform:translateY(-7px)}
 }
 
-.float-reward{
-  position:fixed;
-  left:50%;
-  top:50%;
-  z-index:999;
-  transform:translate(-50%,-50%);
-  font-size:30px;
-  font-weight:900;
-  color:var(--yellow);
-  text-shadow:0 0 15px rgba(255,228,94,.7);
-  pointer-events:none;
-  animation:rewardUp .9s ease-out forwards;
-}
-
-@keyframes rewardUp{
-  from{
-    opacity:1;
-    transform:translate(-50%,-50%) scale(1);
-  }
-  to{
-    opacity:0;
-    transform:translate(-50%,-110%) scale(1.4);
-  }
-}
-
-/* =========================
-   MODALS
-========================= */
-
-.modal{
-  position:fixed;
-  inset:0;
-  z-index:500;
-  background:rgba(0,0,0,.78);
-  display:flex;
-  align-items:center;
-  justify-content:center;
+/* COLLECTION */
+#collection,#achievements,#profile{
+  display:none;
   padding:18px;
 }
 
-.modal-box{
-  width:min(720px,100%);
-  max-height:85vh;
-  overflow:auto;
-  border:3px solid var(--cyan);
-  background:#0b1224;
-  padding:25px;
-  box-shadow:0 0 45px rgba(72,234,255,.16);
-}
-
-.modal-title{
-  color:var(--cyan);
-  font-size:22px;
-  font-weight:900;
-  margin-bottom:18px;
-}
-
-.close-btn{
-  float:right;
-  border:2px solid var(--red);
-  color:var(--red);
-  background:#150c17;
-  padding:5px 9px;
-  cursor:pointer;
-}
-
-.profile{
-  display:grid;
-  grid-template-columns:130px 1fr;
-  gap:20px;
-  align-items:center;
-}
-
-.avatar{
-  width:120px;
-  height:120px;
-  border:3px solid var(--cyan);
-  display:grid;
-  place-items:center;
-  font-size:55px;
-  background:#101b31;
-  box-shadow:0 0 20px rgba(72,234,255,.15);
-}
-
-.info-line{
-  border-bottom:1px dashed var(--line);
-  padding:10px 0;
-  font-size:12px;
-}
-
-.info-line span{
-  color:var(--muted);
-}
-
-.collection-grid{
+.monsterGrid{
   display:grid;
   grid-template-columns:repeat(3,1fr);
   gap:12px;
 }
 
-.monster-card{
-  border:2px solid var(--line);
-  background:#10192d;
+.monsterCard{
   padding:15px;
   text-align:center;
+  border:4px solid #394865;
+  background:#0b1120;
 }
 
-.monster-card.unlocked{
-  border-color:var(--cyan);
-  box-shadow:0 0 15px rgba(72,234,255,.08);
+.monsterCard .big{
+  font-size:50px;
 }
 
-.monster-card.locked{
-  opacity:.45;
-}
-
-.monster-card .m-art{
-  font-size:42px;
-  margin-bottom:8px;
-}
-
-.monster-card strong{
-  display:block;
-  color:var(--cyan);
-  font-size:12px;
-}
-
-.monster-card small{
-  display:block;
-  color:var(--muted);
-  margin-top:5px;
+.monsterCard h3{
   font-size:9px;
 }
 
-.achievement{
-  display:flex;
-  gap:12px;
-  align-items:center;
-  border:2px solid var(--line);
-  padding:13px;
-  margin-bottom:10px;
-  background:#10182b;
+.monsterCard p{
+  font-size:7px;
+  color:#8291af;
+  line-height:2;
 }
 
-.achievement.done{
-  border-color:var(--yellow);
+.locked{
+  filter:grayscale(1);
+  opacity:.35;
 }
 
-.achievement-icon{
-  font-size:28px;
+.profileBox{
+  max-width:650px;
+  margin:auto;
+  border:5px solid #46536e;
+  padding:25px;
+  background:#090e1a;
+  line-height:2.2;
+  font-size:10px;
 }
 
-.achievement strong{
-  color:var(--white);
-  display:block;
-  font-size:12px;
+.xpBar{
+  height:18px;
+  border:3px solid #fff;
+  padding:2px;
+  background:#090909;
 }
 
-.achievement small{
-  color:var(--muted);
-  font-size:9px;
+.xpFill{
+  height:100%;
+  width:0;
+  background:#7568ff;
 }
 
-.notice{
-  padding:15px;
-  border:2px solid var(--line);
-  color:var(--muted);
-  line-height:1.7;
-  font-size:11px;
-}
-
-.danger-btn{
-  border:2px solid var(--red);
-  color:var(--red);
-  background:#170b13;
-  padding:11px 15px;
-  cursor:pointer;
-  margin-top:15px;
-}
-
-/* =========================
-   LEVEL UP
-========================= */
-
-.levelup{
+/* MODAL */
+.modal{
+  display:none;
   position:fixed;
   inset:0;
   z-index:2000;
-  background:rgba(3,5,12,.9);
-  display:flex;
+  background:rgba(0,0,0,.8);
   align-items:center;
   justify-content:center;
-  text-align:center;
+  padding:20px;
 }
 
-.levelup-box{
-  border:4px solid var(--yellow);
-  padding:40px;
+.modalBox{
+  width:min(560px,100%);
+  border:6px solid #59667e;
   background:#10182b;
-  box-shadow:
-    0 0 15px var(--yellow),
-    0 0 80px rgba(255,228,94,.15);
-  animation:levelPop .45s ease-out;
+  padding:25px;
+  text-align:center;
+  box-shadow:10px 10px 0 #000;
 }
 
-.levelup-box h2{
-  color:var(--yellow);
-  font-size:clamp(28px,7vw,55px);
-  text-shadow:4px 4px 0 #5e531f;
+.modalTitle{
+  font-size:20px;
+  color:#ffd84a;
+  line-height:1.7;
 }
 
-.levelup-box p{
-  color:var(--green);
-  margin-top:12px;
+.modalText{
+  font-size:9px;
+  color:#b6c1d5;
+  line-height:2;
+  margin:20px 0;
 }
 
-@keyframes levelPop{
-  from{transform:scale(.5);opacity:0}
-  to{transform:scale(1);opacity:1}
-}
+/* MOBILE */
+@media(max-width:700px){
+  .screen{
+    min-height:calc(100vh - 28px);
+    border-width:4px;
+  }
 
-/* =========================
-   TOAST
-========================= */
-
-.toast{
-  position:fixed;
-  left:50%;
-  bottom:25px;
-  transform:translateX(-50%) translateY(100px);
-  z-index:3000;
-  border:2px solid var(--cyan);
-  background:#0c1427;
-  color:var(--white);
-  padding:12px 18px;
-  font-size:11px;
-  box-shadow:0 0 20px rgba(72,234,255,.18);
-  opacity:0;
-  transition:.25s;
-  pointer-events:none;
-}
-
-.toast.show{
-  transform:translateX(-50%) translateY(0);
-  opacity:1;
-}
-
-/* =========================
-   RESPONSIVE
-========================= */
-
-@media(max-width:800px){
   .topbar{
     align-items:flex-start;
-    flex-direction:column;
+    flex-wrap:wrap;
   }
 
-  .stats{
-    width:100%;
-    justify-content:flex-start;
+  .brand{
+    font-size:11px;
   }
 
-  .subject-grid{
+  .stat{
+    font-size:7px;
+    padding:7px;
+  }
+
+  .menuGrid{
+    grid-template-columns:1fr;
+  }
+
+  .subjectGrid{
     grid-template-columns:repeat(2,1fr);
   }
 
-  .collection-grid{
+  .monsterGrid{
     grid-template-columns:repeat(2,1fr);
   }
-}
 
-@media(max-width:560px){
-  .hero-panel{
-    padding:22px 17px;
+  .arena{
+    min-height:380px;
   }
 
-  .menu-grid{
-    grid-template-columns:1fr;
+  .monster{
+    width:120px;
   }
 
-  .subject-grid{
-    grid-template-columns:1fr;
+  .monsterEmoji{
+    font-size:64px;
   }
 
-  .battle-monsters{
-    grid-template-columns:1fr;
+  .hpBox{
+    width:150px;
   }
 
-  .enemy{
-    text-align:left;
-    order:1;
+  .enemyMonster{
+    right:3%;
   }
 
-  .player-side{
-    order:2;
-  }
-
-  .enemy .hp-wrap,
-  .player-side .hp-wrap{
-    margin-left:0;
-  }
-
-  .monster-art{
-    font-size:65px;
+  .playerMonster{
+    left:3%;
   }
 
   .answers{
     grid-template-columns:1fr;
   }
 
-  .profile{
-    grid-template-columns:1fr;
+  .question{
+    font-size:9px;
+  }
+}
+
+@media(max-width:420px){
+  #app{
+    padding:5px;
   }
 
-  .avatar{
-    margin:auto;
-  }
-
-  .collection-grid{
+  .subjectGrid{
     grid-template-columns:1fr 1fr;
+  }
+
+  .monsterGrid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .subject{
+    min-height:115px;
+  }
+
+  .subjectIcon{
+    font-size:23px;
+  }
+
+  .arena{
+    min-height:350px;
+  }
+
+  .battleMessage{
+    font-size:7px;
   }
 }
 </style>
@@ -996,856 +681,443 @@ button{
 
 <body>
 
-<!-- =========================
-     BOOT
-========================= -->
+<div id="app">
 
-<section id="bootScreen">
-  <div class="boot-grid"></div>
+<div class="screen">
 
-  <div class="boot-box">
-    <div class="logo-pixel">REZA</div>
-    <div class="boot-sub">PIXEL SCHOOL RPG</div>
+<!-- ================= BOOT ================= -->
+<section id="boot">
 
-    <div id="bootStatus" class="boot-status">
-      SYSTEM INITIALIZING...
+  <div class="bootBox">
+
+    <div class="logoPixel">REZA</div>
+
+    <div class="bootSub">
+      PIXEL MONSTER ACADEMY<br>
+      STUDY • BATTLE • LEVEL UP
     </div>
 
-    <div class="progress-wrap">
-      <div id="progressBar"></div>
+    <div class="loading">
+      <div class="loadingFill" id="loadingFill"></div>
     </div>
 
-    <button id="startButton" class="start-button hidden">
-      ▶ PRESS START
-    </button>
+    <div class="bootStatus" id="bootStatus">
+      SYSTEM STARTING...
+    </div>
+
+    <div class="press" id="pressStart">
+      PRESS START
+    </div>
+
   </div>
+
 </section>
 
-<!-- =========================
-     APP
-========================= -->
 
-<div id="app" class="hidden">
+<!-- ================= GAME ================= -->
+<section id="game">
 
   <header class="topbar">
 
-    <div class="brand">
-      <div class="brand-icon">R</div>
-
-      <div>
-        <div class="brand-title">REZA</div>
-        <div class="brand-small">PIXEL SCHOOL RPG</div>
-      </div>
-    </div>
+    <div class="brand">REZA RPG</div>
 
     <div class="stats">
-
-      <div class="stat level">
-        LEVEL
-        <b id="levelValue">1</b>
-      </div>
-
-      <div class="stat exp">
-        EXP
-        <b id="expValue">0</b>
-      </div>
-
-      <div class="stat coin">
-        COINS
-        <b id="coinValue">0</b>
-      </div>
-
+      <div class="stat">LV <span id="level">1</span></div>
+      <div class="stat">EXP <span id="exp">0</span></div>
+      <div class="stat">🪙 <span id="coins">0</span></div>
+      <button class="soundBtn" id="soundBtn">🔊 SOUND</button>
     </div>
 
   </header>
 
-  <!-- =========================
-       MAIN MENU
-  ========================= -->
 
-  <main id="mainMenu" class="menu-screen">
+  <!-- MENU -->
+  <div class="menu" id="menu">
 
-    <section class="hero-panel">
+    <div class="hero">
 
-      <div class="hero-label">
-        SYSTEM ONLINE // STUDENT ADVENTURE
-      </div>
+      <h1>REZA PIXEL ACADEMY</h1>
 
-      <h1 class="hero-title">
-        WELCOME TO <span>REZA</span>
-      </h1>
-
-      <p class="hero-text">
-        Belajar, jawab soal, kumpulkan EXP, naik level,
-        dan buka monster baru dalam dunia sekolah pixel.
+      <p>
+        Dunia belajar penuh monster misterius.<br>
+        Jawab soal • Dapatkan EXP • Koleksi monster • Naik level!
       </p>
 
-    </section>
+    </div>
 
-    <section class="menu-grid">
+    <div class="menuGrid">
 
-      <button id="startAdventureBtn" class="menu-btn primary">
-        <div class="icon">▶️</div>
-        <strong>START ADVENTURE</strong>
-        <small>Masuk ke Pixel School</small>
+      <button class="pixelBtn primary" onclick="startAdventure()">
+        ▶ START ADVENTURE
       </button>
 
-      <button id="profileBtn" class="menu-btn">
-        <div class="icon">👤</div>
-        <strong>PLAYER PROFILE</strong>
-        <small>Lihat level dan statistikmu</small>
+      <button class="pixelBtn" onclick="showProfile()">
+        👤 PROFILE
       </button>
 
-      <button id="collectionBtn" class="menu-btn">
-        <div class="icon">👾</div>
-        <strong>MONSTER COLLECTION</strong>
-        <small>Lihat monster yang sudah ditemukan</small>
+      <button class="pixelBtn" onclick="showCollection()">
+        👾 MONSTER COLLECTION
       </button>
 
-      <button id="achievementBtn" class="menu-btn">
-        <div class="icon">🏆</div>
-        <strong>ACHIEVEMENTS</strong>
-        <small>Cek pencapaian belajar</small>
+      <button class="pixelBtn" onclick="showAchievements()">
+        🏆 ACHIEVEMENTS
       </button>
 
-      <button id="resetBtn" class="menu-btn">
-        <div class="icon">♻️</div>
-        <strong>RESET DATA</strong>
-        <small>Mulai perjalanan dari awal</small>
+      <button class="pixelBtn" onclick="toggleSound()">
+        🔊 SOUND ON / OFF
       </button>
 
-    </section>
-
-  </main>
-
-  <!-- =========================
-       SUBJECT SCREEN
-  ========================= -->
-
-  <main id="gameScreen" class="game-screen hidden">
-
-    <div class="back-row">
-
-      <button id="backMenuBtn" class="back-btn">
-        ◀ MENU
+      <button class="pixelBtn danger" onclick="resetData()">
+        ♻ RESET DATA
       </button>
 
-      <div class="location">
-        LOCATION: PIXEL SCHOOL
+    </div>
+
+    <div class="footerTip">
+      TIP: Gunakan tombol untuk menjelajah dunia REZA.
+    </div>
+
+  </div>
+
+
+  <!-- SUBJECTS -->
+  <div id="subjects">
+
+    <div class="sectionTitle">
+      <span>SELECT SUBJECT</span>
+      <button class="pixelBtn" style="min-height:auto;padding:8px;font-size:7px"
+              onclick="backToMenu()">← MENU</button>
+    </div>
+
+    <div class="subjectGrid">
+
+      <button class="pixelBtn subject" onclick="startBattle('Matematika')">
+        <span class="subjectIcon">🔢</span>
+        MATEMATIKA
+        <small>Logika & angka</small>
+      </button>
+
+      <button class="pixelBtn subject" onclick="startBattle('IPA')">
+        <span class="subjectIcon">🧪</span>
+        IPA
+        <small>Sains & alam</small>
+      </button>
+
+      <button class="pixelBtn subject" onclick="startBattle('IPS')">
+        <span class="subjectIcon">🌍</span>
+        IPS
+        <small>Dunia & masyarakat</small>
+      </button>
+
+      <button class="pixelBtn subject" onclick="startBattle('Bahasa Indonesia')">
+        <span class="subjectIcon">📖</span>
+        BAHASA
+        <small>Bahasa Indonesia</small>
+      </button>
+
+      <button class="pixelBtn subject" onclick="startBattle('English')">
+        <span class="subjectIcon">🇬🇧</span>
+        ENGLISH
+        <small>English basic</small>
+      </button>
+
+      <button class="pixelBtn subject" onclick="startBattle('Informatika')">
+        <span class="subjectIcon">💻</span>
+        INFORMATIKA
+        <small>Teknologi & komputer</small>
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- BATTLE -->
+  <div id="battle">
+
+    <div class="battleTop">
+      <span id="battleSubject">BATTLE</span>
+      <span>COMBO: <span class="combo" id="combo">0</span></span>
+    </div>
+
+    <div class="question" id="question">
+      Question...
+    </div>
+
+    <div class="arena">
+
+      <div class="cloud"></div>
+      <div class="cloud c2"></div>
+      <div class="ground"></div>
+
+      <!-- ENEMY -->
+      <div class="monster enemyMonster">
+
+        <div class="hpBox">
+
+          <div class="monsterName" id="enemyName">
+            VOLT
+          </div>
+
+          <div class="hpLine">
+            <div class="hpFill" id="enemyHP"></div>
+          </div>
+
+        </div>
+
+        <span class="monsterEmoji" id="enemyEmoji">⚡</span>
+
+      </div>
+
+
+      <!-- PLAYER -->
+      <div class="monster playerMonster">
+
+        <span class="monsterEmoji" id="playerEmoji">🔥</span>
+
+        <div class="monsterName" id="playerName">
+          FLAMO
+        </div>
+
+        <div class="hpBox">
+
+          <div class="hpLine">
+            <div class="hpFill" id="playerHP"></div>
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="battleMessage" id="battleMessage">
+        A wild monster appeared!
       </div>
 
     </div>
 
-    <section class="hero-panel" style="margin-bottom:18px">
+    <div class="answers" id="answers"></div>
 
-      <div class="hero-label">
-        SELECT TRAINING AREA
-      </div>
+    <div style="margin-top:12px;text-align:center">
 
-      <h2 class="hero-title" style="font-size:32px">
-        PILIH <span>PELAJARAN</span>
-      </h2>
-
-      <p class="hero-text">
-        Pilih pelajaran untuk memulai quiz battle.
-      </p>
-
-    </section>
-
-    <section id="subjectGrid" class="subject-grid"></section>
-
-  </main>
-
-  <!-- =========================
-       BATTLE SCREEN
-  ========================= -->
-
-  <main id="battleScreen" class="battle-screen hidden">
-
-    <div class="battle-header">
-
-      <button id="backSubjectBtn" class="back-btn">
-        ◀ SUBJECTS
+      <button class="pixelBtn"
+              style="min-height:auto;padding:10px;font-size:8px"
+              onclick="backToSubjects()">
+        ← FLEE / SUBJECTS
       </button>
 
-      <div id="battleTitle" class="battle-title">
-        QUIZ BATTLE
-      </div>
+    </div>
 
-      <div id="comboValue" class="combo">
-        COMBO x0
+  </div>
+
+
+  <!-- COLLECTION -->
+  <div id="collection">
+
+    <div class="sectionTitle">
+      <span>MONSTER COLLECTION</span>
+      <button class="pixelBtn"
+              style="min-height:auto;padding:8px;font-size:7px"
+              onclick="backToMenu()">← MENU</button>
+    </div>
+
+    <div class="monsterGrid" id="monsterGrid"></div>
+
+  </div>
+
+
+  <!-- ACHIEVEMENTS -->
+  <div id="achievements">
+
+    <div class="sectionTitle">
+      <span>ACHIEVEMENTS</span>
+      <button class="pixelBtn"
+              style="min-height:auto;padding:8px;font-size:7px"
+              onclick="backToMenu()">← MENU</button>
+    </div>
+
+    <div class="monsterGrid" id="achievementGrid"></div>
+
+  </div>
+
+
+  <!-- PROFILE -->
+  <div id="profile">
+
+    <div class="sectionTitle">
+      <span>PLAYER PROFILE</span>
+      <button class="pixelBtn"
+              style="min-height:auto;padding:8px;font-size:7px"
+              onclick="backToMenu()">← MENU</button>
+    </div>
+
+    <div class="profileBox">
+
+      <p>PLAYER: <span style="color:#7df9ff">REZA</span></p>
+
+      <p>LEVEL: <span id="profileLevel">1</span></p>
+
+      <p>COINS: 🪙 <span id="profileCoins">0</span></p>
+
+      <p>BATTLES: <span id="profileBattles">0</span></p>
+
+      <p>QUESTIONS: <span id="profileQuestions">0</span></p>
+
+      <p>BEST COMBO: <span id="profileCombo">0</span></p>
+
+      <p>MONSTERS: <span id="profileMonsters">0</span></p>
+
+      <hr style="border-color:#303b54">
+
+      <p>EXP PROGRESS</p>
+
+      <div class="xpBar">
+        <div class="xpFill" id="profileXP"></div>
       </div>
 
     </div>
 
-    <section class="arena">
+  </div>
 
-      <div class="battle-monsters">
-
-        <div class="monster-side enemy">
-
-          <div class="monster-name">
-            WILD <span id="enemyName">FLAMO</span>
-          </div>
-
-          <div class="hp-wrap">
-            <div id="enemyHp" class="hp"></div>
-          </div>
-
-          <div id="enemyArt" class="monster-art">
-            🔥
-          </div>
-
-        </div>
-
-        <div class="monster-side player-side">
-
-          <div class="monster-name">
-            PLAYER • <span id="playerMonsterName">VOLT</span>
-          </div>
-
-          <div class="hp-wrap">
-            <div id="playerHp" class="hp"></div>
-          </div>
-
-          <div id="playerArt" class="monster-art">
-            ⚡
-          </div>
-
-        </div>
-
-      </div>
-
-      <div class="question-panel">
-
-        <div id="questionNumber" class="question-number">
-          QUESTION 1
-        </div>
-
-        <div id="questionText" class="question-text">
-          Loading question...
-        </div>
-
-        <div id="answers" class="answers"></div>
-
-        <div id="battleMessage" class="battle-message"></div>
-
-        <div id="rewardText" class="reward"></div>
-
-      </div>
-
-    </section>
-
-  </main>
+</section>
 
 </div>
+</div>
 
-<!-- =========================
-     PROFILE MODAL
-========================= -->
 
-<div id="profileModal" class="modal hidden">
+<!-- LEVEL UP MODAL -->
+<div class="modal" id="levelModal">
 
-  <div class="modal-box">
+  <div class="modalBox">
 
-    <button class="close-btn" data-close="profileModal">
-      X
+    <div class="modalTitle">
+      ★ LEVEL UP! ★
+    </div>
+
+    <div class="modalText" id="levelText">
+      Your level increased!
+    </div>
+
+    <button class="pixelBtn primary"
+            onclick="closeLevelModal()">
+      CONTINUE
     </button>
 
-    <div class="modal-title">
-      PLAYER PROFILE
-    </div>
-
-    <div class="profile">
-
-      <div class="avatar">
-        🎓
-      </div>
-
-      <div>
-
-        <div class="info-line">
-          <span>PLAYER:</span>
-          REZA
-        </div>
-
-        <div class="info-line">
-          <span>LEVEL:</span>
-          <b id="profileLevel">1</b>
-        </div>
-
-        <div class="info-line">
-          <span>EXP:</span>
-          <b id="profileExp">0</b>
-        </div>
-
-        <div class="info-line">
-          <span>COINS:</span>
-          <b id="profileCoins">0</b>
-        </div>
-
-        <div class="info-line">
-          <span>QUESTIONS ANSWERED:</span>
-          <b id="profileQuestions">0</b>
-        </div>
-
-        <div class="info-line">
-          <span>CORRECT:</span>
-          <b id="profileCorrect">0</b>
-        </div>
-
-      </div>
-
-    </div>
-
   </div>
 
 </div>
 
-<!-- =========================
-     COLLECTION MODAL
-========================= -->
-
-<div id="collectionModal" class="modal hidden">
-
-  <div class="modal-box">
-
-    <button class="close-btn" data-close="collectionModal">
-      X
-    </button>
-
-    <div class="modal-title">
-      MONSTER COLLECTION
-    </div>
-
-    <div id="collectionGrid" class="collection-grid"></div>
-
-  </div>
-
-</div>
-
-<!-- =========================
-     ACHIEVEMENT MODAL
-========================= -->
-
-<div id="achievementModal" class="modal hidden">
-
-  <div class="modal-box">
-
-    <button class="close-btn" data-close="achievementModal">
-      X
-    </button>
-
-    <div class="modal-title">
-      ACHIEVEMENTS
-    </div>
-
-    <div id="achievementList"></div>
-
-  </div>
-
-</div>
-
-<!-- =========================
-     LEVEL UP
-========================= -->
-
-<div id="levelUpScreen" class="levelup hidden">
-
-  <div class="levelup-box">
-
-    <h2>LEVEL UP!</h2>
-
-    <p>
-      LEVEL <span id="newLevelValue">2</span>
-    </p>
-
-  </div>
-
-</div>
-
-<div id="toast" class="toast"></div>
 
 <script>
-"use strict";
 
-/* =========================
-   STORAGE
-========================= */
+/* =========================================================
+   REZA V3 — PIXEL MONSTER RPG
+   Original browser game
+========================================================= */
 
-const STORAGE_KEY = "reza_pixel_school_v2";
 
-/* =========================
-   PLAYER
-========================= */
+/* ================= DATA ================= */
 
-const defaultPlayer = {
-  level:1,
-  exp:0,
-  coins:0,
-  questions:0,
-  correct:0,
-  combo:0,
-  monsters:["Volt"]
+const monsters = {
+
+  Volt:{
+    emoji:"⚡",
+    type:"ELECTRIC",
+    desc:"Monster energi yang bergerak sangat cepat.",
+    color:"electric"
+  },
+
+  Flamo:{
+    emoji:"🔥",
+    type:"FIRE",
+    desc:"Monster api kecil dengan semangat besar.",
+    color:"fire"
+  },
+
+  Aqua:{
+    emoji:"💧",
+    type:"WATER",
+    desc:"Monster air yang tenang tetapi kuat.",
+    color:"water"
+  },
+
+  Leafy:{
+    emoji:"🌿",
+    type:"NATURE",
+    desc:"Monster alam penjaga hutan.",
+    color:"nature"
+  },
+
+  Lumio:{
+    emoji:"✨",
+    type:"LIGHT",
+    desc:"Monster cahaya yang membantu trainer.",
+    color:"light"
+  },
+
+  Shadow:{
+    emoji:"🌑",
+    type:"DARK",
+    desc:"Monster malam yang misterius.",
+    color:"dark"
+  }
+
 };
 
-let player = loadPlayer();
-
-function loadPlayer(){
-  try{
-    const saved = localStorage.getItem(STORAGE_KEY);
-
-    if(saved){
-      const parsed = JSON.parse(saved);
-
-      return {
-        ...defaultPlayer,
-        ...parsed,
-        monsters:Array.isArray(parsed.monsters)
-          ? parsed.monsters
-          : ["Volt"]
-      };
-    }
-  }catch(error){
-    console.warn("Storage load failed:",error);
-  }
-
-  return {...defaultPlayer,monsters:["Volt"]};
-}
-
-function savePlayer(){
-  localStorage.setItem(STORAGE_KEY,JSON.stringify(player));
-  updateStats();
-}
-
-/* =========================
-   DOM HELPER
-========================= */
-
-const $ = id => document.getElementById(id);
-
-/* =========================
-   SOUND
-========================= */
-
-let audioContext = null;
-
-function beep(type="click"){
-
-  try{
-
-    if(!audioContext){
-      audioContext =
-        new (window.AudioContext || window.webkitAudioContext)();
-    }
-
-    const oscillator = audioContext.createOscillator();
-    const gain = audioContext.createGain();
-
-    oscillator.connect(gain);
-    gain.connect(audioContext.destination);
-
-    const now = audioContext.currentTime;
-
-    if(type==="correct"){
-      oscillator.frequency.setValueAtTime(520,now);
-      oscillator.frequency.exponentialRampToValueAtTime(880,now+.12);
-    }else if(type==="wrong"){
-      oscillator.frequency.setValueAtTime(180,now);
-      oscillator.frequency.exponentialRampToValueAtTime(90,now+.18);
-    }else if(type==="level"){
-      oscillator.frequency.setValueAtTime(440,now);
-      oscillator.frequency.exponentialRampToValueAtTime(1100,now+.35);
-    }else{
-      oscillator.frequency.setValueAtTime(420,now);
-    }
-
-    oscillator.type="square";
-
-    gain.gain.setValueAtTime(.0001,now);
-    gain.gain.exponentialRampToValueAtTime(.055,now+.01);
-    gain.gain.exponentialRampToValueAtTime(.0001,now+.18);
-
-    oscillator.start(now);
-    oscillator.stop(now+.2);
-
-  }catch(error){
-    // Sound is optional.
-  }
-}
-
-/* =========================
-   BOOT
-========================= */
-
-const bootStatus = $("bootStatus");
-const progressBar = $("progressBar");
-const startButton = $("startButton");
-const bootScreen = $("bootScreen");
-const app = $("app");
-
-let progress = 0;
-
-const bootMessages = [
-  "SYSTEM INITIALIZING...",
-  "LOADING PIXEL SCHOOL...",
-  "CHECKING PLAYER DATA...",
-  "LOADING MONSTER DATABASE...",
-  "PREPARING QUIZ ENGINE...",
-  "SYSTEM READY."
-];
-
-const bootTimer = setInterval(()=>{
-
-  progress += Math.floor(Math.random()*8)+4;
-
-  if(progress > 100){
-    progress = 100;
-  }
-
-  progressBar.style.width = progress + "%";
-
-  const index = Math.min(
-    bootMessages.length-1,
-    Math.floor(progress / 18)
-  );
-
-  bootStatus.textContent = bootMessages[index];
-
-  if(progress >= 100){
-
-    clearInterval(bootTimer);
-
-    setTimeout(()=>{
-      startButton.classList.remove("hidden");
-      beep("click");
-    },300);
-
-  }
-
-},130);
-
-startButton.addEventListener("click",startGame);
-
-bootScreen.addEventListener("click",event=>{
-
-  if(event.target===bootScreen && progress>=100){
-    startGame();
-  }
-
-});
-
-document.addEventListener("keydown",event=>{
-
-  if(event.key==="Enter" && progress>=100){
-    startGame();
-  }
-
-  if(event.key==="Escape"){
-    closeAllModals();
-  }
-
-});
-
-function startGame(){
-
-  if(bootScreen.classList.contains("hidden")){
-    return;
-  }
-
-  beep("click");
-
-  bootScreen.classList.add("hidden");
-  app.classList.remove("hidden");
-
-  updateStats();
-  renderCollection();
-  renderAchievements();
-
-}
-
-/* =========================
-   STATS
-========================= */
-
-function updateStats(){
-
-  $("levelValue").textContent = player.level;
-  $("expValue").textContent = player.exp;
-  $("coinValue").textContent = player.coins;
-
-  $("profileLevel").textContent = player.level;
-  $("profileExp").textContent = player.exp;
-  $("profileCoins").textContent = player.coins;
-  $("profileQuestions").textContent = player.questions;
-  $("profileCorrect").textContent = player.correct;
-}
-
-/* =========================
-   SCREENS
-========================= */
-
-function showScreen(screen){
-
-  $("mainMenu").classList.add("hidden");
-  $("gameScreen").classList.add("hidden");
-  $("battleScreen").classList.add("hidden");
-
-  screen.classList.remove("hidden");
-
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
-
-}
-
-/* =========================
-   MENU BUTTONS
-========================= */
-
-$("startAdventureBtn").addEventListener("click",()=>{
-
-  beep("click");
-  renderSubjects();
-  showScreen($("gameScreen"));
-
-});
-
-$("backMenuBtn").addEventListener("click",()=>{
-
-  beep("click");
-  showScreen($("mainMenu"));
-
-});
-
-$("profileBtn").addEventListener("click",()=>{
-
-  beep("click");
-  updateStats();
-  $("profileModal").classList.remove("hidden");
-
-});
-
-$("collectionBtn").addEventListener("click",()=>{
-
-  beep("click");
-  renderCollection();
-  $("collectionModal").classList.remove("hidden");
-
-});
-
-$("achievementBtn").addEventListener("click",()=>{
-
-  beep("click");
-  renderAchievements();
-  $("achievementModal").classList.remove("hidden");
-
-});
-
-$("resetBtn").addEventListener("click",()=>{
-
-  const yes = confirm(
-    "Reset semua progress REZA?\n\nLevel, EXP, coins dan collection akan kembali ke awal."
-  );
-
-  if(!yes){
-    return;
-  }
-
-  player = {
-    ...defaultPlayer,
-    monsters:["Volt"]
-  };
-
-  savePlayer();
-
-  renderCollection();
-  renderAchievements();
-
-  showToast("DATA REZA BERHASIL DI-RESET");
-
-  beep("wrong");
-
-});
-
-/* =========================
-   CLOSE MODALS
-========================= */
-
-document.querySelectorAll("[data-close]").forEach(button=>{
-
-  button.addEventListener("click",()=>{
-
-    const id = button.dataset.close;
-
-    $(id).classList.add("hidden");
-
-  });
-
-});
-
-document.querySelectorAll(".modal").forEach(modal=>{
-
-  modal.addEventListener("click",event=>{
-
-    if(event.target===modal){
-      modal.classList.add("hidden");
-    }
-
-  });
-
-});
-
-function closeAllModals(){
-
-  document.querySelectorAll(".modal").forEach(modal=>{
-    modal.classList.add("hidden");
-  });
-
-}
-
-/* =========================
-   SUBJECTS
-========================= */
-
-const subjects = [
-  {
-    id:"matematika",
-    name:"Matematika",
-    icon:"➗",
-    desc:"Angka, operasi, pecahan dan logika."
-  },
-  {
-    id:"ipa",
-    name:"IPA",
-    icon:"🔬",
-    desc:"Sains, tubuh, energi dan alam."
-  },
-  {
-    id:"ips",
-    name:"IPS",
-    icon:"🌍",
-    desc:"Geografi, ekonomi dan kehidupan sosial."
-  },
-  {
-    id:"bahasa",
-    name:"Bahasa Indonesia",
-    icon:"📖",
-    desc:"Teks, kata, kalimat dan bahasa."
-  },
-  {
-    id:"english",
-    name:"English",
-    icon:"🇺🇸",
-    desc:"Vocabulary dan basic English."
-  },
-  {
-    id:"informatika",
-    name:"Informatika",
-    icon:"💻",
-    desc:"Komputer, internet dan teknologi."
-  }
-];
-
-function renderSubjects(){
-
-  const grid = $("subjectGrid");
-
-  grid.innerHTML = "";
-
-  subjects.forEach(subject=>{
-
-    const card = document.createElement("button");
-
-    card.className = "subject-card";
-
-    card.innerHTML = `
-      <div class="subject-icon">${subject.icon}</div>
-      <div class="subject-name">${subject.name}</div>
-      <div class="subject-desc">${subject.desc}</div>
-    `;
-
-    card.addEventListener("click",()=>{
-
-      beep("click");
-      startBattle(subject.id);
-
-    });
-
-    grid.appendChild(card);
-
-  });
-
-}
-
-/* =========================
-   QUESTIONS
-========================= */
 
 const questions = {
 
-  matematika:[
+  "Matematika":[
     {
-      q:"Berapakah hasil dari 12 × 8?",
-      a:["86","96","108","112"],
+      q:"Berapakah 12 × 8?",
+      a:["86","96","108","88"],
       c:1
     },
     {
-      q:"Berapakah hasil dari 144 ÷ 12?",
+      q:"Berapakah 144 ÷ 12?",
       a:["10","11","12","14"],
       c:2
     },
     {
-      q:"Jika x + 7 = 15, maka x = ...",
+      q:"Jika x + 7 = 15, maka x = ?",
       a:["6","7","8","9"],
       c:2
     },
     {
-      q:"Berapakah 25% dari 200?",
-      a:["25","40","50","75"],
-      c:2
-    },
-    {
-      q:"Hasil dari 3² + 4² adalah...",
-      a:["12","20","25","49"],
+      q:"Luas persegi dengan sisi 6 cm adalah...",
+      a:["12 cm²","24 cm²","36 cm²","42 cm²"],
       c:2
     }
   ],
 
-  ipa:[
+  "IPA":[
     {
-      q:"Organ tubuh yang memompa darah adalah...",
+      q:"Organ yang memompa darah adalah...",
       a:["Paru-paru","Jantung","Lambung","Ginjal"],
       c:1
     },
     {
       q:"Tumbuhan membuat makanan melalui proses...",
-      a:["Respirasi","Fotosintesis","Evaporasi","Fermentasi"],
+      a:["Respirasi","Fotosintesis","Evaporasi","Filtrasi"],
       c:1
-    },
-    {
-      q:"Satuan SI untuk gaya adalah...",
-      a:["Joule","Watt","Newton","Pascal"],
-      c:2
     },
     {
       q:"Planet yang dikenal sebagai Planet Merah adalah...",
-      a:["Venus","Mars","Jupiter","Merkurius"],
+      a:["Venus","Mars","Jupiter","Saturnus"],
       c:1
     },
     {
-      q:"Air mendidih pada tekanan normal pada suhu...",
-      a:["50°C","75°C","100°C","150°C"],
-      c:2
+      q:"Air membeku pada suhu...",
+      a:["0°C","10°C","50°C","100°C"],
+      c:0
     }
   ],
 
-  ips:[
+  "IPS":[
     {
-      q:"Ibu kota Indonesia saat ini adalah...",
-      a:["Bandung","Jakarta","Surabaya","Medan"],
-      c:1
+      q:"Indonesia berada di benua...",
+      a:["Asia","Eropa","Afrika","Australia"],
+      c:0
     },
     {
       q:"Kegiatan menjual barang ke luar negeri disebut...",
@@ -1853,86 +1125,51 @@ const questions = {
       c:1
     },
     {
-      q:"Peta digunakan terutama untuk menunjukkan...",
-      a:["Lokasi dan wilayah","Rasa makanan","Suara","Suhu tubuh"],
-      c:0
-    },
-    {
-      q:"Kegiatan menggunakan barang atau jasa disebut...",
-      a:["Produksi","Distribusi","Konsumsi","Investasi"],
-      c:2
-    },
-    {
-      q:"Garis khatulistiwa melewati wilayah...",
-      a:["Indonesia","Jepang","Inggris","Mesir"],
-      c:0
+      q:"Ibu kota Indonesia pada masa sebelum perpindahan ke Nusantara adalah...",
+      a:["Bandung","Jakarta","Surabaya","Medan"],
+      c:1
     }
   ],
 
-  bahasa:[
+  "Bahasa Indonesia":[
     {
-      q:"Lawan kata dari 'besar' adalah...",
-      a:["Tinggi","Kecil","Panjang","Lebar"],
+      q:"Lawan kata 'besar' adalah...",
+      a:["tinggi","kecil","panjang","lebar"],
       c:1
     },
     {
-      q:"Kalimat tanya biasanya diakhiri dengan tanda...",
-      a:[".","!", "?", ":"],
-      c:2
-    },
-    {
-      q:"Kata 'berlari' termasuk jenis kata...",
-      a:["Kata kerja","Kata benda","Kata sifat","Kata bilangan"],
-      c:0
+      q:"Kalimat yang digunakan untuk bertanya disebut...",
+      a:["Kalimat berita","Kalimat tanya","Kalimat perintah","Kalimat seru"],
+      c:1
     },
     {
       q:"Sinonim dari kata 'cerdas' adalah...",
-      a:["Malas","Pandai","Lambat","Lemah"],
-      c:1
-    },
-    {
-      q:"Paragraf yang ide pokoknya berada di awal disebut...",
-      a:["Induktif","Deduktif","Campuran","Naratif"],
+      a:["malas","pandai","lambat","lemah"],
       c:1
     }
   ],
 
-  english:[
+  "English":[
     {
       q:"What is the meaning of 'book'?",
-      a:["Buku","Meja","Rumah","Pintu"],
-      c:0
+      a:["Meja","Buku","Pensil","Tas"],
+      c:1
     },
     {
-      q:"Choose the correct sentence.",
-      a:[
-        "She are happy.",
-        "She is happy.",
-        "She am happy.",
-        "She be happy."
-      ],
-      c:1
+      q:"'Good morning' means...",
+      a:["Selamat malam","Selamat siang","Selamat pagi","Sampai jumpa"],
+      c:2
     },
     {
       q:"The opposite of 'hot' is...",
-      a:["Warm","Cold","Big","Fast"],
-      c:1
-    },
-    {
-      q:"'Apple' means...",
-      a:["Jeruk","Apel","Mangga","Pisang"],
-      c:1
-    },
-    {
-      q:"What is the plural of 'child'?",
-      a:["Childs","Childes","Children","Child"],
-      c:2
+      a:["Cold","Fast","Big","Tall"],
+      c:0
     }
   ],
 
-  informatika:[
+  "Informatika":[
     {
-      q:"CPU adalah singkatan dari...",
+      q:"CPU merupakan singkatan dari...",
       a:[
         "Central Processing Unit",
         "Computer Personal Unit",
@@ -1946,328 +1183,594 @@ const questions = {
       a:[
         "Membuat struktur halaman web",
         "Mengedit video",
-        "Menggambar 3D",
-        "Menghapus virus"
+        "Mengolah suara",
+        "Menggambar 3D"
       ],
       c:0
     },
     {
-      q:"Contoh sistem operasi adalah...",
-      a:["Windows","HTML","Google","Wi-Fi"],
-      c:0
-    },
-    {
-      q:"Keyboard termasuk perangkat...",
-      a:["Input","Output","Storage","Network"],
-      c:0
-    },
-    {
-      q:"Internet adalah jaringan komputer yang bersifat...",
-      a:["Lokal saja","Global","Offline","Pribadi saja"],
+      q:"Perangkat untuk memasukkan teks ke komputer adalah...",
+      a:["Monitor","Keyboard","Speaker","Printer"],
       c:1
     }
   ]
 
 };
 
-/* =========================
-   MONSTERS
-========================= */
 
-const monsters = [
+/* ================= SAVE ================= */
 
-  {
-    name:"Volt",
-    art:"⚡",
-    type:"Electric",
-    desc:"Monster energi listrik."
-  },
+const SAVE_KEY = "reza_pixel_school_v3";
 
-  {
-    name:"Flamo",
-    art:"🔥",
-    type:"Fire",
-    desc:"Monster api pemberani."
-  },
+let player = {
 
-  {
-    name:"Aqua",
-    art:"💧",
-    type:"Water",
-    desc:"Monster air yang tenang."
-  },
+  level:1,
+  exp:0,
+  coins:0,
 
-  {
-    name:"Leafy",
-    art:"🌿",
-    type:"Nature",
-    desc:"Monster energi alam."
-  },
+  battles:0,
+  questions:0,
+  bestCombo:0,
 
-  {
-    name:"Lumio",
-    art:"✨",
-    type:"Light",
-    desc:"Monster cahaya."
-  },
+  combo:0,
 
-  {
-    name:"Shadow",
-    art:"🌑",
-    type:"Dark",
-    desc:"Monster bayangan misterius."
+  collection:["Flamo"],
+
+  achievements:[]
+
+};
+
+
+/* ================= AUDIO ================= */
+
+let soundOn = true;
+let audioCtx = null;
+
+
+function initAudio(){
+
+  if(!audioCtx){
+
+    const AC =
+      window.AudioContext ||
+      window.webkitAudioContext;
+
+    if(AC){
+      audioCtx = new AC();
+    }
+
   }
 
-];
+}
 
-/* =========================
-   BATTLE STATE
-========================= */
 
-let currentSubject = null;
-let currentQuestions = [];
-let currentQuestionIndex = 0;
-let currentEnemy = null;
-let enemyHP = 100;
-let playerHP = 100;
-let answerLocked = false;
+function tone(freq,duration,type="square",volume=.04){
 
-/* =========================
-   START BATTLE
-========================= */
+  if(!soundOn) return;
 
-function startBattle(subjectId){
+  initAudio();
 
-  currentSubject = subjects.find(s=>s.id===subjectId);
+  if(!audioCtx) return;
 
-  currentQuestions = shuffle([
-    ...questions[subjectId]
-  ]);
+  if(audioCtx.state === "suspended"){
+    audioCtx.resume();
+  }
 
-  currentQuestionIndex = 0;
-  playerHP = 100;
-  enemyHP = 100;
-  player.combo = 0;
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
 
-  currentEnemy =
-    monsters[
-      Math.floor(Math.random()*monsters.length)
-    ];
+  osc.type = type;
+  osc.frequency.value = freq;
 
-  $("battleTitle").textContent =
-    currentSubject.name.toUpperCase()+" BATTLE";
+  gain.gain.setValueAtTime(volume,audioCtx.currentTime);
 
-  $("enemyName").textContent =
-    currentEnemy.name.toUpperCase();
+  gain.gain.exponentialRampToValueAtTime(
+    .001,
+    audioCtx.currentTime + duration
+  );
 
-  $("enemyArt").textContent =
-    currentEnemy.art;
+  osc.connect(gain);
+  gain.connect(audioCtx.destination);
 
-  $("playerMonsterName").textContent =
-    player.monsters[0].toUpperCase();
+  osc.start();
+  osc.stop(audioCtx.currentTime + duration);
+}
+
+
+function soundClick(){
+
+  tone(500,.06);
+  setTimeout(()=>tone(760,.07),50);
+
+}
+
+
+function soundCorrect(){
+
+  tone(520,.08);
+  setTimeout(()=>tone(680,.08),80);
+  setTimeout(()=>tone(900,.14),160);
+
+}
+
+
+function soundWrong(){
+
+  tone(180,.16,"sawtooth");
+  setTimeout(()=>tone(120,.2,"sawtooth"),130);
+
+}
+
+
+function soundLevel(){
+
+  tone(440,.08);
+  setTimeout(()=>tone(660,.08),90);
+  setTimeout(()=>tone(880,.08),180);
+  setTimeout(()=>tone(1100,.2),270);
+
+}
+
+
+function soundBattle(){
+
+  tone(240,.07);
+  setTimeout(()=>tone(320,.07),80);
+  setTimeout(()=>tone(420,.1),160);
+
+}
+
+
+function soundWin(){
+
+  [523,659,784,1046].forEach((f,i)=>{
+    setTimeout(()=>tone(f,.12),i*100);
+  });
+
+}
+
+
+function toggleSound(){
+
+  soundOn=!soundOn;
+
+  document.getElementById("soundBtn").textContent =
+    soundOn ? "🔊 SOUND" : "🔇 MUTED";
+
+  if(soundOn){
+    initAudio();
+    soundClick();
+  }
+
+}
+
+
+/* ================= SAVE SYSTEM ================= */
+
+function save(){
+
+  localStorage.setItem(
+    SAVE_KEY,
+    JSON.stringify(player)
+  );
+
+}
+
+
+function load(){
+
+  try{
+
+    const saved =
+      localStorage.getItem(SAVE_KEY);
+
+    if(saved){
+
+      const data=JSON.parse(saved);
+
+      player={
+        ...player,
+        ...data
+      };
+
+    }
+
+  }catch(e){
+
+    console.log("Save load error");
+
+  }
+
+}
+
+
+/* ================= UI ================= */
+
+const boot =
+  document.getElementById("boot");
+
+const game =
+  document.getElementById("game");
+
+const menu =
+  document.getElementById("menu");
+
+const subjects =
+  document.getElementById("subjects");
+
+const battle =
+  document.getElementById("battle");
+
+const collection =
+  document.getElementById("collection");
+
+const achievements =
+  document.getElementById("achievements");
+
+const profile =
+  document.getElementById("profile");
+
+
+function hideScreens(){
+
+  menu.style.display="none";
+  subjects.style.display="none";
+  battle.style.display="none";
+  collection.style.display="none";
+  achievements.style.display="none";
+  profile.style.display="none";
+
+}
+
+
+function updateStats(){
+
+  document.getElementById("level").textContent =
+    player.level;
+
+  document.getElementById("exp").textContent =
+    player.exp;
+
+  document.getElementById("coins").textContent =
+    player.coins;
+
+}
+
+
+/* ================= BOOT ================= */
+
+let loadProgress=0;
+
+const loadingFill =
+  document.getElementById("loadingFill");
+
+const bootStatus =
+  document.getElementById("bootStatus");
+
+const pressStart =
+  document.getElementById("pressStart");
+
+
+const bootTimer=setInterval(()=>{
+
+  loadProgress += Math.floor(Math.random()*15)+8;
+
+  if(loadProgress>100)
+    loadProgress=100;
+
+  loadingFill.style.width =
+    loadProgress+"%";
+
+  const messages=[
+    "LOADING PIXEL ENGINE...",
+    "INITIALIZING MONSTER DATABASE...",
+    "LOADING SCHOOL WORLD...",
+    "PREPARING BATTLE SYSTEM...",
+    "CHECKING SAVE DATA...",
+    "READY!"
+  ];
+
+  bootStatus.textContent =
+    messages[Math.min(
+      messages.length-1,
+      Math.floor(loadProgress/20)
+    )];
+
+  if(loadProgress>=100){
+
+    clearInterval(bootTimer);
+
+    pressStart.style.display="block";
+
+    tone(660,.08);
+    setTimeout(()=>tone(880,.12),100);
+
+  }
+
+},180);
+
+
+pressStart.addEventListener("click",()=>{
+  startGame();
+});
+
+
+boot.addEventListener("click",()=>{
+  if(loadProgress>=100){
+    startGame();
+  }
+});
+
+
+function startGame(){
+
+  initAudio();
+  soundClick();
+
+  boot.style.display="none";
+  game.style.display="block";
+
+  hideScreens();
+
+  menu.style.display="block";
+
+  updateStats();
+
+}
+
+
+/* ================= MENU ================= */
+
+function backToMenu(){
+
+  soundClick();
+
+  hideScreens();
+
+  menu.style.display="block";
+
+  updateStats();
+
+}
+
+
+function startAdventure(){
+
+  soundClick();
+
+  hideScreens();
+
+  subjects.style.display="block";
+
+}
+
+
+function backToSubjects(){
+
+  soundClick();
+
+  hideScreens();
+
+  subjects.style.display="block";
+
+}
+
+
+/* ================= BATTLE ================= */
+
+let currentSubject="";
+let currentQuestions=[];
+let questionIndex=0;
+let enemy=null;
+let enemyHP=100;
+let playerHP=100;
+let answered=false;
+
+
+function startBattle(subject){
+
+  soundBattle();
+
+  currentSubject=subject;
+
+  currentQuestions =
+    [...questions[subject]]
+      .sort(()=>Math.random()-.5);
+
+  questionIndex=0;
+
+  playerHP=100;
+
+  enemyHP=100;
+
+  enemy=
+    Object.keys(monsters)
+      [Math.floor(Math.random()*Object.keys(monsters).length)];
+
+  document.getElementById("battleSubject")
+    .textContent=subject.toUpperCase();
+
+  document.getElementById("enemyName")
+    .textContent=enemy.toUpperCase();
+
+  document.getElementById("enemyEmoji")
+    .textContent=monsters[enemy].emoji;
 
   const playerMonster =
-    monsters.find(m=>m.name===player.monsters[0])
-    || monsters[0];
+    player.collection[
+      Math.floor(
+        Math.random()*player.collection.length
+      )
+    ];
 
-  $("playerArt").textContent =
-    playerMonster.art;
+  document.getElementById("playerName")
+    .textContent=playerMonster.toUpperCase();
 
-  updateBattleBars();
-  showScreen($("battleScreen"));
-  renderQuestion();
+  document.getElementById("playerEmoji")
+    .textContent=monsters[playerMonster].emoji;
+
+  hideScreens();
+
+  battle.style.display="block";
+
+  player.combo=0;
+
+  nextQuestion();
 
 }
 
-/* =========================
-   QUESTION
-========================= */
 
-function renderQuestion(){
+function nextQuestion(){
 
-  if(currentQuestionIndex >= currentQuestions.length){
+  if(questionIndex>=currentQuestions.length){
 
-    finishBattle();
+    winBattle();
+
     return;
 
   }
 
-  const question =
-    currentQuestions[currentQuestionIndex];
+  answered=false;
 
-  answerLocked = false;
+  const item =
+    currentQuestions[questionIndex];
 
-  $("questionNumber").textContent =
-    `QUESTION ${currentQuestionIndex+1}/${currentQuestions.length}`;
+  document.getElementById("question")
+    .textContent=item.q;
 
-  $("questionText").textContent =
-    question.q;
+  document.getElementById("battleMessage")
+    .textContent=
+      "Jawab dengan benar untuk menyerang monster!";
 
-  $("battleMessage").textContent =
-    "Pilih jawaban yang benar untuk menyerang!";
+  document.getElementById("combo")
+    .textContent=player.combo;
 
-  $("rewardText").textContent = "";
+  renderAnswers(item);
 
-  $("comboValue").textContent =
-    `COMBO x${player.combo}`;
+}
 
-  const answers = $("answers");
 
-  answers.innerHTML = "";
+function renderAnswers(item){
 
-  question.a.forEach((answer,index)=>{
+  const box =
+    document.getElementById("answers");
 
-    const button = document.createElement("button");
+  box.innerHTML="";
 
-    button.className = "answer-btn";
+  item.a.forEach((answer,index)=>{
 
-    button.textContent =
+    const btn =
+      document.createElement("button");
+
+    btn.className="answerBtn";
+
+    btn.textContent=
       String.fromCharCode(65+index)+". "+answer;
 
-    button.addEventListener("click",()=>{
+    btn.onclick=()=>answerQuestion(index,btn);
 
-      answerQuestion(index,button);
-
-    });
-
-    answers.appendChild(button);
+    box.appendChild(btn);
 
   });
 
 }
 
-/* =========================
-   ANSWER
-========================= */
 
-function answerQuestion(selected,clickedButton){
+function answerQuestion(index,button){
 
-  if(answerLocked){
-    return;
-  }
+  if(answered) return;
 
-  answerLocked = true;
+  answered=true;
 
-  const question =
-    currentQuestions[currentQuestionIndex];
-
-  const buttons =
-    document.querySelectorAll(".answer-btn");
-
-  buttons.forEach(button=>{
-    button.disabled = true;
-  });
+  const item =
+    currentQuestions[questionIndex];
 
   player.questions++;
 
-  if(selected === question.c){
+  const buttons =
+    document.querySelectorAll(".answerBtn");
 
-    clickedButton.classList.add("correct");
+  buttons.forEach(b=>{
+    b.disabled=true;
+  });
 
-    player.correct++;
+  if(index===item.c){
+
+    button.classList.add("correct");
+
     player.combo++;
 
-    const damage =
-      Math.min(
-        35,
-        18 + player.combo*3
+    player.bestCombo=
+      Math.max(
+        player.bestCombo,
+        player.combo
       );
 
-    enemyHP =
-      Math.max(0,enemyHP-damage);
+    enemyHP=Math.max(0,enemyHP-34);
 
-    const earnedExp =
-      50 + Math.min(50,player.combo*10);
+    updateHP();
 
-    const earnedCoins =
-      10 + player.combo*2;
+    const gained =
+      50+(player.combo*10);
 
-    player.exp += earnedExp;
-    player.coins += earnedCoins;
+    player.exp+=gained;
 
-    $("battleMessage").textContent =
-      `✓ CORRECT! VOLT menyerang ${damage} DMG!`;
+    player.coins+=10;
 
-    $("rewardText").textContent =
-      `+${earnedExp} EXP   +${earnedCoins} COINS`;
+    document.getElementById("battleMessage")
+      .textContent=
+        "SUPER! Jawaban benar! Serangan berhasil! +" +
+        gained+" EXP";
 
-    beep("correct");
-    showFloatingReward(`+${earnedExp} EXP`);
+    soundCorrect();
 
-    checkMonsterUnlock();
+    checkAchievements();
 
-    updateStats();
-    savePlayer();
-    updateBattleBars();
+    checkLevel();
+
+    save();
 
     if(enemyHP<=0){
 
-      setTimeout(finishBattle,650);
+      setTimeout(winBattle,700);
 
     }else{
 
-      setTimeout(()=>{
+      questionIndex++;
 
-        currentQuestionIndex++;
-        renderQuestion();
-
-      },900);
+      setTimeout(nextQuestion,850);
 
     }
 
   }else{
 
-    clickedButton.classList.add("wrong");
+    button.classList.add("wrong");
 
-    buttons[question.c].classList.add("correct");
+    player.combo=0;
 
-    player.combo = 0;
+    playerHP=Math.max(0,playerHP-25);
 
-    playerHP =
-      Math.max(0,playerHP-20);
+    updateHP();
 
-    $("battleMessage").textContent =
-      "✗ SALAH! Jawaban yang benar ditandai hijau.";
+    soundWrong();
 
-    $("rewardText").textContent =
-      "HP PLAYER -20";
+    document.getElementById("battleMessage")
+      .textContent=
+        "MISS! Monster menyerang balik!";
 
-    beep("wrong");
+    buttons[item.c].classList.add("correct");
 
-    updateStats();
-    savePlayer();
-    updateBattleBars();
+    save();
 
     if(playerHP<=0){
 
-      setTimeout(()=>{
-
-        $("battleMessage").textContent =
-          "💥 PLAYER KALAH! Coba lagi.";
-
-        setTimeout(()=>{
-
-          playerHP=100;
-          enemyHP=100;
-          player.combo=0;
-
-          currentQuestionIndex++;
-
-          updateBattleBars();
-          renderQuestion();
-
-        },1200);
-
-      },600);
+      setTimeout(loseBattle,900);
 
     }else{
 
-      setTimeout(()=>{
+      questionIndex++;
 
-        currentQuestionIndex++;
-        renderQuestion();
-
-      },1200);
+      setTimeout(nextQuestion,1000);
 
     }
 
@@ -2275,177 +1778,378 @@ function answerQuestion(selected,clickedButton){
 
 }
 
-/* =========================
-   BATTLE BARS
-========================= */
 
-function updateBattleBars(){
+function updateHP(){
 
-  $("enemyHp").style.width =
-    enemyHP+"%";
+  document.getElementById("enemyHP")
+    .style.width=enemyHP+"%";
 
-  $("playerHp").style.width =
-    playerHP+"%";
-
-  $("comboValue").textContent =
-    `COMBO x${player.combo}`;
+  document.getElementById("playerHP")
+    .style.width=playerHP+"%";
 
 }
 
-/* =========================
-   FINISH
-========================= */
 
-function finishBattle(){
+/* ================= WIN / LOSE ================= */
 
-  player.combo=0;
+function winBattle(){
 
-  savePlayer();
+  player.battles++;
 
-  $("rewardText").textContent =
-    "BATTLE COMPLETE!";
+  player.coins+=30;
 
-  checkLevelUp();
+  const gained=100;
 
-  showToast(
-    `PELAJARAN ${currentSubject.name.toUpperCase()} SELESAI!`
-  );
+  player.exp+=gained;
+
+  soundWin();
+
+  checkAchievements();
+
+  checkLevel();
+
+  maybeUnlockMonster();
+
+  save();
+
+  updateStats();
+
+  document.getElementById("battleMessage")
+    .textContent=
+      "VICTORY! Kamu memenangkan battle! +" +
+      gained+" EXP +30 COINS";
 
   setTimeout(()=>{
 
-    playerHP=100;
-    enemyHP=100;
+    if(confirm(
+      "VICTORY!\n\n" +
+      "Monster berhasil dikalahkan.\n\n" +
+      "Main lagi?"
+    )){
 
-    updateBattleBars();
+      backToSubjects();
 
-    renderQuestion();
+    }else{
+
+      backToMenu();
+
+    }
+
+  },600);
+
+}
+
+
+function loseBattle(){
+
+  soundWrong();
+
+  document.getElementById("battleMessage")
+    .textContent=
+      "Kamu kalah... tapi jangan menyerah!";
+
+  player.coins=
+    Math.max(0,player.coins-5);
+
+  save();
+
+  setTimeout(()=>{
+
+    alert(
+      "BATTLE OVER!\n\n" +
+      "Tidak apa-apa, Bos! Coba lagi."
+    );
+
+    backToSubjects();
 
   },700);
 
 }
 
-/* =========================
-   LEVEL SYSTEM
-========================= */
 
-function checkLevelUp(){
+/* ================= LEVEL ================= */
+
+function requiredEXP(){
+
+  return player.level*300;
+
+}
+
+
+function checkLevel(){
 
   let leveled=false;
 
-  while(true){
+  while(player.exp>=requiredEXP()){
 
-    const required =
-      player.level * 300;
+    player.exp-=requiredEXP();
 
-    if(player.exp < required){
-      break;
-    }
-
-    player.exp -= required;
     player.level++;
+
     leveled=true;
 
   }
 
   if(leveled){
 
-    $("newLevelValue").textContent =
-      player.level;
+    soundLevel();
 
-    $("levelUpScreen").classList.remove("hidden");
+    document.getElementById("levelText")
+      .textContent=
+        "LEVEL UP!\n\n" +
+        "Sekarang kamu Level " +
+        player.level+"!";
 
-    beep("level");
-
-    setTimeout(()=>{
-
-      $("levelUpScreen").classList.add("hidden");
-
-    },1700);
-
-    showToast(
-      `LEVEL UP! SEKARANG LEVEL ${player.level}`
-    );
+    document.getElementById("levelModal")
+      .style.display="flex";
 
   }
 
-  savePlayer();
-  renderAchievements();
+  updateStats();
 
 }
 
-/* =========================
-   MONSTER UNLOCK
-========================= */
 
-function checkMonsterUnlock(){
+function closeLevelModal(){
 
-  const milestones = [
+  document.getElementById("levelModal")
+    .style.display="none";
 
-    {count:5,name:"Flamo"},
-    {count:10,name:"Aqua"},
-    {count:20,name:"Leafy"},
-    {count:35,name:"Lumio"},
-    {count:50,name:"Shadow"}
+  soundClick();
 
-  ];
+}
 
-  milestones.forEach(item=>{
 
-    if(
-      player.correct >= item.count &&
-      !player.monsters.includes(item.name)
-    ){
+/* ================= UNLOCK ================= */
 
-      player.monsters.push(item.name);
+function maybeUnlockMonster(){
 
-      showToast(
-        `NEW MONSTER UNLOCKED: ${item.name}!`
+  const available =
+    Object.keys(monsters)
+      .filter(m=>!player.collection.includes(m));
+
+  if(!available.length) return;
+
+  if(
+    player.level>=2 ||
+    player.battles>=2
+  ){
+
+    const unlocked =
+      available[
+        Math.floor(Math.random()*available.length)
+      ];
+
+    player.collection.push(unlocked);
+
+    setTimeout(()=>{
+
+      alert(
+        "✨ MONSTER BARU!\n\n" +
+        unlocked+
+        " bergabung ke koleksimu!"
       );
 
-    }
+      soundLevel();
 
-  });
+      save();
+
+    },900);
+
+  }
 
 }
 
-/* =========================
-   COLLECTION
-========================= */
+
+/* ================= COLLECTION ================= */
+
+function showCollection(){
+
+  soundClick();
+
+  hideScreens();
+
+  collection.style.display="block";
+
+  renderCollection();
+
+}
+
 
 function renderCollection(){
 
   const grid =
-    $("collectionGrid");
+    document.getElementById("monsterGrid");
 
-  grid.innerHTML = "";
+  grid.innerHTML="";
 
-  monsters.forEach(monster=>{
+  Object.entries(monsters)
+    .forEach(([name,data])=>{
+
+      const unlocked =
+        player.collection.includes(name);
+
+      const card =
+        document.createElement("div");
+
+      card.className=
+        "monsterCard "+
+        (unlocked ? "" : "locked");
+
+      card.innerHTML=`
+
+        <div class="big">
+          ${unlocked ? data.emoji : "?"}
+        </div>
+
+        <h3>
+          ${unlocked ? name.toUpperCase() : "UNKNOWN"}
+        </h3>
+
+        <p>
+          ${unlocked
+            ? data.type+"<br>"+data.desc
+            : "Belum ditemukan."}
+        </p>
+
+      `;
+
+      grid.appendChild(card);
+
+    });
+
+}
+
+
+/* ================= ACHIEVEMENTS ================= */
+
+const achievementList=[
+
+  {
+    id:"first",
+    title:"FIRST BATTLE",
+    desc:"Selesaikan battle pertama."
+  },
+
+  {
+    id:"five",
+    title:"STUDENT WARRIOR",
+    desc:"Jawab 5 soal."
+  },
+
+  {
+    id:"combo3",
+    title:"COMBO MASTER",
+    desc:"Dapatkan combo 3."
+  },
+
+  {
+    id:"level3",
+    title:"LEVEL UP!",
+    desc:"Capai level 3."
+  },
+
+  {
+    id:"collector",
+    title:"MONSTER TRAINER",
+    desc:"Koleksi 4 monster."
+  }
+
+];
+
+
+function checkAchievements(){
+
+  const unlock=(id)=>{
+
+    if(!player.achievements.includes(id)){
+
+      player.achievements.push(id);
+
+      setTimeout(()=>{
+
+        alert(
+          "🏆 ACHIEVEMENT UNLOCKED!\n\n"+
+          achievementList
+            .find(a=>a.id===id)
+            .title
+        );
+
+        tone(700,.1);
+        setTimeout(()=>tone(1000,.2),120);
+
+      },400);
+
+    }
+
+  };
+
+
+  if(player.battles>=1)
+    unlock("first");
+
+  if(player.questions>=5)
+    unlock("five");
+
+  if(player.bestCombo>=3)
+    unlock("combo3");
+
+  if(player.level>=3)
+    unlock("level3");
+
+  if(player.collection.length>=4)
+    unlock("collector");
+
+  save();
+
+}
+
+
+function showAchievements(){
+
+  soundClick();
+
+  hideScreens();
+
+  achievements.style.display="block";
+
+  renderAchievements();
+
+}
+
+
+function renderAchievements(){
+
+  const grid =
+    document.getElementById("achievementGrid");
+
+  grid.innerHTML="";
+
+  achievementList.forEach(a=>{
 
     const unlocked =
-      player.monsters.includes(monster.name);
+      player.achievements.includes(a.id);
 
     const card =
       document.createElement("div");
 
-    card.className =
-      "monster-card "+
-      (unlocked ? "unlocked":"locked");
+    card.className=
+      "monsterCard "+
+      (unlocked ? "" : "locked");
 
-    card.innerHTML = `
+    card.innerHTML=`
 
-      <div class="m-art">
-        ${unlocked ? monster.art : "❓"}
+      <div class="big">
+        ${unlocked ? "🏆" : "🔒"}
       </div>
 
-      <strong>
-        ${unlocked ? monster.name : "LOCKED"}
-      </strong>
+      <h3>
+        ${a.title}
+      </h3>
 
-      <small>
-        ${unlocked
-          ? monster.type+" • "+monster.desc
-          : "Terus belajar untuk membuka."}
-      </small>
+      <p>
+        ${a.desc}
+      </p>
 
     `;
 
@@ -2455,187 +2159,120 @@ function renderCollection(){
 
 }
 
-/* =========================
-   ACHIEVEMENTS
-========================= */
 
-const achievementData = [
+/* ================= PROFILE ================= */
 
-  {
-    icon:"🌱",
-    name:"First Step",
-    desc:"Jawab 1 soal dengan benar.",
-    check:()=>player.correct>=1
-  },
+function showProfile(){
 
-  {
-    icon:"🔥",
-    name:"Quiz Fighter",
-    desc:"Jawab 10 soal dengan benar.",
-    check:()=>player.correct>=10
-  },
+  soundClick();
 
-  {
-    icon:"⚡",
-    name:"Speed Learner",
-    desc:"Capai Level 3.",
-    check:()=>player.level>=3
-  },
+  hideScreens();
 
-  {
-    icon:"👾",
-    name:"Monster Trainer",
-    desc:"Buka minimal 3 monster.",
-    check:()=>player.monsters.length>=3
-  },
+  profile.style.display="block";
 
-  {
-    icon:"🏆",
-    name:"Pixel Scholar",
-    desc:"Jawab 50 soal dengan benar.",
-    check:()=>player.correct>=50
-  }
-
-];
-
-function renderAchievements(){
-
-  const list =
-    $("achievementList");
-
-  list.innerHTML = "";
-
-  achievementData.forEach(item=>{
-
-    const done =
-      item.check();
-
-    const element =
-      document.createElement("div");
-
-    element.className =
-      "achievement "+
-      (done ? "done":"");
-
-    element.innerHTML = `
-
-      <div class="achievement-icon">
-        ${item.icon}
-      </div>
-
-      <div>
-        <strong>
-          ${done ? "✓ ":""}${item.name}
-        </strong>
-
-        <small>
-          ${item.desc}
-        </small>
-      </div>
-
-    `;
-
-    list.appendChild(element);
-
-  });
+  updateProfile();
 
 }
 
-/* =========================
-   BACK SUBJECT
-========================= */
 
-$("backSubjectBtn").addEventListener("click",()=>{
+function updateProfile(){
 
-  beep("click");
+  document.getElementById("profileLevel")
+    .textContent=player.level;
 
-  playerHP=100;
-  enemyHP=100;
+  document.getElementById("profileCoins")
+    .textContent=player.coins;
 
-  renderSubjects();
+  document.getElementById("profileBattles")
+    .textContent=player.battles;
 
-  showScreen($("gameScreen"));
+  document.getElementById("profileQuestions")
+    .textContent=player.questions;
+
+  document.getElementById("profileCombo")
+    .textContent=player.bestCombo;
+
+  document.getElementById("profileMonsters")
+    .textContent=
+      player.collection.length+
+      "/"+
+      Object.keys(monsters).length;
+
+  const need=requiredEXP();
+
+  const percent=
+    Math.min(
+      100,
+      (player.exp/need)*100
+    );
+
+  document.getElementById("profileXP")
+    .style.width=percent+"%";
+
+}
+
+
+/* ================= RESET ================= */
+
+function resetData(){
+
+  if(
+    confirm(
+      "RESET SEMUA DATA REZA?\n\n" +
+      "Level, EXP, coins, monster dan achievement akan dihapus."
+    )
+  ){
+
+    localStorage.removeItem(SAVE_KEY);
+
+    location.reload();
+
+  }
+
+}
+
+
+/* ================= KEYBOARD ================= */
+
+document.addEventListener("keydown",e=>{
+
+  if(e.key==="Enter"){
+
+    if(
+      boot.style.display!=="none" &&
+      loadProgress>=100
+    ){
+
+      startGame();
+
+    }
+
+  }
+
+  if(e.key==="Escape"){
+
+    if(
+      battle.style.display==="block"
+    ){
+
+      backToSubjects();
+
+    }else{
+
+      backToMenu();
+
+    }
+
+  }
 
 });
 
-/* =========================
-   SHUFFLE
-========================= */
 
-function shuffle(array){
+/* ================= INIT ================= */
 
-  for(let i=array.length-1;i>0;i--){
-
-    const j =
-      Math.floor(Math.random()*(i+1));
-
-    [array[i],array[j]] =
-      [array[j],array[i]];
-
-  }
-
-  return array;
-
-}
-
-/* =========================
-   FLOATING REWARD
-========================= */
-
-function showFloatingReward(text){
-
-  const element =
-    document.createElement("div");
-
-  element.className =
-    "float-reward";
-
-  element.textContent =
-    text;
-
-  document.body.appendChild(element);
-
-  setTimeout(()=>{
-    element.remove();
-  },950);
-
-}
-
-/* =========================
-   TOAST
-========================= */
-
-let toastTimer;
-
-function showToast(message){
-
-  const toast =
-    $("toast");
-
-  toast.textContent =
-    message;
-
-  toast.classList.add("show");
-
-  clearTimeout(toastTimer);
-
-  toastTimer =
-    setTimeout(()=>{
-
-      toast.classList.remove("show");
-
-    },2200);
-
-}
-
-/* =========================
-   INIT
-========================= */
+load();
 
 updateStats();
-renderSubjects();
-renderCollection();
-renderAchievements();
 
 </script>
 
