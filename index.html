@@ -2,13 +2,29 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<meta name="theme-color" content="#0f380f">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#050505">
+<meta name="description" content="REZA Pixel School Academy - Interactive SMP Learning">
 
-<title>REZA PIXEL LEARNING ACADEMY V9.2</title>
+<title>REZA V10 — PIXEL SCHOOL ACADEMY</title>
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+:root{
+  --bg:#030303;
+  --panel:#080b0d;
+  --panel2:#0d1114;
+  --line:#263238;
+  --pixel:#39ff88;
+  --pixel2:#00e5ff;
+  --white:#e8fff2;
+  --muted:#8da49a;
+  --danger:#ff4d6d;
+  --gold:#ffd166;
+  --purple:#b388ff;
+  --shadow:0 0 18px rgba(57,255,136,.12);
+}
 
 *{
   box-sizing:border-box;
@@ -17,10 +33,9 @@
 
 html,body{
   margin:0;
-  padding:0;
   min-height:100%;
-  background:#071507;
-  color:#0f380f;
+  background:#000;
+  color:var(--white);
   font-family:'Press Start 2P',monospace;
 }
 
@@ -35,1287 +50,2082 @@ select{
 }
 
 button{
-  -webkit-appearance:none;
-  appearance:none;
+  cursor:pointer;
 }
 
 #app{
   min-height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  padding:12px;
   background:
-    radial-gradient(circle at center,#173817 0%,#071507 72%);
+    radial-gradient(circle at 50% 10%,rgba(0,229,255,.06),transparent 35%),
+    linear-gradient(#030303,#050505);
 }
 
-.console{
-  width:min(100%,1080px);
-  min-height:720px;
-  background:#9bbc0f;
-  border:10px solid #0f380f;
-  box-shadow:
-    0 0 0 5px #306230,
-    0 20px 60px rgba(0,0,0,.75);
-  overflow:hidden;
-  position:relative;
-}
-
-.console::after{
+.crt::after{
   content:"";
-  position:absolute;
+  position:fixed;
   inset:0;
   pointer-events:none;
-  z-index:100;
-  background:
-    repeating-linear-gradient(
-      0deg,
-      rgba(15,56,15,.06) 0px,
-      rgba(15,56,15,.06) 2px,
-      transparent 2px,
-      transparent 5px
-    );
-}
-
-.topbar{
-  position:relative;
-  z-index:2;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:10px;
-  padding:12px;
-  background:#8bac0f;
-  border-bottom:6px solid #0f380f;
-}
-
-.brand{
-  font-size:16px;
-  line-height:1.5;
-}
-
-.stats{
-  display:flex;
-  flex-wrap:wrap;
-  gap:6px;
-  justify-content:flex-end;
-}
-
-.stat{
-  border:3px solid #0f380f;
-  background:#9bbc0f;
-  padding:7px 8px;
-  font-size:8px;
-}
-
-.screen{
-  position:relative;
-  z-index:2;
-  min-height:630px;
-  padding:18px;
-}
-
-.panel{
-  border:5px solid #0f380f;
-  background:#8bac0f;
-  padding:16px;
-  box-shadow:8px 8px 0 #306230;
-}
-
-.title{
-  font-size:17px;
-  line-height:1.7;
-  margin-bottom:15px;
-}
-
-.subtitle{
-  font-size:9px;
-  line-height:1.9;
-}
-
-.home-logo{
-  text-align:center;
-  border:6px solid #0f380f;
-  padding:22px 10px;
-  margin-bottom:18px;
-  background:#9bbc0f;
-  box-shadow:8px 8px 0 #306230;
-}
-
-.home-logo h1{
-  margin:0 0 12px;
-  font-size:30px;
-  line-height:1.5;
-}
-
-.home-logo p{
-  margin:7px 0;
-  font-size:8px;
-  line-height:1.8;
-}
-
-.pixel-btn{
-  width:100%;
-  border:4px solid #0f380f;
-  background:#9bbc0f;
-  color:#0f380f;
-  padding:14px 12px;
-  margin:7px 0;
-  font-family:inherit;
-  font-size:10px;
-  text-align:left;
-  cursor:pointer;
-  box-shadow:5px 5px 0 #306230;
-  position:relative;
-  z-index:3;
-}
-
-.pixel-btn:hover{
-  background:#c6d957;
-}
-
-.pixel-btn:active{
-  transform:translate(4px,4px);
-  box-shadow:1px 1px 0 #306230;
-}
-
-.pixel-btn.center{
-  text-align:center;
-}
-
-.cursor{
-  display:inline-block;
-  width:22px;
-}
-
-.grid{
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:12px;
-}
-
-.card{
-  border:4px solid #0f380f;
-  background:#9bbc0f;
-  padding:14px;
-  min-height:125px;
-  cursor:pointer;
-  box-shadow:5px 5px 0 #306230;
-}
-
-.card:hover{
-  background:#c6d957;
-}
-
-.card-title{
-  font-size:10px;
-  line-height:1.7;
-}
-
-.card-text{
-  font-size:8px;
-  line-height:1.8;
-  margin-top:9px;
-}
-
-.lesson{
-  font-size:10px;
-  line-height:1.9;
-}
-
-.lesson h3{
-  font-size:13px;
-  border-bottom:3px solid #0f380f;
-  padding-bottom:8px;
-}
-
-.example{
-  border:4px dashed #0f380f;
-  padding:14px;
-  margin:15px 0;
-  background:#9bbc0f;
-  line-height:1.9;
-}
-
-.example strong{
-  display:block;
-  margin-bottom:8px;
-}
-
-.step{
-  border-left:6px solid #0f380f;
-  padding:8px 12px;
-  margin:8px 0;
-  background:#9bbc0f;
-}
-
-.question{
-  border:5px solid #0f380f;
-  background:#9bbc0f;
-  padding:18px;
-  font-size:12px;
-  line-height:1.9;
-  margin-bottom:15px;
-}
-
-.option{
-  width:100%;
-  border:4px solid #0f380f;
-  background:#8bac0f;
-  color:#0f380f;
-  padding:13px;
-  margin:7px 0;
-  font-family:inherit;
-  font-size:9px;
-  text-align:left;
-  cursor:pointer;
-  box-shadow:3px 3px 0 #306230;
-}
-
-.option:hover{
-  background:#c6d957;
-}
-
-.option:active{
-  transform:translate(2px,2px);
-}
-
-.option.correct{
-  background:#306230;
-  color:#9bbc0f;
-}
-
-.option.wrong{
-  background:#071507;
-  color:#9bbc0f;
-}
-
-.feedback{
-  border:4px solid #0f380f;
-  padding:14px;
-  margin-top:15px;
-  font-size:9px;
-  line-height:2;
-  background:#9bbc0f;
-}
-
-.voice-box{
-  border:6px solid #0f380f;
-  background:#8bac0f;
-  padding:18px;
-  margin-top:18px;
-  text-align:center;
-}
-
-.voice-status{
-  font-size:9px;
-  line-height:1.9;
-}
-
-.mic{
-  width:95px;
-  height:95px;
-  margin:16px auto;
-  border:6px solid #0f380f;
-  border-radius:50%;
-  background:#9bbc0f;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:31px;
-  cursor:pointer;
-  box-shadow:7px 7px 0 #306230;
-}
-
-.mic:active{
-  transform:translate(4px,4px);
-  box-shadow:2px 2px 0 #306230;
-}
-
-.mic.listening{
-  background:#c6d957;
-  animation:pulse .7s infinite;
-}
-
-@keyframes pulse{
-  50%{
-    transform:scale(1.08);
-  }
-}
-
-.transcript{
-  border:4px dashed #0f380f;
-  padding:12px;
-  min-height:55px;
-  font-size:8px;
-  line-height:1.8;
-}
-
-.progress{
-  border:4px solid #0f380f;
-  height:24px;
-  padding:3px;
-  margin:10px 0;
-}
-
-.progress-fill{
-  height:100%;
-  background:#0f380f;
-}
-
-.controller{
-  display:flex;
-  justify-content:center;
-  flex-wrap:wrap;
-  gap:10px;
-  margin-top:18px;
-}
-
-.ctrl{
-  border:4px solid #0f380f;
-  background:#9bbc0f;
-  color:#0f380f;
-  padding:11px 15px;
-  font-family:inherit;
-  font-size:9px;
-  cursor:pointer;
-  box-shadow:4px 4px 0 #306230;
-}
-
-.ctrl:active{
-  transform:translate(3px,3px);
-  box-shadow:1px 1px 0 #306230;
-}
-
-input,
-select{
-  width:100%;
-  border:4px solid #0f380f;
-  background:#9bbc0f;
-  color:#0f380f;
-  padding:12px;
-  font-size:9px;
-  outline:none;
-}
-
-label{
-  display:block;
-  margin:12px 0 7px;
-  font-size:9px;
-}
-
-#toast{
-  position:fixed;
-  z-index:99999;
-  left:50%;
-  bottom:20px;
-  transform:translateX(-50%);
-  display:none;
-  max-width:90%;
-  padding:12px 15px;
-  border:4px solid #9bbc0f;
-  background:#0f380f;
-  color:#9bbc0f;
-  text-align:center;
-  font-size:8px;
-  line-height:1.7;
+  z-index:9999;
+  background:repeating-linear-gradient(
+    to bottom,
+    rgba(255,255,255,.025) 0,
+    rgba(255,255,255,.025) 1px,
+    transparent 1px,
+    transparent 4px
+  );
+  mix-blend-mode:screen;
 }
 
 #boot{
   position:fixed;
   inset:0;
-  z-index:999999;
-  background:#0f380f;
-  color:#9bbc0f;
+  z-index:10000;
+  background:#000;
   display:flex;
   align-items:center;
   justify-content:center;
-  transition:opacity .4s;
+  padding:20px;
 }
 
-.boot-inner{
-  width:min(90%,600px);
+.boot-box{
+  width:min(700px,94vw);
+  border:4px solid var(--pixel);
+  padding:34px 24px;
   text-align:center;
+  box-shadow:
+    8px 8px 0 #06140b,
+    0 0 35px rgba(57,255,136,.2);
+  background:#020403;
 }
 
 .boot-logo{
-  font-size:36px;
+  font-size:clamp(25px,7vw,55px);
+  color:var(--pixel);
+  text-shadow:4px 4px 0 #092b18;
   margin-bottom:25px;
-  animation:blink 1s infinite;
 }
 
 .boot-sub{
-  font-size:9px;
-  line-height:2;
+  color:var(--pixel2);
+  font-size:11px;
+  line-height:1.9;
 }
 
 .boot-bar{
-  height:30px;
-  border:4px solid #9bbc0f;
+  height:18px;
+  border:3px solid var(--pixel);
+  margin:30px 0 15px;
   padding:3px;
-  margin-top:22px;
 }
 
 .boot-fill{
   height:100%;
   width:0;
-  background:#9bbc0f;
-  animation:bootload 2.2s linear forwards;
+  background:var(--pixel);
+  transition:width .15s linear;
 }
 
-@keyframes bootload{
-  to{width:100%}
+.boot-status{
+  color:var(--muted);
+  font-size:9px;
+  min-height:25px;
 }
 
-@keyframes blink{
-  50%{opacity:.35}
+.shell{
+  width:min(1200px,96vw);
+  margin:auto;
+  padding:14px 0 50px;
 }
 
-@media(max-width:700px){
+.topbar{
+  border:3px solid var(--line);
+  background:#060808;
+  box-shadow:8px 8px 0 #010101;
+  padding:12px;
+  display:flex;
+  gap:10px;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+}
 
-  #app{
-    padding:0;
-    align-items:stretch;
+.brand{
+  color:var(--pixel);
+  font-size:14px;
+}
+
+.stats{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+
+.stat{
+  border:2px solid var(--line);
+  background:#020303;
+  padding:8px;
+  font-size:8px;
+  color:var(--muted);
+}
+
+.stat b{
+  color:var(--white);
+}
+
+.screen{
+  margin-top:14px;
+  border:4px solid var(--line);
+  background:
+    linear-gradient(rgba(57,255,136,.015),rgba(57,255,136,.015)),
+    #050708;
+  box-shadow:
+    8px 8px 0 #010101,
+    inset 0 0 35px rgba(0,0,0,.7);
+  min-height:650px;
+  padding:18px;
+}
+
+.screen-title{
+  color:var(--pixel);
+  font-size:16px;
+  line-height:1.7;
+  margin:4px 0 18px;
+}
+
+.screen-subtitle{
+  color:var(--muted);
+  font-size:9px;
+  line-height:1.8;
+  margin-bottom:18px;
+}
+
+.pixel-line{
+  height:3px;
+  background:var(--line);
+  margin:16px 0;
+  position:relative;
+}
+
+.pixel-line::before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:0;
+  width:25%;
+  height:100%;
+  background:var(--pixel);
+}
+
+.menu{
+  display:grid;
+  gap:9px;
+  max-width:850px;
+}
+
+.menu-btn{
+  text-align:left;
+  color:var(--white);
+  background:#080b0d;
+  border:3px solid #20292d;
+  padding:14px;
+  font-size:10px;
+  line-height:1.6;
+  box-shadow:5px 5px 0 #010101;
+  transition:.12s;
+}
+
+.menu-btn:hover,
+.menu-btn:focus{
+  border-color:var(--pixel);
+  color:var(--pixel);
+  transform:translate(2px,2px);
+  box-shadow:3px 3px 0 #010101;
+  outline:none;
+}
+
+.menu-btn .cursor{
+  color:var(--pixel);
+  margin-right:8px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+}
+
+.card{
+  border:3px solid var(--line);
+  background:#080b0d;
+  padding:15px;
+  box-shadow:5px 5px 0 #010101;
+}
+
+.card:hover{
+  border-color:#40545b;
+}
+
+.card h3{
+  color:var(--pixel);
+  font-size:11px;
+  line-height:1.6;
+  margin:0 0 10px;
+}
+
+.card p{
+  color:var(--muted);
+  font-size:8px;
+  line-height:2;
+}
+
+.card .meta{
+  color:var(--pixel2);
+  font-size:7px;
+  line-height:1.8;
+}
+
+.action-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:9px;
+  margin-top:16px;
+}
+
+.btn{
+  border:3px solid var(--pixel);
+  background:#07100a;
+  color:var(--pixel);
+  padding:12px 14px;
+  font-size:9px;
+  box-shadow:4px 4px 0 #010101;
+}
+
+.btn:hover{
+  background:var(--pixel);
+  color:#000;
+}
+
+.btn.secondary{
+  border-color:var(--pixel2);
+  color:var(--pixel2);
+  background:#061014;
+}
+
+.btn.secondary:hover{
+  background:var(--pixel2);
+  color:#000;
+}
+
+.btn.danger{
+  border-color:var(--danger);
+  color:var(--danger);
+  background:#100306;
+}
+
+.btn.gold{
+  border-color:var(--gold);
+  color:var(--gold);
+  background:#100d03;
+}
+
+.lesson{
+  max-width:1000px;
+}
+
+.lesson-header{
+  border:3px solid var(--pixel);
+  padding:15px;
+  background:#050a07;
+  margin-bottom:14px;
+}
+
+.lesson-header h2{
+  color:var(--pixel);
+  font-size:15px;
+  line-height:1.7;
+  margin:0 0 10px;
+}
+
+.lesson-header p{
+  color:var(--muted);
+  font-size:8px;
+  line-height:2;
+}
+
+.lesson-section{
+  border:3px solid var(--line);
+  background:#080b0d;
+  padding:18px;
+  margin:12px 0;
+  box-shadow:4px 4px 0 #010101;
+}
+
+.lesson-section h3{
+  color:var(--pixel2);
+  font-size:11px;
+  line-height:1.7;
+  margin:0 0 14px;
+}
+
+.lesson-section p,
+.lesson-section li{
+  color:#b8cbc2;
+  font-size:9px;
+  line-height:2.2;
+}
+
+.lesson-section ul{
+  padding-left:20px;
+}
+
+.example{
+  border-left:5px solid var(--gold);
+  background:#0c0b07;
+  padding:14px;
+  color:#ffe7a3;
+  font-size:9px;
+  line-height:2.1;
+  margin-top:12px;
+}
+
+.tip{
+  border-left:5px solid var(--pixel);
+  background:#06100a;
+  padding:14px;
+  color:#bfffd5;
+  font-size:9px;
+  line-height:2.1;
+  margin-top:12px;
+}
+
+.practice-box{
+  border:3px solid var(--purple);
+  background:#0b0710;
+  padding:18px;
+  margin-top:14px;
+}
+
+.practice-box h3{
+  color:var(--purple);
+  font-size:11px;
+}
+
+input[type="text"]{
+  width:100%;
+  background:#020303;
+  border:3px solid var(--line);
+  color:var(--white);
+  padding:14px;
+  font-size:10px;
+  outline:none;
+}
+
+input[type="text"]:focus{
+  border-color:var(--pixel);
+}
+
+.question{
+  border:4px solid var(--pixel);
+  background:#050906;
+  padding:20px;
+  margin-bottom:16px;
+}
+
+.question-number{
+  color:var(--pixel2);
+  font-size:8px;
+  margin-bottom:15px;
+}
+
+.question-text{
+  color:#fff;
+  font-size:12px;
+  line-height:2;
+}
+
+.options{
+  display:grid;
+  gap:10px;
+  margin-top:18px;
+}
+
+.option{
+  border:3px solid var(--line);
+  background:#080b0d;
+  color:#dfffea;
+  padding:14px;
+  text-align:left;
+  font-size:9px;
+  line-height:1.8;
+}
+
+.option:hover{
+  border-color:var(--pixel);
+  color:var(--pixel);
+}
+
+.option:disabled{
+  opacity:.55;
+}
+
+.voice-box{
+  border:3px solid var(--pixel2);
+  background:#031014;
+  padding:18px;
+  margin-top:15px;
+}
+
+.voice-status{
+  color:var(--pixel2);
+  font-size:9px;
+  line-height:2;
+  min-height:36px;
+}
+
+.voice-transcript{
+  border:2px solid #173740;
+  padding:12px;
+  margin-top:10px;
+  color:#b8edf5;
+  font-size:8px;
+  line-height:2;
+  min-height:40px;
+}
+
+.mic-btn{
+  margin-top:12px;
+  border:3px solid var(--pixel2);
+  background:#001014;
+  color:var(--pixel2);
+  padding:14px;
+  font-size:10px;
+}
+
+.mic-btn:hover{
+  background:var(--pixel2);
+  color:#000;
+}
+
+.progress-wrap{
+  margin-top:12px;
+}
+
+.progress-label{
+  display:flex;
+  justify-content:space-between;
+  color:var(--muted);
+  font-size:7px;
+  margin-bottom:7px;
+}
+
+.progress{
+  height:13px;
+  border:2px solid var(--line);
+  background:#010101;
+  padding:2px;
+}
+
+.progress-fill{
+  height:100%;
+  background:var(--pixel);
+  width:0;
+}
+
+.subject-card{
+  min-height:170px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+}
+
+.subject-icon{
+  font-size:28px;
+  margin-bottom:8px;
+  filter:grayscale(.3);
+}
+
+.chapter-card{
+  min-height:170px;
+}
+
+.chapter-card.completed{
+  border-color:#28663e;
+}
+
+.chapter-card.locked{
+  opacity:.5;
+}
+
+.badge{
+  display:inline-block;
+  border:2px solid var(--line);
+  padding:5px 7px;
+  font-size:7px;
+  color:var(--muted);
+  margin-top:8px;
+}
+
+.badge.done{
+  border-color:var(--pixel);
+  color:var(--pixel);
+}
+
+.hud{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-bottom:14px;
+}
+
+.hud-item{
+  border:2px solid var(--line);
+  background:#030505;
+  padding:8px;
+  color:var(--muted);
+  font-size:7px;
+}
+
+.hud-item b{
+  color:var(--pixel);
+}
+
+.controls{
+  margin-top:28px;
+  border-top:3px solid var(--line);
+  padding-top:18px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:16px;
+  flex-wrap:wrap;
+}
+
+.dpad{
+  display:grid;
+  grid-template-columns:40px 40px 40px;
+  grid-template-rows:40px 40px 40px;
+}
+
+.dpad button,
+.action-buttons button{
+  border:3px solid #344047;
+  background:#0a0d0f;
+  color:var(--pixel);
+  font-size:12px;
+}
+
+.dpad button:hover,
+.action-buttons button:hover{
+  border-color:var(--pixel);
+  background:#101813;
+}
+
+.dpad .up{grid-column:2;grid-row:1}
+.dpad .left{grid-column:1;grid-row:2}
+.dpad .center{grid-column:2;grid-row:2}
+.dpad .right{grid-column:3;grid-row:2}
+.dpad .down{grid-column:2;grid-row:3}
+
+.action-buttons{
+  display:flex;
+  gap:8px;
+  align-items:center;
+}
+
+.action-buttons button{
+  width:50px;
+  height:38px;
+  border-radius:4px;
+}
+
+.start-select{
+  display:flex;
+  gap:8px;
+}
+
+.start-select button{
+  border:2px solid #424b4e;
+  background:#0a0d0f;
+  color:#bbb;
+  padding:7px 10px;
+  font-size:7px;
+  transform:skew(-12deg);
+}
+
+.toast{
+  position:fixed;
+  left:50%;
+  bottom:20px;
+  transform:translateX(-50%) translateY(30px);
+  opacity:0;
+  z-index:10001;
+  background:#050908;
+  border:3px solid var(--pixel);
+  color:var(--pixel);
+  padding:13px 16px;
+  font-size:8px;
+  line-height:1.7;
+  box-shadow:5px 5px 0 #000;
+  transition:.2s;
+  max-width:90vw;
+  text-align:center;
+}
+
+.toast.show{
+  opacity:1;
+  transform:translateX(-50%) translateY(0);
+}
+
+.footer{
+  text-align:center;
+  color:#4f6159;
+  font-size:7px;
+  line-height:2;
+  margin-top:18px;
+}
+
+.empty{
+  border:3px dashed var(--line);
+  padding:25px;
+  text-align:center;
+  color:var(--muted);
+  font-size:8px;
+  line-height:2;
+}
+
+.small{
+  color:var(--muted);
+  font-size:7px;
+  line-height:1.9;
+}
+
+@media(max-width:850px){
+  .grid{
+    grid-template-columns:repeat(2,1fr);
   }
+}
 
-  .console{
-    width:100%;
-    min-height:100vh;
-    border-width:6px;
-  }
-
-  .topbar{
-    flex-direction:column;
-    align-items:stretch;
-    padding:8px;
-  }
-
-  .brand{
-    text-align:center;
-    font-size:12px;
-  }
-
-  .stats{
-    justify-content:center;
-  }
-
-  .stat{
-    font-size:6px;
-    padding:5px;
+@media(max-width:600px){
+  .shell{
+    width:94vw;
   }
 
   .screen{
-    min-height:calc(100vh - 95px);
-    padding:10px;
-  }
-
-  .home-logo h1{
-    font-size:22px;
+    padding:12px;
   }
 
   .grid{
     grid-template-columns:1fr;
   }
 
-  .title{
-    font-size:13px;
+  .topbar{
+    align-items:flex-start;
   }
 
-  .pixel-btn{
-    font-size:8px;
+  .stats{
+    width:100%;
   }
 
-  .question{
+  .stat{
+    flex:1;
+    min-width:70px;
+  }
+
+  .menu-btn{
     font-size:9px;
+  }
+
+  .question-text{
+    font-size:10px;
+  }
+
+  .lesson-section p,
+  .lesson-section li{
+    font-size:8px;
   }
 }
 </style>
 </head>
 
-<body>
+<body class="crt">
 
 <div id="boot">
-  <div class="boot-inner">
-
-    <div class="boot-logo">
-      REZA
-    </div>
-
+  <div class="boot-box">
+    <div class="boot-logo">REZA</div>
     <div class="boot-sub">
-      PIXEL LEARNING ACADEMY<br>
-      V9.2 SYSTEM
+      PIXEL SCHOOL ACADEMY<br>
+      BLACK EDITION V10
     </div>
 
     <div class="boot-bar">
-      <div class="boot-fill"></div>
+      <div class="boot-fill" id="bootFill"></div>
     </div>
 
-    <div class="boot-sub" style="margin-top:15px">
-      PRESS START
+    <div class="boot-status" id="bootStatus">
+      INITIALIZING...
     </div>
-
   </div>
 </div>
 
-<div id="app">
-
-  <div class="console">
-
-    <div class="topbar">
-
-      <div class="brand">
-        REZA PIXEL ACADEMY
-      </div>
-
-      <div class="stats">
-
-        <div class="stat">
-          LV <span id="level">1</span>
-        </div>
-
-        <div class="stat">
-          EXP <span id="exp">0</span>
-        </div>
-
-        <div class="stat">
-          COIN <span id="coins">0</span>
-        </div>
-
-        <div class="stat">
-          STREAK <span id="streak">0</span>
-        </div>
-
-      </div>
-
-    </div>
-
-    <main
-      id="screen"
-      class="screen">
-    </main>
-
-  </div>
-
-</div>
-
-<div id="toast"></div>
+<div id="app" style="display:none;"></div>
+<div id="toast" class="toast"></div>
 
 <script>
+"use strict";
 
 /* =========================================================
-   REZA V9.2
-   CLEAN JAVASCRIPT ENGINE
+   REZA V10
+   PIXEL SCHOOL ACADEMY — BLACK EDITION
+   Stable single-file build
 ========================================================= */
 
-"use strict";
+(function(){
 
 /* =========================================================
    SUBJECT DATA
 ========================================================= */
 
-const subjects = {
+const SUBJECTS = {
 
   matematika:{
+    name:"Matematika",
     icon:"∑",
-    title:"MATEMATIKA",
-    desc:"Bilangan, aljabar, geometri, dan statistika.",
-    lessons:[
+    color:"green",
+    chapters:[
       {
-        title:"Bilangan Bulat",
-        content:`
-          <h3>BILANGAN BULAT</h3>
-          <p>
-            Bilangan bulat adalah bilangan yang tidak memiliki
-            bagian pecahan atau desimal.
-          </p>
-
-          <div class="example">
-            <strong>CONTOH</strong>
-            -3, -2, -1, 0, 1, 2, 3
-          </div>
-
-          <div class="step">
-            -5 lebih kecil daripada -2.
-          </div>
-
-          <div class="step">
-            0 lebih besar daripada -4.
-          </div>
-
-          <div class="step">
-            7 lebih besar daripada 3.
-          </div>
-        `,
-        questions:[
+        id:"mat-1",
+        title:"Bilangan & Operasi",
+        summary:"Bilangan bulat, pecahan, desimal, persen dan operasi hitung.",
+        sections:[
           {
-            text:"Hasil dari 7 + 5 adalah ...",
-            options:["10","11","12","13"],
-            answer:2
+            title:"Konsep Dasar",
+            text:"Bilangan digunakan untuk menyatakan jumlah, urutan, ukuran, dan nilai. Dalam pembelajaran SMP kamu akan sering menggunakan bilangan bulat, pecahan, desimal, dan persen.",
+            bullets:[
+              "Bilangan bulat mencakup bilangan negatif, nol, dan positif.",
+              "Pecahan memiliki pembilang dan penyebut.",
+              "Desimal adalah bentuk lain dari pecahan berbasis sepuluh.",
+              "Persen berarti bagian per seratus."
+            ]
           },
           {
-            text:"Bilangan yang lebih besar adalah ...",
-            options:["-5","-2","-8","-10"],
-            answer:1
+            title:"Operasi Hitung",
+            text:"Operasi dasar terdiri dari penjumlahan, pengurangan, perkalian, dan pembagian. Saat beberapa operasi muncul sekaligus, perhatikan urutan pengerjaannya.",
+            bullets:[
+              "Kerjakan tanda kurung terlebih dahulu.",
+              "Perkalian dan pembagian dikerjakan sebelum penjumlahan dan pengurangan.",
+              "Jika tingkat operasinya sama, kerjakan dari kiri ke kanan."
+            ]
           }
-        ]
+        ],
+        example:"Contoh: 25% dari 200 = 25/100 × 200 = 50.",
+        tip:"Biasakan mengubah persen ke pecahan per seratus sebelum menghitung."
       },
-
       {
-        title:"Aljabar Dasar",
-        content:`
-          <h3>ALJABAR DASAR</h3>
-
-          <p>
-            Aljabar menggunakan huruf untuk mewakili
-            nilai yang belum diketahui.
-          </p>
-
-          <div class="example">
-            <strong>CONTOH</strong>
-            Jika x + 5 = 12 maka x = 7.
-          </div>
-
-          <div class="step">
-            x + 5 = 12
-          </div>
-
-          <div class="step">
-            x = 12 - 5
-          </div>
-
-          <div class="step">
-            x = 7
-          </div>
-        `,
-        questions:[
+        id:"mat-2",
+        title:"Aljabar",
+        summary:"Variabel, bentuk aljabar, persamaan dan penyederhanaan.",
+        sections:[
           {
-            text:"Jika x + 4 = 10, maka x = ...",
-            options:["4","5","6","7"],
-            answer:2
+            title:"Apa Itu Variabel?",
+            text:"Variabel adalah simbol yang mewakili nilai yang belum diketahui atau dapat berubah. Huruf x, y, dan a sering digunakan.",
+            bullets:[
+              "3x berarti 3 dikali x.",
+              "2x + 5 memiliki suku 2x dan 5.",
+              "Suku sejenis memiliki variabel dan pangkat yang sama."
+            ]
           },
           {
-            text:"Jika y - 3 = 8, maka y = ...",
-            options:["5","10","11","12"],
-            answer:2
+            title:"Persamaan Linear",
+            text:"Persamaan linear satu variabel dapat diselesaikan dengan menjaga kedua ruas tetap setara.",
+            bullets:[
+              "Jika menambah sesuatu pada satu ruas, lakukan juga pada ruas lainnya.",
+              "Tujuannya adalah mendapatkan nilai variabel.",
+              "Periksa jawaban dengan memasukkannya kembali ke persamaan."
+            ]
           }
-        ]
+        ],
+        example:"Jika 2x + 4 = 10, maka 2x = 6 sehingga x = 3.",
+        tip:"Jangan memindahkan angka secara asal. Pahami operasi kebalikan yang dilakukan pada kedua ruas."
       },
-
       {
-        title:"Luas dan Keliling",
-        content:`
-          <h3>LUAS DAN KELILING</h3>
-
-          <p>
-            Persegi mempunyai empat sisi yang sama panjang.
-          </p>
-
-          <div class="example">
-            <strong>RUMUS PERSEGI</strong>
-            Luas = sisi × sisi<br>
-            Keliling = 4 × sisi
-          </div>
-
-          <div class="step">
-            Jika sisi 5 cm:<br>
-            Luas = 5 × 5 = 25 cm²
-          </div>
-
-          <div class="step">
-            Keliling = 4 × 5 = 20 cm
-          </div>
-        `,
-        questions:[
+        id:"mat-3",
+        title:"Geometri",
+        summary:"Bangun datar, keliling, luas dan hubungan sudut.",
+        sections:[
           {
-            text:"Persegi dengan sisi 6 cm memiliki luas ...",
-            options:["12","24","36","42"],
-            answer:2
+            title:"Bangun Datar",
+            text:"Bangun datar adalah bentuk dua dimensi yang memiliki panjang dan lebar. Contohnya persegi, persegi panjang, segitiga, dan lingkaran.",
+            bullets:[
+              "Keliling adalah panjang seluruh sisi.",
+              "Luas menunjukkan ukuran daerah di dalam bangun.",
+              "Satuan luas menggunakan satuan persegi."
+            ]
           },
           {
-            text:"Persegi dengan sisi 4 cm memiliki keliling ...",
-            options:["8","12","16","20"],
-            answer:2
+            title:"Rumus Penting",
+            text:"Persegi: luas = sisi × sisi. Persegi panjang: luas = panjang × lebar. Segitiga: luas = 1/2 × alas × tinggi.",
+            bullets:[
+              "Keliling persegi = 4 × sisi.",
+              "Keliling persegi panjang = 2 × (panjang + lebar).",
+              "Gunakan satuan yang konsisten."
+            ]
           }
-        ]
+        ],
+        example:"Persegi panjang 8 cm × 5 cm memiliki luas 40 cm².",
+        tip:"Gambar bentuknya terlebih dahulu jika soal geometri terasa membingungkan."
+      },
+      {
+        id:"mat-4",
+        title:"Statistika Dasar",
+        summary:"Data, mean, median, modus dan penyajian sederhana.",
+        sections:[
+          {
+            title:"Mengenal Data",
+            text:"Data adalah kumpulan informasi yang dapat digunakan untuk menjawab pertanyaan. Data dapat disajikan dalam tabel, diagram, atau grafik.",
+            bullets:[
+              "Mean adalah nilai rata-rata.",
+              "Median adalah nilai tengah setelah data diurutkan.",
+              "Modus adalah nilai yang paling sering muncul."
+            ]
+          },
+          {
+            title:"Membaca Data",
+            text:"Saat membaca grafik, perhatikan judul, label, satuan, dan skala. Jangan hanya melihat tinggi batang tanpa memahami skalanya.",
+            bullets:[
+              "Urutkan data sebelum mencari median.",
+              "Jumlahkan seluruh nilai untuk mencari mean.",
+              "Cari frekuensi terbesar untuk menentukan modus."
+            ]
+          }
+        ],
+        example:"Data 2, 4, 4, 6, 9 memiliki modus 4 dan median 4.",
+        tip:"Selalu urutkan data sebelum menentukan median."
       }
+    ],
+    questions:[
+      {q:"Berapa 25% dari 200?",a:["50","lima puluh","50.0"],c:0},
+      {q:"Jika 2x + 4 = 10, nilai x adalah?",a:["3","tiga"],c:0},
+      {q:"Luas persegi dengan sisi 6 cm adalah?",a:["36","36 cm2","36 cm²"],c:0},
+      {q:"Nilai yang paling sering muncul disebut?",a:["modus","mode"],c:0},
+      {q:"Hasil dari 12 ÷ 3 adalah?",a:["4","empat"],c:0},
+      {q:"Berapakah 1/2 dalam bentuk desimal?",a:["0.5","0,5"],c:0}
     ]
   },
 
   ipa:{
+    name:"IPA",
     icon:"⚗",
-    title:"IPA",
-    desc:"Makhluk hidup, energi, materi, dan lingkungan.",
-    lessons:[
+    chapters:[
       {
-        title:"Sistem Pernapasan",
-        content:`
-          <h3>SISTEM PERNAPASAN</h3>
-
-          <p>
-            Manusia membutuhkan oksigen untuk proses respirasi.
-          </p>
-
-          <div class="example">
-            <strong>ORGAN UTAMA</strong>
-            Hidung → tenggorokan → bronkus → paru-paru
-          </div>
-
-          <p>
-            Di paru-paru terjadi pertukaran oksigen
-            dan karbon dioksida.
-          </p>
-        `,
-        questions:[
+        id:"ipa-1",
+        title:"Makhluk Hidup & Sel",
+        summary:"Ciri makhluk hidup, sel, jaringan dan organisasi kehidupan.",
+        sections:[
           {
-            text:"Gas yang dibutuhkan manusia untuk bernapas adalah ...",
-            options:["Nitrogen","Oksigen","Karbon","Helium"],
-            answer:1
+            title:"Ciri Makhluk Hidup",
+            text:"Makhluk hidup melakukan berbagai proses untuk mempertahankan kehidupannya.",
+            bullets:[
+              "Bernapas.",
+              "Memerlukan makanan dan energi.",
+              "Tumbuh dan berkembang.",
+              "Bereproduksi.",
+              "Peka terhadap rangsangan."
+            ]
           },
           {
-            text:"Organ utama sistem pernapasan adalah ...",
-            options:["Jantung","Paru-paru","Lambung","Ginjal"],
-            answer:1
+            title:"Sel",
+            text:"Sel adalah unit dasar penyusun makhluk hidup. Sel tumbuhan dan sel hewan memiliki beberapa bagian yang sama dan beberapa bagian yang berbeda.",
+            bullets:[
+              "Membran sel mengatur pertukaran zat.",
+              "Inti sel menyimpan informasi genetik.",
+              "Tumbuhan memiliki dinding sel dan kloroplas."
+            ]
           }
-        ]
+        ],
+        example:"Sel tumbuhan memiliki kloroplas yang berperan dalam fotosintesis.",
+        tip:"Bedakan fungsi organel, jangan hanya menghafal namanya."
       },
-
       {
-        title:"Gaya dan Gerak",
-        content:`
-          <h3>GAYA DAN GERAK</h3>
-
-          <p>
-            Gaya adalah tarikan atau dorongan yang
-            dapat memengaruhi gerak benda.
-          </p>
-
-          <div class="example">
-            <strong>CONTOH</strong>
-            Mendorong meja merupakan contoh gaya dorong.
-          </div>
-
-          <p>
-            Gaya dapat mengubah kecepatan,
-            arah, atau bentuk benda.
-          </p>
-        `,
-        questions:[
+        id:"ipa-2",
+        title:"Energi & Perubahan",
+        summary:"Bentuk energi, perpindahan energi dan perubahan energi.",
+        sections:[
           {
-            text:"Gaya dapat berupa ...",
-            options:[
-              "Tarikan dan dorongan",
-              "Cahaya dan bunyi",
-              "Panas dan dingin",
-              "Air dan udara"
-            ],
-            answer:0
+            title:"Bentuk Energi",
+            text:"Energi dapat ditemukan dalam berbagai bentuk, seperti energi gerak, panas, cahaya, listrik, kimia, dan bunyi.",
+            bullets:[
+              "Energi dapat berubah bentuk.",
+              "Perubahan energi terjadi dalam banyak alat sehari-hari.",
+              "Energi tidak hilang begitu saja dalam proses ideal."
+            ]
           },
           {
-            text:"Mendorong meja merupakan contoh gaya ...",
-            options:["Tarik","Dorong","Gravitasi","Magnet"],
-            answer:1
+            title:"Contoh Perubahan",
+            text:"Lampu mengubah energi listrik menjadi cahaya dan sebagian menjadi panas. Kipas mengubah energi listrik menjadi energi gerak.",
+            bullets:[
+              "Baterai menyimpan energi kimia.",
+              "Panel surya mengubah energi cahaya menjadi listrik.",
+              "Makanan menyediakan energi kimia bagi tubuh."
+            ]
           }
-        ]
+        ],
+        example:"Kipas angin: energi listrik → energi gerak.",
+        tip:"Gunakan tanda panah untuk mengingat arah perubahan energi."
+      },
+      {
+        id:"ipa-3",
+        title:"Sistem Tubuh",
+        summary:"Organ, sistem pencernaan, pernapasan dan peredaran darah.",
+        sections:[
+          {
+            title:"Organ & Sistem",
+            text:"Beberapa organ bekerja sama membentuk sistem organ. Setiap sistem memiliki fungsi tertentu.",
+            bullets:[
+              "Sistem pencernaan memproses makanan.",
+              "Sistem pernapasan berhubungan dengan pertukaran gas.",
+              "Sistem peredaran darah mengedarkan berbagai zat."
+            ]
+          },
+          {
+            title:"Menjaga Tubuh",
+            text:"Tubuh membutuhkan makanan bergizi, air, aktivitas fisik, istirahat, dan kebersihan untuk mendukung fungsi tubuh.",
+            bullets:[
+              "Makan beragam makanan bergizi.",
+              "Cukup tidur.",
+              "Bergerak secara teratur.",
+              "Menjaga kebersihan."
+            ]
+          }
+        ],
+        example:"Paru-paru merupakan organ utama dalam sistem pernapasan manusia.",
+        tip:"Pelajari hubungan antarorgan, bukan menghafal daftar organ secara terpisah."
+      },
+      {
+        id:"ipa-4",
+        title:"Ekosistem",
+        summary:"Komponen biotik, abiotik, rantai makanan dan keseimbangan.",
+        sections:[
+          {
+            title:"Komponen Ekosistem",
+            text:"Ekosistem terdiri atas komponen biotik dan abiotik yang saling berinteraksi.",
+            bullets:[
+              "Biotik = makhluk hidup.",
+              "Abiotik = faktor tak hidup seperti air, cahaya, tanah, dan suhu.",
+              "Produsen membuat makanan sendiri.",
+              "Konsumen mendapatkan energi dari organisme lain."
+            ]
+          },
+          {
+            title:"Rantai Makanan",
+            text:"Rantai makanan menunjukkan perpindahan energi melalui hubungan makan dan dimakan.",
+            bullets:[
+              "Energi awal pada banyak ekosistem berasal dari matahari.",
+              "Tumbuhan dapat menjadi produsen.",
+              "Pengurai membantu mengembalikan materi ke lingkungan."
+            ]
+          }
+        ],
+        example:"Rumput → belalang → katak → ular → elang.",
+        tip:"Panah pada rantai makanan menunjukkan arah perpindahan energi."
       }
+    ],
+    questions:[
+      {q:"Unit dasar penyusun makhluk hidup disebut?",a:["sel"],c:0},
+      {q:"Organel yang berperan dalam fotosintesis adalah?",a:["kloroplas","chloroplast"],c:0},
+      {q:"Kipas angin mengubah energi listrik menjadi energi?",a:["gerak"],c:0},
+      {q:"Komponen tak hidup dalam ekosistem disebut?",a:["abiotik"],c:0},
+      {q:"Organ utama sistem pernapasan manusia adalah?",a:["paru-paru","paru paru"],c:0},
+      {q:"Organisme yang membuat makanan sendiri disebut?",a:["produsen"],c:0}
     ]
   },
 
   ips:{
-    icon:"🌍",
-    title:"IPS",
-    desc:"Geografi, ekonomi, sejarah, dan kehidupan sosial.",
-    lessons:[
+    name:"IPS",
+    icon:"◈",
+    chapters:[
       {
-        title:"Interaksi Sosial",
-        content:`
-          <h3>INTERAKSI SOSIAL</h3>
-
-          <p>
-            Interaksi sosial adalah hubungan timbal balik
-            antara individu atau kelompok.
-          </p>
-
-          <div class="example">
-            <strong>CONTOH</strong>
-            Berdiskusi dengan teman merupakan
-            bentuk interaksi sosial.
-          </div>
-
-          <p>
-            Interaksi terjadi melalui hubungan dan komunikasi.
-          </p>
-        `,
-        questions:[
+        id:"ips-1",
+        title:"Geografi Indonesia",
+        summary:"Letak, kondisi geografis, sumber daya dan keragaman wilayah.",
+        sections:[
           {
-            text:"Hubungan timbal balik antara manusia disebut ...",
-            options:[
-              "Interaksi sosial",
-              "Produksi",
-              "Distribusi",
-              "Konsumsi"
-            ],
-            answer:0
+            title:"Letak Indonesia",
+            text:"Indonesia merupakan negara kepulauan yang terletak di antara Benua Asia dan Australia serta Samudra Hindia dan Pasifik.",
+            bullets:[
+              "Indonesia memiliki banyak pulau.",
+              "Kondisi wilayah memengaruhi kehidupan masyarakat.",
+              "Wilayah Indonesia memiliki keragaman alam."
+            ]
           },
           {
-            text:"Diskusi dengan teman merupakan ...",
-            options:[
-              "Interaksi sosial",
-              "Tidur",
-              "Produksi",
-              "Transportasi"
-            ],
-            answer:0
+            title:"Sumber Daya",
+            text:"Sumber daya alam dapat dimanfaatkan untuk memenuhi kebutuhan, tetapi pemanfaatannya perlu memperhatikan keberlanjutan.",
+            bullets:[
+              "Pertanian memanfaatkan tanah dan air.",
+              "Perikanan memanfaatkan sumber daya laut.",
+              "Hutan memiliki fungsi ekologis dan ekonomi."
+            ]
           }
-        ]
+        ],
+        example:"Wilayah pesisir banyak memiliki kegiatan ekonomi yang berhubungan dengan laut.",
+        tip:"Hubungkan kondisi geografis dengan aktivitas penduduk."
+      },
+      {
+        id:"ips-2",
+        title:"Interaksi Sosial",
+        summary:"Hubungan manusia, norma, kelompok dan lembaga sosial.",
+        sections:[
+          {
+            title:"Pengertian",
+            text:"Interaksi sosial adalah hubungan timbal balik antara individu dan/atau kelompok.",
+            bullets:[
+              "Membutuhkan hubungan sosial.",
+              "Melibatkan komunikasi.",
+              "Dapat menghasilkan kerja sama atau bentuk hubungan lainnya."
+            ]
+          },
+          {
+            title:"Norma",
+            text:"Norma merupakan aturan atau pedoman perilaku dalam masyarakat.",
+            bullets:[
+              "Norma membantu mengatur kehidupan bersama.",
+              "Pelanggaran norma dapat memperoleh sanksi sesuai jenis normanya.",
+              "Setiap lingkungan dapat memiliki aturan yang perlu dihormati."
+            ]
+          }
+        ],
+        example:"Kerja kelompok merupakan contoh interaksi yang dapat menghasilkan kerja sama.",
+        tip:"Bedakan interaksi sosial dari sekadar aktivitas individu."
+      },
+      {
+        id:"ips-3",
+        title:"Ekonomi",
+        summary:"Kebutuhan, kelangkaan, produksi, distribusi dan konsumsi.",
+        sections:[
+          {
+            title:"Kebutuhan",
+            text:"Manusia memiliki kebutuhan yang beragam sementara sumber daya terbatas. Kondisi ini membuat manusia perlu menentukan pilihan.",
+            bullets:[
+              "Kebutuhan primer berkaitan dengan kebutuhan dasar.",
+              "Kebutuhan sekunder mendukung kehidupan.",
+              "Kebutuhan tersier biasanya bersifat pelengkap atau kemewahan."
+            ]
+          },
+          {
+            title:"Kegiatan Ekonomi",
+            text:"Produksi menghasilkan barang atau jasa. Distribusi menyalurkan barang atau jasa. Konsumsi menggunakan barang atau jasa.",
+            bullets:[
+              "Produsen menghasilkan.",
+              "Distributor menyalurkan.",
+              "Konsumen menggunakan."
+            ]
+          }
+        ],
+        example:"Petani menghasilkan beras = produksi; toko menyalurkannya = distribusi; keluarga memakannya = konsumsi.",
+        tip:"Gunakan tiga kata kunci: menghasilkan, menyalurkan, menggunakan."
+      },
+      {
+        id:"ips-4",
+        title:"Sejarah Indonesia",
+        summary:"Perubahan masyarakat, kerajaan, kolonialisme dan perjuangan.",
+        sections:[
+          {
+            title:"Mempelajari Sejarah",
+            text:"Sejarah mempelajari peristiwa masa lalu manusia berdasarkan sumber dan bukti yang tersedia.",
+            bullets:[
+              "Sumber sejarah dapat berupa tulisan, benda, lisan, dan sumber lainnya.",
+              "Kronologi membantu memahami urutan peristiwa.",
+              "Sebab-akibat membantu memahami hubungan antarperistiwa."
+            ]
+          },
+          {
+            title:"Menganalisis Peristiwa",
+            text:"Saat mempelajari sejarah, perhatikan waktu, tempat, tokoh, latar belakang, proses, dan dampak.",
+            bullets:[
+              "Jangan hanya menghafal tanggal.",
+              "Pahami hubungan antarperistiwa.",
+              "Bandingkan sumber jika terdapat perbedaan informasi."
+            ]
+          }
+        ],
+        example:"Garis waktu membantu menempatkan peristiwa berdasarkan urutan waktunya.",
+        tip:"Tanyakan: kapan, di mana, siapa, mengapa, bagaimana, dan apa dampaknya?"
       }
+    ],
+    questions:[
+      {q:"Indonesia berada di antara Benua Asia dan?",a:["Australia"],c:0},
+      {q:"Hubungan timbal balik individu atau kelompok disebut?",a:["interaksi sosial","interaksi"],c:0},
+      {q:"Kegiatan menghasilkan barang atau jasa disebut?",a:["produksi"],c:0},
+      {q:"Kegiatan menggunakan barang atau jasa disebut?",a:["konsumsi"],c:0},
+      {q:"Urutan peristiwa berdasarkan waktu disebut?",a:["kronologi"],c:0},
+      {q:"Pedoman perilaku dalam masyarakat disebut?",a:["norma"],c:0}
     ]
   },
 
   indonesia:{
-    icon:"A",
-    title:"BAHASA INDONESIA",
-    desc:"Teks, kalimat, paragraf, dan kemampuan berbahasa.",
-    lessons:[
+    name:"Bahasa Indonesia",
+    icon:"Aa",
+    chapters:[
       {
-        title:"Ide Pokok",
-        content:`
-          <h3>IDE POKOK</h3>
-
-          <p>
-            Ide pokok adalah gagasan utama yang
-            menjadi dasar pembahasan sebuah paragraf.
-          </p>
-
-          <div class="example">
-            <strong>CONTOH</strong>
-            "Pohon sangat penting bagi lingkungan
-            karena menghasilkan oksigen."
-            <br><br>
-            Ide pokok:
-            pentingnya pohon bagi lingkungan.
-          </div>
-
-          <p>
-            Ide pokok dapat berada di awal,
-            akhir, atau tersirat.
-          </p>
-        `,
-        questions:[
+        id:"ind-1",
+        title:"Teks Deskripsi",
+        summary:"Menggambarkan objek secara jelas dan terperinci.",
+        sections:[
           {
-            text:"Gagasan utama sebuah paragraf disebut ...",
-            options:[
-              "Kalimat penjelas",
-              "Ide pokok",
-              "Kata kerja",
-              "Kata sifat"
-            ],
-            answer:1
+            title:"Pengertian",
+            text:"Teks deskripsi menggambarkan objek, tempat, orang, atau suasana sehingga pembaca memperoleh gambaran yang jelas.",
+            bullets:[
+              "Objek dijelaskan secara khusus.",
+              "Menggunakan kata yang menggambarkan sifat atau keadaan.",
+              "Detail pancaindra dapat digunakan."
+            ]
           },
           {
-            text:"Ide pokok berisi ...",
-            options:[
-              "Gagasan utama",
-              "Detail kecil",
-              "Tanda baca",
-              "Jumlah kata"
-            ],
-            answer:0
+            title:"Struktur",
+            text:"Struktur umum teks deskripsi dapat terdiri atas identifikasi objek dan deskripsi bagian.",
+            bullets:[
+              "Identifikasi mengenalkan objek.",
+              "Deskripsi bagian menjelaskan ciri atau bagian objek."
+            ]
           }
-        ]
+        ],
+        example:"Kalimat: 'Taman itu memiliki bunga merah yang tersusun rapi di sepanjang jalan.'",
+        tip:"Gunakan detail konkret agar pembaca dapat membayangkan objek."
+      },
+      {
+        id:"ind-2",
+        title:"Teks Eksplanasi",
+        summary:"Menjelaskan proses terjadinya fenomena.",
+        sections:[
+          {
+            title:"Konsep",
+            text:"Teks eksplanasi menjelaskan bagaimana atau mengapa suatu fenomena terjadi.",
+            bullets:[
+              "Berfokus pada fenomena.",
+              "Menggunakan hubungan sebab-akibat atau proses.",
+              "Informasi disusun secara logis."
+            ]
+          },
+          {
+            title:"Struktur",
+            text:"Bagian umum dapat berupa pernyataan umum, deretan penjelas, dan interpretasi atau penutup.",
+            bullets:[
+              "Pernyataan umum mengenalkan fenomena.",
+              "Deretan penjelas menguraikan proses.",
+              "Penutup dapat memberikan simpulan."
+            ]
+          }
+        ],
+        example:"Siklus air dapat dijelaskan melalui penguapan, kondensasi, dan presipitasi.",
+        tip:"Cari kata hubungan seperti karena, sehingga, kemudian, dan akibatnya."
+      },
+      {
+        id:"ind-3",
+        title:"Teks Persuasi",
+        summary:"Menyampaikan ajakan dengan alasan dan argumen.",
+        sections:[
+          {
+            title:"Tujuan",
+            text:"Teks persuasi bertujuan memengaruhi pembaca agar mempertimbangkan atau melakukan sesuatu.",
+            bullets:[
+              "Memuat pendapat atau ajakan.",
+              "Dapat disertai alasan.",
+              "Data dapat digunakan untuk memperkuat argumen."
+            ]
+          },
+          {
+            title:"Bahasa",
+            text:"Teks persuasi sering menggunakan kata ajakan seperti mari, ayo, sebaiknya, dan perlu.",
+            bullets:[
+              "Ajakan harus jelas.",
+              "Alasan sebaiknya masuk akal.",
+              "Hindari informasi yang tidak dapat dipertanggungjawabkan."
+            ]
+          }
+        ],
+        example:"'Mari mengurangi penggunaan plastik sekali pakai untuk mengurangi sampah.'",
+        tip:"Pisahkan fakta, alasan, pendapat, dan ajakan."
+      },
+      {
+        id:"ind-4",
+        title:"Puisi & Sastra",
+        summary:"Diksi, majas, rima, tema dan makna.",
+        sections:[
+          {
+            title:"Unsur Puisi",
+            text:"Puisi menggunakan bahasa yang padat dan dapat memiliki unsur seperti tema, diksi, imaji, majas, dan rima.",
+            bullets:[
+              "Diksi = pilihan kata.",
+              "Majas = gaya bahasa.",
+              "Imaji membantu pembaca membayangkan sesuatu.",
+              "Tema adalah gagasan utama."
+            ]
+          },
+          {
+            title:"Menafsirkan",
+            text:"Makna puisi dapat dipahami dengan memperhatikan kata-kata penting, konteks, suasana, dan hubungan antarbaris.",
+            bullets:[
+              "Jangan langsung menyimpulkan hanya dari satu kata.",
+              "Perhatikan simbol dan gaya bahasa.",
+              "Pertimbangkan konteks keseluruhan."
+            ]
+          }
+        ],
+        example:"Majas personifikasi memberikan sifat manusia kepada benda atau alam.",
+        tip:"Baca puisi beberapa kali dan cari kata yang paling kuat membangun suasana."
       }
+    ],
+    questions:[
+      {q:"Teks yang menggambarkan objek secara terperinci disebut teks?",a:["deskripsi"],c:0},
+      {q:"Teks yang menjelaskan proses terjadinya fenomena disebut?",a:["eksplanasi"],c:0},
+      {q:"Kata 'mari' sering digunakan dalam teks?",a:["persuasi"],c:0},
+      {q:"Pilihan kata dalam puisi disebut?",a:["diksi"],c:0},
+      {q:"Gagasan utama dalam puisi disebut?",a:["tema"],c:0},
+      {q:"Gaya bahasa disebut?",a:["majas"],c:0}
     ]
   },
 
   english:{
+    name:"English",
     icon:"EN",
-    title:"ENGLISH",
-    desc:"Vocabulary, grammar, expressions, and reading.",
-    lessons:[
+    chapters:[
       {
-        title:"Simple Present",
-        content:`
-          <h3>SIMPLE PRESENT</h3>
-
-          <p>
-            Simple Present digunakan untuk kebiasaan,
-            fakta, dan kegiatan berulang.
-          </p>
-
-          <div class="example">
-            <strong>EXAMPLE</strong>
-            I go to school every day.<br>
-            She plays football every Sunday.
-          </div>
-
-          <p>
-            Untuk he, she, dan it,
-            kata kerja umumnya mendapat -s atau -es.
-          </p>
-        `,
-        questions:[
+        id:"eng-1",
+        title:"Daily Expressions",
+        summary:"Greetings, introductions, thanks, apologies and simple questions.",
+        sections:[
           {
-            text:"She ___ to school every day.",
-            options:["go","goes","going","went"],
-            answer:1
+            title:"Greetings",
+            text:"Greetings are expressions used when meeting someone.",
+            bullets:[
+              "Good morning.",
+              "Good afternoon.",
+              "Good evening.",
+              "How are you?"
+            ]
           },
           {
-            text:"I ___ English every day.",
-            options:["study","studies","studied","studying"],
-            answer:0
+            title:"Basic Responses",
+            text:"Simple responses help you continue a conversation politely.",
+            bullets:[
+              "I am fine.",
+              "Thank you.",
+              "You're welcome.",
+              "Nice to meet you."
+            ]
           }
-        ]
+        ],
+        example:"A: How are you? B: I am fine, thank you.",
+        tip:"Listen to the whole sentence when using Voice Quiz."
+      },
+      {
+        id:"eng-2",
+        title:"Simple Present",
+        summary:"Habits, routines and general facts.",
+        sections:[
+          {
+            title:"Use",
+            text:"The simple present is commonly used for habits, routines, and general facts.",
+            bullets:[
+              "I play football every Sunday.",
+              "They study English.",
+              "She likes music."
+            ]
+          },
+          {
+            title:"Third Person",
+            text:"With he, she, and it, many verbs take -s or -es.",
+            bullets:[
+              "He plays.",
+              "She watches.",
+              "It works."
+            ]
+          }
+        ],
+        example:"She studies every night.",
+        tip:"Remember the -s/-es pattern for he, she, and it."
+      },
+      {
+        id:"eng-3",
+        title:"Simple Past",
+        summary:"Talking about completed actions in the past.",
+        sections:[
+          {
+            title:"Concept",
+            text:"The simple past describes actions or events that happened in the past.",
+            bullets:[
+              "I visited Bandung yesterday.",
+              "She watched a movie last night.",
+              "They played football."
+            ]
+          },
+          {
+            title:"Time Signals",
+            text:"Words such as yesterday, last week, and two days ago can indicate past time.",
+            bullets:[
+              "yesterday",
+              "last night",
+              "last week",
+              "ago"
+            ]
+          }
+        ],
+        example:"I visited my grandmother yesterday.",
+        tip:"Learn common irregular verbs such as go → went and eat → ate."
+      },
+      {
+        id:"eng-4",
+        title:"Vocabulary & Reading",
+        summary:"Building vocabulary and understanding short texts.",
+        sections:[
+          {
+            title:"Vocabulary",
+            text:"Vocabulary is easier to remember when words are learned in context.",
+            bullets:[
+              "Group words by topic.",
+              "Use words in sentences.",
+              "Review them repeatedly."
+            ]
+          },
+          {
+            title:"Reading",
+            text:"When reading, identify the topic, important details, and meaning of unfamiliar words from context.",
+            bullets:[
+              "Read the title first.",
+              "Find key information.",
+              "Use surrounding sentences as clues."
+            ]
+          }
+        ],
+        example:"If a text repeatedly discusses school subjects, the topic is probably education.",
+        tip:"Do not translate every single word before understanding the main idea."
       }
+    ],
+    questions:[
+      {q:"How are you? — A natural response is?",a:["i am fine","fine","i'm fine"],c:0},
+      {q:"She ___ music.",a:["likes","like"],c:0},
+      {q:"Past form of go is?",a:["went"],c:0},
+      {q:"Yesterday indicates which time?",a:["past","past time"],c:0},
+      {q:"What is 'buku' in English?",a:["book"],c:0},
+      {q:"What is 'sekolah' in English?",a:["school"],c:0}
     ]
   },
 
   informatika:{
-    icon:"01",
-    title:"INFORMATIKA",
-    desc:"Algoritma, data, internet, dan teknologi.",
-    lessons:[
+    name:"Informatika",
+    icon:"<>",
+    chapters:[
       {
+        id:"inf-1",
         title:"Algoritma",
-        content:`
-          <h3>ALGORITMA</h3>
-
-          <p>
-            Algoritma adalah urutan langkah yang
-            sistematis untuk menyelesaikan masalah.
-          </p>
-
-          <div class="example">
-            <strong>CONTOH MEMBUAT TEH</strong>
-            1. Siapkan gelas.<br>
-            2. Masukkan teh.<br>
-            3. Tuangkan air panas.<br>
-            4. Tambahkan gula.<br>
-            5. Aduk.
-          </div>
-
-          <p>
-            Langkah algoritma harus jelas
-            dan memiliki urutan logis.
-          </p>
-        `,
-        questions:[
+        summary:"Langkah logis dan terurut untuk menyelesaikan masalah.",
+        sections:[
           {
-            text:"Urutan langkah untuk menyelesaikan masalah disebut ...",
-            options:[
-              "Algoritma",
-              "Monitor",
-              "Keyboard",
-              "Folder"
-            ],
-            answer:0
+            title:"Pengertian",
+            text:"Algoritma adalah urutan langkah yang logis dan sistematis untuk menyelesaikan suatu masalah.",
+            bullets:[
+              "Langkah harus jelas.",
+              "Urutan dapat memengaruhi hasil.",
+              "Algoritma tidak selalu harus ditulis sebagai program."
+            ]
           },
           {
-            text:"Algoritma harus memiliki langkah yang ...",
-            options:[
-              "Acak",
-              "Sistematis",
-              "Tidak jelas",
-              "Rahasia"
-            ],
-            answer:1
+            title:"Contoh",
+            text:"Petunjuk membuat minuman adalah contoh sederhana algoritma karena berisi langkah-langkah terurut.",
+            bullets:[
+              "Mulai.",
+              "Siapkan bahan.",
+              "Ikuti langkah.",
+              "Selesaikan."
+            ]
           }
-        ]
+        ],
+        example:"Algoritma membuat teh: siapkan gelas → masukkan teh → tuang air → tambahkan gula → aduk.",
+        tip:"Jika langkah bisa dilakukan secara acak, kemungkinan urutannya belum jelas."
+      },
+      {
+        id:"inf-2",
+        title:"Pemrograman Dasar",
+        summary:"Variabel, kondisi, perulangan dan fungsi.",
+        sections:[
+          {
+            title:"Variabel",
+            text:"Variabel digunakan untuk menyimpan data yang dapat digunakan atau diubah oleh program.",
+            bullets:[
+              "Data dapat berupa angka.",
+              "Data dapat berupa teks.",
+              "Nama variabel sebaiknya jelas."
+            ]
+          },
+          {
+            title:"Kondisi & Perulangan",
+            text:"Kondisi digunakan untuk memilih tindakan berdasarkan keadaan. Perulangan digunakan untuk menjalankan langkah berulang.",
+            bullets:[
+              "if dapat digunakan untuk kondisi.",
+              "for atau while dapat digunakan untuk perulangan.",
+              "Pilih struktur sesuai kebutuhan."
+            ]
+          }
+        ],
+        example:"Jika nilai >= 75, tampilkan 'Lulus'; jika tidak, tampilkan 'Belajar lagi'.",
+        tip:"Pecah masalah besar menjadi bagian kecil."
+      },
+      {
+        id:"inf-3",
+        title:"Internet & Web",
+        summary:"Browser, website, HTTP, URL dan keamanan dasar.",
+        sections:[
+          {
+            title:"Web",
+            text:"Website dapat diakses menggunakan browser melalui jaringan internet. URL menunjukkan alamat sumber daya.",
+            bullets:[
+              "Browser menampilkan halaman web.",
+              "HTML menyusun struktur.",
+              "CSS mengatur tampilan.",
+              "JavaScript menambahkan perilaku interaktif."
+            ]
+          },
+          {
+            title:"Keamanan",
+            text:"Keamanan digital membutuhkan kebiasaan yang baik.",
+            bullets:[
+              "Gunakan kata sandi yang kuat dan unik.",
+              "Jangan membagikan kode verifikasi.",
+              "Periksa alamat website sebelum memasukkan informasi."
+            ]
+          }
+        ],
+        example:"HTML = struktur, CSS = tampilan, JavaScript = interaksi.",
+        tip:"Jangan pernah membagikan password atau kode OTP kepada orang lain."
+      },
+      {
+        id:"inf-4",
+        title:"Data & Informasi",
+        summary:"Data, informasi, tabel, grafik dan pengolahan sederhana.",
+        sections:[
+          {
+            title:"Data",
+            text:"Data adalah fakta atau hasil pengamatan yang belum tentu langsung bermakna. Setelah diolah dan diberi konteks, data dapat menjadi informasi.",
+            bullets:[
+              "Data dapat berupa angka.",
+              "Data dapat berupa teks.",
+              "Tabel membantu mengorganisasi data."
+            ]
+          },
+          {
+            title:"Grafik",
+            text:"Grafik membantu manusia melihat pola, perbandingan, dan perubahan.",
+            bullets:[
+              "Baca judul grafik.",
+              "Periksa sumbu dan satuan.",
+              "Perhatikan skala."
+            ]
+          }
+        ],
+        example:"Grafik garis cocok untuk melihat perubahan nilai dari waktu ke waktu.",
+        tip:"Jangan menarik kesimpulan sebelum memahami skala dan konteks data."
       }
+    ],
+    questions:[
+      {q:"Urutan langkah logis untuk menyelesaikan masalah disebut?",a:["algoritma"],c:0},
+      {q:"Bahasa yang mengatur struktur halaman web adalah?",a:["html"],c:0},
+      {q:"Yang mengatur tampilan halaman web adalah?",a:["css"],c:0},
+      {q:"Yang menambahkan interaksi pada web adalah?",a:["javascript","js"],c:0},
+      {q:"Struktur untuk memilih berdasarkan kondisi disebut?",a:["if","percabangan"],c:0},
+      {q:"Struktur untuk menjalankan langkah berulang disebut?",a:["perulangan","loop"],c:0}
     ]
   },
 
   ppkn:{
+    name:"PPKn",
     icon:"★",
-    title:"PPKN",
-    desc:"Pancasila, konstitusi, hak, kewajiban, dan persatuan.",
-    lessons:[
+    chapters:[
       {
+        id:"ppk-1",
         title:"Pancasila",
-        content:`
-          <h3>PANCASILA</h3>
-
-          <p>
-            Pancasila merupakan dasar negara Indonesia.
-          </p>
-
-          <div class="example">
-            <strong>LIMA SILA</strong>
-            1. Ketuhanan Yang Maha Esa<br>
-            2. Kemanusiaan yang Adil dan Beradab<br>
-            3. Persatuan Indonesia<br>
-            4. Kerakyatan yang Dipimpin oleh Hikmat
-            Kebijaksanaan dalam Permusyawaratan/Perwakilan<br>
-            5. Keadilan Sosial bagi Seluruh Rakyat Indonesia
-          </div>
-        `,
-        questions:[
+        summary:"Nilai dan penerapan Pancasila dalam kehidupan.",
+        sections:[
           {
-            text:"Pancasila merupakan ... Indonesia.",
-            options:[
-              "Dasar negara",
-              "Lagu",
-              "Bahasa",
-              "Provinsi"
-            ],
-            answer:0
+            title:"Nilai Pancasila",
+            text:"Pancasila menjadi dasar negara Indonesia dan memuat nilai yang menjadi pedoman kehidupan berbangsa dan bernegara.",
+            bullets:[
+              "Ketuhanan.",
+              "Kemanusiaan.",
+              "Persatuan.",
+              "Kerakyatan.",
+              "Keadilan sosial."
+            ]
           },
           {
-            text:"Jumlah sila Pancasila adalah ...",
-            options:["3","4","5","6"],
-            answer:2
+            title:"Penerapan",
+            text:"Nilai Pancasila dapat diterapkan melalui perilaku sehari-hari.",
+            bullets:[
+              "Menghormati orang lain.",
+              "Bekerja sama.",
+              "Bermusyawarah.",
+              "Bersikap adil."
+            ]
           }
-        ]
+        ],
+        example:"Bekerja sama membersihkan lingkungan merupakan salah satu bentuk gotong royong.",
+        tip:"Pelajari nilai dan contoh perilakunya, bukan hanya urutan sila."
+      },
+      {
+        id:"ppk-2",
+        title:"Konstitusi",
+        summary:"Konstitusi, aturan dasar dan kehidupan bernegara.",
+        sections:[
+          {
+            title:"Konsep",
+            text:"Konstitusi merupakan hukum dasar yang menjadi landasan dalam penyelenggaraan negara.",
+            bullets:[
+              "Mengatur prinsip dasar negara.",
+              "Menjadi acuan bagi penyelenggaraan pemerintahan.",
+              "Hak dan kewajiban warga negara berkaitan dengan kehidupan berkonstitusi."
+            ]
+          },
+          {
+            title:"Kehidupan Warga",
+            text:"Warga negara perlu memahami hak dan kewajiban serta menghormati aturan yang berlaku.",
+            bullets:[
+              "Mematuhi hukum.",
+              "Menghormati hak orang lain.",
+              "Berpartisipasi secara bertanggung jawab."
+            ]
+          }
+        ],
+        example:"Mematuhi aturan lalu lintas merupakan contoh tanggung jawab sebagai warga.",
+        tip:"Hak dan kewajiban perlu dipahami secara seimbang."
+      },
+      {
+        id:"ppk-3",
+        title:"Demokrasi & Musyawarah",
+        summary:"Partisipasi, pendapat dan pengambilan keputusan.",
+        sections:[
+          {
+            title:"Musyawarah",
+            text:"Musyawarah adalah proses membahas suatu persoalan untuk mencapai keputusan bersama.",
+            bullets:[
+              "Mendengarkan pendapat.",
+              "Menyampaikan alasan dengan sopan.",
+              "Mengutamakan kepentingan bersama."
+            ]
+          },
+          {
+            title:"Tanggung Jawab",
+            text:"Partisipasi dalam kehidupan bersama harus dilakukan secara bertanggung jawab dan menghormati perbedaan.",
+            bullets:[
+              "Tidak memaksakan pendapat.",
+              "Menghargai hasil kesepakatan.",
+              "Tetap menghormati hak orang lain."
+            ]
+          }
+        ],
+        example:"Pemilihan ketua kelas dapat melibatkan proses pengambilan keputusan bersama.",
+        tip:"Perbedaan pendapat tidak harus menjadi konflik."
       }
+    ],
+    questions:[
+      {q:"Dasar negara Indonesia adalah?",a:["pancasila"],c:0},
+      {q:"Sila ketiga Pancasila berkaitan dengan?",a:["persatuan indonesia","persatuan"],c:0},
+      {q:"Pembahasan untuk mencapai keputusan bersama disebut?",a:["musyawarah"],c:0},
+      {q:"Hukum dasar negara disebut?",a:["konstitusi"],c:0},
+      {q:"Salah satu sikap dalam musyawarah adalah?",a:["menghargai pendapat","menghormati pendapat"],c:0},
+      {q:"Kerja bersama untuk kepentingan bersama disebut?",a:["gotong royong"],c:0}
     ]
   },
 
   agama:{
+    name:"Pendidikan Agama",
     icon:"✦",
-    title:"PENDIDIKAN AGAMA",
-    desc:"Nilai moral, akhlak, ibadah, dan kehidupan berkarakter.",
-    lessons:[
+    chapters:[
       {
-        title:"Kejujuran",
-        content:`
-          <h3>KEJUJURAN</h3>
-
-          <p>
-            Kejujuran adalah sikap menyampaikan
-            sesuatu sesuai kenyataan.
-          </p>
-
-          <div class="example">
-            <strong>CONTOH</strong>
-            Mengakui kesalahan meskipun tidak
-            ada yang melihat merupakan sikap jujur.
-          </div>
-
-          <p>
-            Kejujuran membantu membangun kepercayaan.
-          </p>
-        `,
-        questions:[
+        id:"aga-1",
+        title:"Akhlak & Karakter",
+        summary:"Kejujuran, tanggung jawab, disiplin dan menghormati sesama.",
+        sections:[
           {
-            text:"Sikap berkata sesuai kenyataan disebut ...",
-            options:[
-              "Kejujuran",
-              "Kesombongan",
-              "Kemalasan",
-              "Kemarahan"
-            ],
-            answer:0
+            title:"Akhlak",
+            text:"Akhlak berkaitan dengan perilaku dan sikap seseorang dalam berhubungan dengan Tuhan, diri sendiri, dan sesama.",
+            bullets:[
+              "Jujur.",
+              "Amanah.",
+              "Menghormati orang lain.",
+              "Bertanggung jawab."
+            ]
           },
           {
-            text:"Mengakui kesalahan merupakan contoh ...",
-            options:[
-              "Kejujuran",
-              "Kecurangan",
-              "Kebohongan",
-              "Iri"
-            ],
-            answer:0
+            title:"Kebiasaan Baik",
+            text:"Karakter terbentuk melalui kebiasaan yang dilakukan secara konsisten.",
+            bullets:[
+              "Menepati janji.",
+              "Mengakui kesalahan.",
+              "Membantu sesama.",
+              "Menjaga ucapan."
+            ]
           }
-        ]
+        ],
+        example:"Mengembalikan barang yang ditemukan kepada pemiliknya merupakan contoh kejujuran dan tanggung jawab.",
+        tip:"Hubungkan nilai agama dengan perilaku nyata sehari-hari."
+      },
+      {
+        id:"aga-2",
+        title:"Ibadah & Disiplin",
+        summary:"Makna ibadah, keteraturan dan tanggung jawab pribadi.",
+        sections:[
+          {
+            title:"Kedisiplinan",
+            text:"Disiplin membantu seseorang menjalankan kewajiban secara teratur.",
+            bullets:[
+              "Mengatur waktu.",
+              "Menjalankan kewajiban.",
+              "Menjaga kebersihan.",
+              "Konsisten melakukan kebaikan."
+            ]
+          },
+          {
+            title:"Niat & Perilaku",
+            text:"Dalam pembelajaran agama, niat dan perilaku sama-sama penting. Kebaikan perlu diwujudkan dalam tindakan.",
+            bullets:[
+              "Belajar dengan sungguh-sungguh.",
+              "Menghormati guru.",
+              "Menjaga amanah.",
+              "Tidak merugikan orang lain."
+            ]
+          }
+        ],
+        example:"Membuat jadwal belajar dan melaksanakannya melatih disiplin.",
+        tip:"Gunakan materi sesuai ajaran agama yang sedang dipelajari di sekolah."
+      },
+      {
+        id:"aga-3",
+        title:"Toleransi & Kepedulian",
+        summary:"Menghormati perbedaan dan membangun hubungan yang baik.",
+        sections:[
+          {
+            title:"Toleransi",
+            text:"Toleransi berarti menghargai perbedaan dan memberikan ruang kepada orang lain untuk menjalankan keyakinan serta kehidupannya secara bertanggung jawab.",
+            bullets:[
+              "Tidak menghina perbedaan.",
+              "Menghormati orang lain.",
+              "Menjaga kerukunan."
+            ]
+          },
+          {
+            title:"Kepedulian",
+            text:"Kepedulian dapat ditunjukkan dengan membantu orang lain sesuai kemampuan.",
+            bullets:[
+              "Membantu teman.",
+              "Berbagi secara wajar.",
+              "Tidak melakukan perundungan."
+            ]
+          }
+        ],
+        example:"Menghormati teman yang memiliki kebiasaan berbeda merupakan bentuk toleransi.",
+        tip:"Perbedaan dapat menjadi kesempatan untuk belajar saling menghormati."
       }
+    ],
+    questions:[
+      {q:"Sikap berkata sesuai kenyataan disebut?",a:["jujur","kejujuran"],c:0},
+      {q:"Sikap menjalankan tugas dengan sungguh-sungguh disebut?",a:["tanggung jawab"],c:0},
+      {q:"Kebiasaan melakukan sesuatu secara teratur disebut?",a:["disiplin"],c:0},
+      {q:"Menghargai perbedaan disebut?",a:["toleransi"],c:0},
+      {q:"Menjaga kepercayaan yang diberikan disebut?",a:["amanah"],c:0},
+      {q:"Membantu orang lain menunjukkan sikap?",a:["peduli","kepedulian"],c:0}
     ]
   },
 
   seni:{
-    icon:"♪",
-    title:"SENI BUDAYA",
-    desc:"Seni rupa, musik, tari, dan budaya.",
-    lessons:[
+    name:"Seni Budaya",
+    icon:"♫",
+    chapters:[
       {
-        title:"Seni Musik",
-        content:`
-          <h3>SENI MUSIK</h3>
-
-          <p>
-            Musik merupakan seni yang menggunakan
-            bunyi sebagai media utama.
-          </p>
-
-          <div class="example">
-            <strong>UNSUR MUSIK</strong>
-            Melodi, ritme, harmoni, tempo,
-            dan dinamika.
-          </div>
-
-          <p>
-            Tempo menunjukkan cepat atau lambatnya
-            lagu dimainkan.
-          </p>
-        `,
-        questions:[
+        id:"sen-1",
+        title:"Seni Rupa",
+        summary:"Unsur, prinsip, karya dua dimensi dan tiga dimensi.",
+        sections:[
           {
-            text:"Seni musik menggunakan media utama berupa ...",
-            options:[
-              "Bunyi",
-              "Warna",
-              "Tanah",
-              "Gerakan"
-            ],
-            answer:0
+            title:"Unsur Seni Rupa",
+            text:"Seni rupa menggunakan unsur visual untuk membentuk karya.",
+            bullets:[
+              "Titik.",
+              "Garis.",
+              "Bidang.",
+              "Bentuk.",
+              "Warna.",
+              "Tekstur."
+            ]
           },
           {
-            text:"Tempo menunjukkan ...",
-            options:[
-              "Cepat lambat lagu",
-              "Warna lagu",
-              "Ukuran alat",
-              "Jumlah pemain"
-            ],
-            answer:0
+            title:"Karya",
+            text:"Karya dua dimensi memiliki panjang dan lebar, sedangkan karya tiga dimensi memiliki volume.",
+            bullets:[
+              "Lukisan adalah contoh karya dua dimensi.",
+              "Patung adalah contoh karya tiga dimensi."
+            ]
           }
-        ]
+        ],
+        example:"Gambar dan lukisan termasuk karya yang umumnya bersifat dua dimensi.",
+        tip:"Amati unsur visual sebelum menilai sebuah karya."
+      },
+      {
+        id:"sen-2",
+        title:"Seni Musik",
+        summary:"Nada, ritme, melodi, tempo dan dinamika.",
+        sections:[
+          {
+            title:"Unsur Musik",
+            text:"Musik dibentuk oleh beberapa unsur yang saling berhubungan.",
+            bullets:[
+              "Nada berkaitan dengan tinggi rendah bunyi.",
+              "Ritme berkaitan dengan pola durasi atau ketukan.",
+              "Melodi merupakan rangkaian nada.",
+              "Tempo berkaitan dengan cepat lambat."
+            ]
+          },
+          {
+            title:"Dinamika",
+            text:"Dinamika berkaitan dengan perubahan kuat dan lembutnya bunyi.",
+            bullets:[
+              "Musik dapat dimainkan lembut.",
+              "Musik dapat dimainkan kuat.",
+              "Perubahan dinamika dapat membentuk ekspresi."
+            ]
+          }
+        ],
+        example:"Tempo cepat dapat memberikan kesan gerak yang lebih energik.",
+        tip:"Dengarkan ketukan untuk memahami ritme."
+      },
+      {
+        id:"sen-3",
+        title:"Seni Tari",
+        summary:"Gerak, ruang, waktu, tenaga dan ekspresi.",
+        sections:[
+          {
+            title:"Unsur Tari",
+            text:"Gerak tari dapat dianalisis melalui ruang, waktu, tenaga, dan ekspresi.",
+            bullets:[
+              "Ruang berkaitan dengan arah dan posisi.",
+              "Waktu berkaitan dengan tempo.",
+              "Tenaga berkaitan dengan kuat-lemah gerakan."
+            ]
+          },
+          {
+            title:"Ekspresi",
+            text:"Ekspresi membantu menyampaikan karakter atau suasana dalam sebuah tarian.",
+            bullets:[
+              "Gerak harus selaras dengan musik atau iringan jika digunakan.",
+              "Ekspresi mendukung makna pertunjukan."
+            ]
+          }
+        ],
+        example:"Gerakan yang kuat dan cepat dapat memberikan kesan energik.",
+        tip:"Perhatikan hubungan gerak dengan musik dan ekspresi."
       }
+    ],
+    questions:[
+      {q:"Unsur seni rupa berupa goresan memanjang disebut?",a:["garis"],c:0},
+      {q:"Rangkaian nada dalam musik disebut?",a:["melodi"],c:0},
+      {q:"Cepat lambat musik disebut?",a:["tempo"],c:0},
+      {q:"Pola ketukan dalam musik berkaitan dengan?",a:["ritme","ritme musik"],c:0},
+      {q:"Karya yang memiliki panjang, lebar, dan volume disebut?",a:["tiga dimensi","3 dimensi"],c:0},
+      {q:"Salah satu unsur tari adalah?",a:["gerak","ruang","waktu","tenaga"],c:0}
     ]
   },
 
   pjok:{
-    icon:"RUN",
-    title:"PJOK",
-    desc:"Kebugaran jasmani, olahraga, dan kesehatan.",
-    lessons:[
+    name:"PJOK",
+    icon:"⚡",
+    chapters:[
       {
+        id:"pjo-1",
         title:"Kebugaran Jasmani",
-        content:`
-          <h3>KEBUGARAN JASMANI</h3>
-
-          <p>
-            Kebugaran jasmani adalah kemampuan tubuh
-            melakukan aktivitas tanpa mengalami
-            kelelahan berlebihan.
-          </p>
-
-          <div class="example">
-            <strong>LATIHAN</strong>
-            Jalan cepat, lari, push-up,
-            sit-up, dan latihan kelenturan.
-          </div>
-        `,
-        questions:[
+        summary:"Kekuatan, daya tahan, kelenturan dan kebugaran.",
+        sections:[
           {
-            text:"Kemampuan tubuh beraktivitas tanpa lelah berlebihan disebut ...",
-            options:[
-              "Kebugaran jasmani",
-              "Tidur",
-              "Kecepatan",
-              "Kekuatan tangan"
-            ],
-            answer:0
+            title:"Komponen",
+            text:"Kebugaran jasmani berkaitan dengan kemampuan tubuh melakukan aktivitas secara efektif.",
+            bullets:[
+              "Kekuatan.",
+              "Daya tahan.",
+              "Kelenturan.",
+              "Kecepatan.",
+              "Koordinasi."
+            ]
           },
           {
-            text:"Contoh latihan kebugaran adalah ...",
-            options:[
-              "Push-up",
-              "Menonton TV",
-              "Tidur",
-              "Makan"
-            ],
-            answer:0
+            title:"Latihan",
+            text:"Latihan perlu dilakukan sesuai kemampuan dan dilakukan dengan teknik yang benar.",
+            bullets:[
+              "Pemanasan sebelum aktivitas.",
+              "Gunakan teknik yang aman.",
+              "Berikan waktu pemulihan."
+            ]
           }
-        ]
+        ],
+        example:"Jogging dapat melatih daya tahan tubuh.",
+        tip:"Jangan memaksakan latihan jika tubuh mengalami nyeri atau kondisi tidak nyaman."
+      },
+      {
+        id:"pjo-2",
+        title:"Permainan Bola",
+        summary:"Teknik dasar dan kerja sama dalam permainan.",
+        sections:[
+          {
+            title:"Teknik",
+            text:"Permainan bola memiliki teknik dasar yang berbeda.",
+            bullets:[
+              "Sepak bola: menendang, mengontrol, menggiring.",
+              "Bola basket: dribble, passing, shooting.",
+              "Bola voli: passing, servis, dan smash."
+            ]
+          },
+          {
+            title:"Kerja Sama",
+            text:"Permainan beregu membutuhkan komunikasi, posisi, dan kerja sama.",
+            bullets:[
+              "Kenali posisi.",
+              "Komunikasikan pergerakan.",
+              "Hormati lawan dan aturan."
+            ]
+          }
+        ],
+        example:"Passing digunakan untuk mengirim bola kepada rekan satu tim.",
+        tip:"Teknik yang baik harus disertai pemahaman aturan permainan."
+      },
+      {
+        id:"pjo-3",
+        title:"Pola Hidup Sehat",
+        summary:"Aktivitas fisik, makanan, tidur dan kebersihan.",
+        sections:[
+          {
+            title:"Kebiasaan Sehat",
+            text:"Kesehatan dipengaruhi oleh banyak kebiasaan sehari-hari.",
+            bullets:[
+              "Aktif bergerak.",
+              "Makan beragam makanan bergizi.",
+              "Minum cukup.",
+              "Tidur cukup.",
+              "Menjaga kebersihan."
+            ]
+          },
+          {
+            title:"Keseimbangan",
+            text:"Tubuh membutuhkan keseimbangan antara aktivitas dan pemulihan.",
+            bullets:[
+              "Jadwalkan aktivitas.",
+              "Beristirahat setelah aktivitas.",
+              "Perhatikan kondisi tubuh."
+            ]
+          }
+        ],
+        example:"Tidur yang cukup membantu tubuh mendapatkan waktu pemulihan.",
+        tip:"Kebiasaan kecil yang dilakukan konsisten dapat membantu menjaga kebugaran."
       }
+    ],
+    questions:[
+      {q:"Kemampuan tubuh melakukan aktivitas dalam waktu lama berkaitan dengan?",a:["daya tahan"],c:0},
+      {q:"Gerakan membawa bola sambil memantulkannya dalam basket disebut?",a:["dribble","dribbling"],c:0},
+      {q:"Mengirim bola kepada teman satu tim disebut?",a:["passing"],c:0},
+      {q:"Kegiatan sebelum olahraga untuk mempersiapkan tubuh disebut?",a:["pemanasan"],c:0},
+      {q:"Salah satu komponen kebugaran adalah?",a:["kekuatan","daya tahan","kelenturan"],c:0},
+      {q:"Setelah aktivitas fisik tubuh membutuhkan?",a:["istirahat","pemulihan"],c:0}
     ]
   },
 
   prakarya:{
-    icon:"✚",
-    title:"PRAKARYA",
-    desc:"Karya, bahan, desain, dan keterampilan.",
-    lessons:[
+    name:"Prakarya",
+    icon:"⚒",
+    chapters:[
       {
-        title:"Bahan dan Produk",
-        content:`
-          <h3>BAHAN DAN PRODUK</h3>
-
-          <p>
-            Produk kerajinan dapat dibuat dari
-            kayu, kertas, kain, tanah liat,
-            dan bahan bekas.
-          </p>
-
-          <div class="example">
-            <strong>CONTOH</strong>
-            Botol plastik bekas dapat diolah
-            menjadi pot tanaman.
-          </div>
-
-          <p>
-            Produk perlu memperhatikan fungsi,
-            keamanan, dan keindahan.
-          </p>
-        `,
-        questions:[
+        id:"pra-1",
+        title:"Kerajinan",
+        summary:"Bahan, teknik, desain dan nilai guna.",
+        sections:[
           {
-            text:"Botol plastik bekas dapat diolah menjadi ...",
-            options:[
-              "Pot tanaman",
-              "Bensin",
-              "Air",
-              "Batu"
-            ],
-            answer:0
+            title:"Kerajinan",
+            text:"Kerajinan merupakan karya yang dibuat dengan keterampilan tertentu dan dapat memiliki fungsi atau nilai estetis.",
+            bullets:[
+              "Bahan dapat berasal dari alam atau buatan.",
+              "Desain menentukan bentuk dan fungsi.",
+              "Teknik harus disesuaikan dengan bahan."
+            ]
           },
           {
-            text:"Salah satu hal yang diperhatikan dalam produk adalah ...",
-            options:[
-              "Fungsi",
-              "Kebisingan",
-              "Rahasia",
-              "Kecepatan"
-            ],
-            answer:0
+            title:"Proses",
+            text:"Pembuatan produk dapat dimulai dari ide, desain, pemilihan bahan, pembuatan, finishing, dan evaluasi.",
+            bullets:[
+              "Tentukan tujuan.",
+              "Buat rancangan.",
+              "Kerjakan dengan aman.",
+              "Evaluasi hasil."
+            ]
           }
-        ]
+        ],
+        example:"Produk dari kardus dapat dirancang menjadi tempat penyimpanan sederhana.",
+        tip:"Fungsi produk harus dipikirkan sejak tahap desain."
+      },
+      {
+        id:"pra-2",
+        title:"Budidaya",
+        summary:"Perencanaan, perawatan dan hasil budidaya.",
+        sections:[
+          {
+            title:"Dasar Budidaya",
+            text:"Budidaya adalah kegiatan memelihara dan mengembangkan organisme atau tanaman untuk mendapatkan hasil tertentu.",
+            bullets:[
+              "Pilih objek yang sesuai lingkungan.",
+              "Siapkan media.",
+              "Lakukan perawatan.",
+              "Pantau pertumbuhan."
+            ]
+          },
+          {
+            title:"Perawatan",
+            text:"Tanaman membutuhkan kondisi yang sesuai seperti air, cahaya, nutrisi, dan lingkungan yang mendukung.",
+            bullets:[
+              "Jangan berlebihan memberi air.",
+              "Perhatikan kebutuhan cahaya.",
+              "Jaga kebersihan media."
+            ]
+          }
+        ],
+        example:"Tanaman sayur dapat dibudidayakan dengan memperhatikan media, air, cahaya, dan nutrisi.",
+        tip:"Catat perkembangan agar perubahan dapat diamati."
+      },
+      {
+        id:"pra-3",
+        title:"Pengolahan",
+        summary:"Bahan pangan, kebersihan, proses dan kemasan.",
+        sections:[
+          {
+            title:"Pengolahan Pangan",
+            text:"Pengolahan pangan mengubah bahan menjadi produk yang lebih siap dikonsumsi atau memiliki nilai guna berbeda.",
+            bullets:[
+              "Pilih bahan yang layak.",
+              "Jaga kebersihan.",
+              "Gunakan alat dengan aman.",
+              "Simpan produk dengan benar."
+            ]
+          },
+          {
+            title:"Kemasan",
+            text:"Kemasan melindungi produk dan dapat membantu memberikan informasi kepada konsumen.",
+            bullets:[
+              "Nama produk.",
+              "Informasi bahan.",
+              "Cara penyimpanan bila diperlukan.",
+              "Desain yang sesuai."
+            ]
+          }
+        ],
+        example:"Kemasan yang baik membantu menjaga produk dan memudahkan identifikasi.",
+        tip:"Kebersihan harus menjadi perhatian sejak bahan disiapkan."
       }
+    ],
+    questions:[
+      {q:"Tahap setelah menentukan ide dapat berupa?",a:["desain","rancangan"],c:0},
+      {q:"Kegiatan memelihara tanaman atau organisme disebut?",a:["budidaya"],c:0},
+      {q:"Kemasan salah satunya berfungsi untuk?",a:["melindungi produk"],c:0},
+      {q:"Sebelum membuat produk sebaiknya membuat?",a:["rancangan","desain"],c:0},
+      {q:"Kebersihan penting dalam proses?",a:["pengolahan pangan","pengolahan"],c:0},
+      {q:"Evaluasi dilakukan untuk?",a:["menilai hasil","memperbaiki hasil"],c:0}
     ]
   },
 
   sunda:{
-    icon:"SUN",
-    title:"BAHASA SUNDA",
-    desc:"Kosakata dan komunikasi dasar Bahasa Sunda.",
-    lessons:[
+    name:"Bahasa Sunda",
+    icon:"ᮞ",
+    chapters:[
       {
-        title:"Kecap Sapopoé",
-        content:`
-          <h3>KECAP SAPOPOÉ</h3>
-
-          <p>
-            Bahasa Sunda memiliki kosakata yang
-            digunakan dalam percakapan sehari-hari.
-          </p>
-
-          <div class="example">
-            <strong>CONTOH</strong>
-            Hatur nuhun = Terima kasih<br>
-            Punten = Permisi/Maaf
-          </div>
-        `,
-        questions:[
+        id:"sun-1",
+        title:"Kecap & Kalimah",
+        summary:"Kosakata, kalimat sederhana dan penggunaan bahasa.",
+        sections:[
           {
-            text:"Hatur nuhun artinya ...",
-            options:[
-              "Terima kasih",
-              "Selamat pagi",
-              "Permisi",
-              "Sampai jumpa"
-            ],
-            answer:0
+            title:"Kosakata",
+            text:"Bahasa Sunda memiliki kosakata yang digunakan sesuai konteks dan hubungan antara penutur.",
+            bullets:[
+              "Kecap = kata.",
+              "Kalimah = kalimat.",
+              "Pemilihan ragam bahasa perlu memperhatikan lawan bicara."
+            ]
           },
           {
-            text:"Punten dapat digunakan untuk ...",
-            options:[
-              "Permisi/Maaf",
-              "Makan",
-              "Tidur",
-              "Bermain"
-            ],
-            answer:0
+            title:"Kalimat",
+            text:"Kalimat digunakan untuk menyampaikan pikiran atau informasi. Susunan kata perlu dibuat jelas agar mudah dipahami.",
+            bullets:[
+              "Kenali subjek dan predikat.",
+              "Perhatikan konteks.",
+              "Gunakan kata yang sesuai."
+            ]
           }
-        ]
+        ],
+        example:"'Abdi diajar.' berarti 'Saya belajar.'",
+        tip:"Pelajari kosakata melalui kalimat, bukan hanya daftar kata."
+      },
+      {
+        id:"sun-2",
+        title:"Undak-Usuk Basa",
+        summary:"Ragam bahasa dan kesopanan dalam komunikasi.",
+        sections:[
+          {
+            title:"Konsep",
+            text:"Dalam Bahasa Sunda terdapat penggunaan bahasa yang memperhatikan kesopanan dan hubungan sosial.",
+            bullets:[
+              "Pilihan kata dapat berbeda sesuai lawan bicara.",
+              "Bahasa kepada teman sebaya dapat berbeda dengan bahasa kepada orang yang lebih tua.",
+              "Konteks sangat penting."
+            ]
+          },
+          {
+            title:"Komunikasi",
+            text:"Kesopanan bukan hanya pilihan kata, tetapi juga sikap, intonasi, dan cara menyampaikan sesuatu.",
+            bullets:[
+              "Hormati lawan bicara.",
+              "Gunakan bahasa yang sesuai.",
+              "Hindari kata yang dapat menyinggung."
+            ]
+          }
+        ],
+        example:"Saat berbicara kepada guru, gunakan ragam bahasa yang lebih sopan.",
+        tip:"Utamakan konteks dan rasa hormat saat memilih ragam bahasa."
+      },
+      {
+        id:"sun-3",
+        title:"Sisindiran",
+        summary:"Mengenal bentuk sastra Sunda dan pesan di dalamnya.",
+        sections:[
+          {
+            title:"Pengertian",
+            text:"Sisindiran merupakan salah satu bentuk karya sastra Sunda yang menggunakan permainan bunyi dan makna.",
+            bullets:[
+              "Dapat memiliki bagian sampiran dan isi.",
+              "Menggunakan permainan kata atau bunyi.",
+              "Pesan disampaikan dengan bentuk yang menarik."
+            ]
+          },
+          {
+            title:"Memahami Isi",
+            text:"Untuk memahami sisindiran, perhatikan hubungan bunyi, kata, dan pesan yang disampaikan.",
+            bullets:[
+              "Cari bagian isi.",
+              "Perhatikan konteks.",
+              "Pahami pesan keseluruhan."
+            ]
+          }
+        ],
+        example:"Sisindiran dapat digunakan untuk menyampaikan nasihat dengan cara yang lebih halus.",
+        tip:"Jangan hanya mencari arti kata satu per satu; pahami pesan keseluruhannya."
       }
+    ],
+    questions:[
+      {q:"Kecap dina basa Indonesia hartina?",a:["kata"],c:0},
+      {q:"Kalimah hartina?",a:["kalimat"],c:0},
+      {q:"'Abdi diajar' hartina?",a:["saya belajar"],c:0},
+      {q:"Pemilihan ragam bahasa perlu memperhatikan?",a:["lawan bicara","konteks"],c:0},
+      {q:"Salah satu karya sastra Sunda adalah?",a:["sisindiran"],c:0},
+      {q:"Komunikasi sopan perlu memperhatikan?",a:["lawan bicara","konteks"],c:0}
     ]
   }
 
@@ -1325,95 +2135,206 @@ const subjects = {
    STATE
 ========================================================= */
 
+const STORAGE_KEY = "reza_pixel_school_v10_black";
+
 const DEFAULT_STATE = {
   level:1,
   exp:0,
   coins:0,
   streak:0,
-  subject:null,
-  lessonIndex:0,
-  quizIndex:0,
-  quizScore:0,
-  progress:{},
+  totalCorrect:0,
+  totalAnswered:0,
+  completedLessons:[],
+  completedChapters:[],
+  subjectXP:{},
   settings:{
     lang:"id-ID",
-    rate:0.9
+    rate:0.9,
+    music:true,
+    voice:true
   }
 };
 
-let state=JSON.parse(
-  JSON.stringify(DEFAULT_STATE)
-);
+let state = loadState();
 
-let recognition=null;
-let voices=[];
-let audioCtx=null;
-let musicTimer=null;
-let musicOn=true;
+let currentView = "home";
+let currentSubject = null;
+let currentChapter = null;
+let quizQuestions = [];
+let quizIndex = 0;
+let quizScore = 0;
+let quizLocked = false;
 
-const screen=document.getElementById("screen");
-const toast=document.getElementById("toast");
-const boot=document.getElementById("boot");
+let recognition = null;
+let recognitionRunning = false;
+let speechVoices = [];
+
+let audioCtx = null;
+let musicTimer = null;
+let musicStep = 0;
 
 /* =========================================================
-   SAFE SAVE
+   SAFE STATE
 ========================================================= */
 
-function saveGame(show=true){
-
-  try{
-
-    localStorage.setItem(
-      "reza_pixel_learning_v92",
-      JSON.stringify(state)
-    );
-
-    if(show){
-      showToast("GAME SAVED ✓");
-    }
-
-  }catch(error){
-
-    console.error("SAVE ERROR:",error);
-
-  }
+function cloneDefault(){
+  return JSON.parse(JSON.stringify(DEFAULT_STATE));
 }
 
-function loadGame(){
+function loadState(){
+
+  const base = cloneDefault();
 
   try{
-
-    const raw=localStorage.getItem(
-      "reza_pixel_learning_v92"
-    );
+    const raw = localStorage.getItem(STORAGE_KEY);
 
     if(!raw){
-      updateStats();
-      return;
+      return base;
     }
 
-    const saved=JSON.parse(raw);
+    const saved = JSON.parse(raw);
 
-    state={
-      ...DEFAULT_STATE,
-      ...saved,
-      settings:{
-        ...DEFAULT_STATE.settings,
-        ...(saved.settings || {})
-      },
-      progress:saved.progress || {}
-    };
+    if(saved && typeof saved === "object"){
+      Object.assign(base,saved);
+
+      if(!Array.isArray(base.completedLessons)){
+        base.completedLessons = [];
+      }
+
+      if(!Array.isArray(base.completedChapters)){
+        base.completedChapters = [];
+      }
+
+      if(!base.subjectXP || typeof base.subjectXP !== "object"){
+        base.subjectXP = {};
+      }
+
+      base.settings = Object.assign(
+        cloneDefault().settings,
+        saved.settings || {}
+      );
+    }
 
   }catch(error){
+    console.warn("REZA SAVE LOAD:",error);
+  }
 
-    console.error("LOAD ERROR:",error);
+  return base;
+}
 
-    state=JSON.parse(
-      JSON.stringify(DEFAULT_STATE)
+function saveState(){
+
+  try{
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify(state)
     );
+  }catch(error){
+    console.warn("REZA SAVE ERROR:",error);
   }
 
   updateStats();
+}
+
+/* =========================================================
+   BASIC HELPERS
+========================================================= */
+
+function $(id){
+  return document.getElementById(id);
+}
+
+function escapeHTML(value){
+
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+}
+
+function normalize(text){
+
+  return String(text ?? "")
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g,"")
+    .replace(/[^\p{L}\p{N}\s]/gu," ")
+    .replace(/\s+/g," ")
+    .trim();
+}
+
+function showToast(message){
+
+  const toast = $("toast");
+
+  if(!toast){
+    return;
+  }
+
+  toast.textContent = message;
+  toast.classList.add("show");
+
+  clearTimeout(showToast.timer);
+
+  showToast.timer = setTimeout(function(){
+    toast.classList.remove("show");
+  },2200);
+}
+
+function requiredExp(){
+
+  return 100 + ((state.level - 1) * 50);
+}
+
+function addReward(exp,coins){
+
+  state.exp += Number(exp) || 0;
+  state.coins += Number(coins) || 0;
+
+  let leveled = false;
+
+  while(state.exp >= requiredExp()){
+
+    state.exp -= requiredExp();
+    state.level++;
+    leveled = true;
+  }
+
+  if(leveled){
+    showToast("LEVEL UP! REZA sekarang Lv." + state.level);
+    correctSound();
+  }
+
+  saveState();
+}
+
+function markChapterComplete(subjectId,chapterId){
+
+  const key = subjectId + "::" + chapterId;
+
+  if(!state.completedChapters.includes(key)){
+    state.completedChapters.push(key);
+    addReward(35,15);
+    showToast("BAB SELESAI! +35 EXP +15 COINS");
+  }
+
+  saveState();
+}
+
+function chapterComplete(subjectId,chapterId){
+
+  return state.completedChapters.includes(
+    subjectId + "::" + chapterId
+  );
+}
+
+function lessonComplete(subjectId,chapterId){
+
+  return state.completedLessons.includes(
+    subjectId + "::" + chapterId
+  );
 }
 
 /* =========================================================
@@ -1422,258 +2343,200 @@ function loadGame(){
 
 function updateStats(){
 
-  document.getElementById("level").textContent=
-    state.level;
+  const ids = [
+    ["levelValue",state.level],
+    ["expValue",state.exp + "/" + requiredExp()],
+    ["coinValue",state.coins],
+    ["streakValue",state.streak]
+  ];
 
-  document.getElementById("exp").textContent=
-    state.exp;
+  ids.forEach(function(item){
 
-  document.getElementById("coins").textContent=
-    state.coins;
+    const el = $(item[0]);
 
-  document.getElementById("streak").textContent=
-    state.streak;
-}
+    if(el){
+      el.textContent = item[1];
+    }
+  });
 
-function addReward(exp,coins){
+  const fill = $("topExpFill");
 
-  state.exp+=exp;
-  state.coins+=coins;
+  if(fill){
 
-  while(
-    state.exp >= state.level*100
-  ){
+    const percent =
+      Math.min(
+        100,
+        (state.exp / requiredExp()) * 100
+      );
 
-    state.exp -= state.level*100;
-    state.level++;
-
-    speak(
-      "Level up. Selamat, level kamu naik."
-    );
-
-    showToast(
-      "LEVEL UP! ★"
-    );
+    fill.style.width = percent + "%";
   }
-
-  updateStats();
-  saveGame(false);
-}
-
-/* =========================================================
-   TOAST
-========================================================= */
-
-let toastTimer=null;
-
-function showToast(message){
-
-  clearTimeout(toastTimer);
-
-  toast.textContent=message;
-  toast.style.display="block";
-
-  toastTimer=setTimeout(()=>{
-    toast.style.display="none";
-  },2200);
 }
 
 /* =========================================================
    AUDIO
 ========================================================= */
 
-function initAudio(){
+function ensureAudio(){
 
-  try{
+  if(!audioCtx){
 
-    if(!audioCtx){
-
-      const AudioContext=
-        window.AudioContext ||
-        window.webkitAudioContext;
-
-      if(!AudioContext){
-        return;
-      }
-
-      audioCtx=new AudioContext();
+    try{
+      audioCtx =
+        new (window.AudioContext ||
+        window.webkitAudioContext)();
+    }catch(error){
+      return;
     }
+  }
 
-    if(audioCtx.state==="suspended"){
-      audioCtx.resume();
-    }
-
-  }catch(error){
-
-    console.warn(
-      "Audio unavailable:",
-      error
-    );
-
+  if(audioCtx.state === "suspended"){
+    audioCtx.resume().catch(function(){});
   }
 }
 
-function beep(
-  frequency=440,
-  duration=.08
-){
+function beep(freq,duration,type,volume){
 
-  if(!musicOn){
+  if(!state.settings.music){
+    return;
+  }
+
+  ensureAudio();
+
+  if(!audioCtx){
     return;
   }
 
   try{
 
-    initAudio();
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
 
-    if(!audioCtx){
-      return;
-    }
-
-    const oscillator=
-      audioCtx.createOscillator();
-
-    const gain=
-      audioCtx.createGain();
-
-    oscillator.type="square";
-    oscillator.frequency.value=frequency;
+    osc.type = type || "square";
+    osc.frequency.value = freq;
 
     gain.gain.setValueAtTime(
-      .035,
+      volume || 0.025,
       audioCtx.currentTime
     );
 
     gain.gain.exponentialRampToValueAtTime(
-      .001,
-      audioCtx.currentTime+duration
+      0.001,
+      audioCtx.currentTime + duration
     );
 
-    oscillator.connect(gain);
+    osc.connect(gain);
     gain.connect(audioCtx.destination);
 
-    oscillator.start();
-
-    oscillator.stop(
-      audioCtx.currentTime+duration
-    );
+    osc.start();
+    osc.stop(audioCtx.currentTime + duration);
 
   }catch(error){}
 }
 
 function clickSound(){
-  beep(620,.05);
+  beep(420,.055,"square",.035);
 }
 
 function correctSound(){
+  beep(660,.08,"square",.04);
 
-  beep(660,.08);
-
-  setTimeout(()=>{
-    beep(880,.12);
+  setTimeout(function(){
+    beep(880,.1,"square",.04);
   },90);
 }
 
 function wrongSound(){
-  beep(180,.15);
+  beep(150,.16,"sawtooth",.035);
 }
 
 function startMusic(){
 
-  if(musicTimer){
+  if(musicTimer || !state.settings.music){
     return;
   }
 
-  const melody=[
-    262,330,392,330,
-    294,349,440,349,
-    262,330,392,523,
-    440,392,330,262
+  ensureAudio();
+
+  const notes = [
+    196,196,261.63,293.66,
+    329.63,293.66,261.63,196,
+    220,220,293.66,329.63,
+    392,329.63,293.66,220
   ];
 
-  let index=0;
+  musicTimer = setInterval(function(){
 
-  musicTimer=setInterval(()=>{
-
-    if(musicOn){
-
-      beep(
-        melody[index % melody.length],
-        .07
-      );
-
-      index++;
+    if(!state.settings.music){
+      return;
     }
 
-  },430);
+    beep(
+      notes[musicStep % notes.length],
+      .11,
+      "square",
+      .012
+    );
+
+    musicStep++;
+
+  },260);
 }
 
 function stopMusic(){
 
   if(musicTimer){
     clearInterval(musicTimer);
-    musicTimer=null;
+    musicTimer = null;
   }
 }
 
 function toggleMusic(){
 
-  musicOn=!musicOn;
+  state.settings.music =
+    !state.settings.music;
 
-  if(musicOn){
-
-    initAudio();
+  if(state.settings.music){
     startMusic();
-
-    showToast("MUSIC ON ♪");
-
+    showToast("PIXEL MUSIC: ON");
   }else{
-
     stopMusic();
-
-    showToast("MUSIC OFF");
+    showToast("PIXEL MUSIC: OFF");
   }
 
-  setTimeout(
-    renderHome,
-    150
-  );
+  saveState();
+  render();
 }
 
 /* =========================================================
-   SPEECH SYNTHESIS
+   SPEECH
 ========================================================= */
 
 function loadVoices(){
 
-  if(
-    !("speechSynthesis" in window)
-  ){
+  if(!("speechSynthesis" in window)){
     return;
   }
 
-  voices=
-    window.speechSynthesis.getVoices();
+  speechVoices =
+    window.speechSynthesis.getVoices() || [];
 }
 
-loadVoices();
-
 if("speechSynthesis" in window){
+  loadVoices();
 
-  window.speechSynthesis.onvoiceschanged=
+  window.speechSynthesis.onvoiceschanged =
     loadVoices;
 }
 
 function speak(text){
 
-  if(
-    !("speechSynthesis" in window)
-  ){
+  if(!state.settings.voice){
+    return;
+  }
 
-    showToast(
-      "TEXT TO SPEECH TIDAK TERSEDIA"
-    );
-
+  if(!("speechSynthesis" in window)){
+    showToast("VOICE TTS tidak tersedia di browser ini.");
     return;
   }
 
@@ -1681,54 +2544,44 @@ function speak(text){
 
     window.speechSynthesis.cancel();
 
-    const utterance=
-      new SpeechSynthesisUtterance(
-        text
-      );
+    const utterance =
+      new SpeechSynthesisUtterance(text);
 
-    utterance.lang=
-      state.settings.lang;
+    utterance.lang =
+      state.settings.lang || "id-ID";
 
-    utterance.rate=
+    utterance.rate =
       Number(state.settings.rate) || .9;
 
-    utterance.pitch=1.05;
-    utterance.volume=1;
+    utterance.pitch = 1;
 
-    const baseLanguage=
-      state.settings.lang
-        .split("-")[0]
-        .toLowerCase();
+    const lang =
+      utterance.lang.toLowerCase();
 
-    const selectedVoice=
-      voices.find(
-        voice=>
-          voice.lang===state.settings.lang
-      ) ||
-      voices.find(
-        voice=>
-          voice.lang &&
-          voice.lang
-            .toLowerCase()
-            .startsWith(baseLanguage)
-      );
+    const exact =
+      speechVoices.find(function(v){
+        return v.lang &&
+          v.lang.toLowerCase() === lang;
+      });
 
-    if(selectedVoice){
-      utterance.voice=
-        selectedVoice;
+    const partial =
+      speechVoices.find(function(v){
+        return v.lang &&
+          v.lang.toLowerCase()
+           .startsWith(lang.split("-")[0]);
+      });
+
+    if(exact){
+      utterance.voice = exact;
+    }else if(partial){
+      utterance.voice = partial;
     }
 
-    window.speechSynthesis.speak(
-      utterance
-    );
+    window.speechSynthesis.speak(utterance);
 
   }catch(error){
 
-    console.error(
-      "TTS ERROR:",
-      error
-    );
-
+    console.warn("TTS:",error);
   }
 }
 
@@ -1736,373 +2589,406 @@ function speak(text){
    SPEECH RECOGNITION
 ========================================================= */
 
-function getRecognitionClass(){
+function recognitionClass(){
 
   return window.SpeechRecognition ||
          window.webkitSpeechRecognition ||
          null;
 }
 
-function createRecognition(){
+function setupRecognition(){
 
-  const Recognition=
-    getRecognitionClass();
+  const Recognition = recognitionClass();
 
   if(!Recognition){
-    recognition=null;
     return null;
   }
 
   try{
 
-    const instance=
-      new Recognition();
+    const rec = new Recognition();
 
-    instance.lang=
-      state.settings.lang;
+    rec.lang =
+      state.settings.lang || "id-ID";
 
-    instance.continuous=false;
-    instance.interimResults=false;
-    instance.maxAlternatives=3;
+    rec.continuous = false;
+    rec.interimResults = false;
+    rec.maxAlternatives = 3;
 
-    instance.onstart=()=>{
-      setVoiceUI(true);
-    };
-
-    instance.onresult=(event)=>{
-
-      let transcript="";
-
-      for(
-        let i=event.resultIndex;
-        i<event.results.length;
-        i++
-      ){
-
-        transcript +=
-          event.results[i][0]
-            .transcript+" ";
-      }
-
-      transcript=
-        transcript.trim();
-
-      const output=
-        document.getElementById(
-          "transcript"
-        );
-
-      if(output){
-        output.textContent=
-          transcript ||
-          "Tidak ada jawaban.";
-      }
-
-      processVoiceAnswer(
-        transcript
-      );
-    };
-
-    instance.onerror=(event)=>{
-
-      console.warn(
-        "Speech recognition error:",
-        event.error
-      );
-
-      setVoiceUI(false);
-
-      let message=
-        "VOICE ERROR: "+
-        event.error;
-
-      if(event.error==="not-allowed"){
-        message=
-          "MIC DITOLAK. IZINKAN MICROPHONE.";
-      }
-
-      const status=
-        document.getElementById(
-          "voiceStatus"
-        );
-
-      if(status){
-        status.textContent=
-          message;
-      }
-    };
-
-    instance.onend=()=>{
-      setVoiceUI(false);
-    };
-
-    return instance;
+    return rec;
 
   }catch(error){
 
-    console.error(
-      "RECOGNITION CREATE ERROR:",
-      error
-    );
-
+    console.warn("Recognition:",error);
     return null;
   }
 }
 
-function setupRecognition(){
+function stopRecognition(){
 
-  recognition=
-    createRecognition();
+  if(recognition){
 
-  return recognition;
-}
-
-function setVoiceUI(active){
-
-  const mic=
-    document.getElementById(
-      "micButton"
-    );
-
-  const status=
-    document.getElementById(
-      "voiceStatus"
-    );
-
-  if(mic){
-
-    if(active){
-
-      mic.classList.add(
-        "listening"
-      );
-
-      mic.textContent="●";
-
-    }else{
-
-      mic.classList.remove(
-        "listening"
-      );
-
-      mic.textContent="🎤";
-    }
+    try{
+      recognition.stop();
+    }catch(error){}
   }
 
-  if(status){
-
-    status.textContent=
-      active
-      ? "MENDENGARKAN... SILAKAN JAWAB"
-      : "JAWAB DENGAN SUARA";
-  }
+  recognitionRunning = false;
 }
 
 function startVoice(){
 
-  clickSound();
-
-  if(!recognition){
-    recognition=
-      setupRecognition();
+  if(quizLocked){
+    return;
   }
 
-  if(!recognition){
+  if(!recognitionClass()){
 
     showToast(
-      "VOICE INPUT TIDAK DIDUKUNG BROWSER INI"
+      "Voice Recognition belum didukung browser ini."
     );
 
     return;
   }
 
-  try{
+  stopRecognition();
 
-    recognition.lang=
-      state.settings.lang;
+  recognition = setupRecognition();
+
+  if(!recognition){
+    showToast("Voice Recognition gagal dibuat.");
+    return;
+  }
+
+  const status = $("voiceStatus");
+  const transcript = $("voiceTranscript");
+
+  recognition.onstart = function(){
+
+    recognitionRunning = true;
+
+    if(status){
+      status.textContent =
+        "🎤 MENDENGARKAN... Silakan jawab.";
+    }
+
+    if(transcript){
+      transcript.textContent =
+        ">> Listening...";
+    }
+
+    beep(700,.07,"square",.03);
+  };
+
+  recognition.onresult = function(event){
+
+    let textResult = "";
+
+    for(
+      let i = event.resultIndex;
+      i < event.results.length;
+      i++
+    ){
+
+      if(event.results[i] &&
+         event.results[i][0]){
+
+        textResult +=
+          event.results[i][0].transcript + " ";
+      }
+    }
+
+    textResult = textResult.trim();
+
+    if(transcript){
+      transcript.textContent =
+        ">> " + textResult;
+    }
+
+    processVoiceAnswer(textResult);
+  };
+
+  recognition.onerror = function(event){
+
+    recognitionRunning = false;
+
+    if(status){
+
+      if(event.error === "not-allowed"){
+        status.textContent =
+          "MIC DITOLAK. Izinkan microphone di browser.";
+      }else if(event.error === "no-speech"){
+        status.textContent =
+          "Tidak terdengar jawaban. Tekan MIC lagi.";
+      }else{
+        status.textContent =
+          "VOICE ERROR: " + event.error;
+      }
+    }
+  };
+
+  recognition.onend = function(){
+
+    recognitionRunning = false;
+  };
+
+  try{
 
     recognition.start();
 
   }catch(error){
 
-    console.warn(
-      "VOICE START:",
-      error
+    recognitionRunning = false;
+
+    showToast(
+      "MIC belum siap. Tekan tombol MIC lagi."
+    );
+  }
+}
+
+function voiceMatches(userAnswer,answers){
+
+  const user = normalize(userAnswer);
+
+  if(!user){
+    return false;
+  }
+
+  return answers.some(function(answer){
+
+    const target = normalize(answer);
+
+    if(!target){
+      return false;
+    }
+
+    if(user === target){
+      return true;
+    }
+
+    if(user.includes(target)){
+      return true;
+    }
+
+    return target.includes(user) &&
+      user.length >= 3;
+  });
+}
+
+function processVoiceAnswer(answer){
+
+  if(quizLocked || !quizQuestions[quizIndex]){
+    return;
+  }
+
+  quizLocked = true;
+  stopRecognition();
+
+  const q = quizQuestions[quizIndex];
+  const ok = voiceMatches(answer,q.a);
+
+  state.totalAnswered++;
+
+  if(ok){
+
+    quizScore++;
+    state.totalCorrect++;
+    state.streak++;
+
+    addReward(20,8);
+    correctSound();
+
+    setVoiceStatus(
+      "✅ BENAR! +20 EXP. Jawaban: " + answer
     );
 
-    try{
-      recognition.stop();
-    }catch(e){}
+  }else{
 
-    setTimeout(()=>{
+    state.streak = 0;
+    wrongSound();
 
-      try{
+    setVoiceStatus(
+      "❌ BELUM TEPAT. Kamu menjawab: " +
+      answer +
+      " | Jawaban: " +
+      q.a[0]
+    );
+  }
 
-        recognition.lang=
-          state.settings.lang;
+  saveState();
 
-        recognition.start();
+  setTimeout(function(){
 
-      }catch(e){
+    quizIndex++;
+    quizLocked = false;
 
-        showToast(
-          "VOICE TIDAK BISA DIMULAI"
-        );
+    if(quizIndex >= quizQuestions.length){
 
-      }
+      finishQuiz();
 
-    },250);
+    }else{
+
+      renderVoiceQuizQuestion();
+    }
+
+  },1600);
+}
+
+function setVoiceStatus(text){
+
+  const el = $("voiceStatus");
+
+  if(el){
+    el.textContent = text;
   }
 }
 
 /* =========================================================
-   VOICE ANSWER NORMALIZATION
+   APP RENDER
 ========================================================= */
 
-const numberWords={
+function render(){
 
-  "nol":"0",
-  "satu":"1",
-  "dua":"2",
-  "tiga":"3",
-  "empat":"4",
-  "lima":"5",
-  "enam":"6",
-  "tujuh":"7",
-  "delapan":"8",
-  "sembilan":"9",
-  "sepuluh":"10",
-  "sebelas":"11",
+  const app = $("app");
 
-  "dua belas":"12",
-  "tiga belas":"13",
-  "empat belas":"14",
-  "lima belas":"15",
-  "enam belas":"16",
-  "tujuh belas":"17",
-  "delapan belas":"18",
-  "sembilan belas":"19",
-
-  "dua puluh":"20",
-  "tiga puluh":"30",
-  "empat puluh":"40",
-  "lima puluh":"50",
-  "enam puluh":"60",
-  "tujuh puluh":"70",
-  "delapan puluh":"80",
-  "sembilan puluh":"90",
-
-  "seratus":"100"
-};
-
-function normalizeAnswer(value){
-
-  let text=
-    String(value || "")
-      .toLowerCase()
-      .trim()
-      .replace(/[.,!?;:]/g," ")
-      .replace(/\s+/g," ");
-
-  Object.keys(numberWords)
-    .sort(
-      (a,b)=>
-        b.length-a.length
-    )
-    .forEach(word=>{
-
-      text=
-        text.replace(
-          new RegExp(
-            "\\b"+
-            word+
-            "\\b",
-            "g"
-          ),
-          numberWords[word]
-        );
-
-    });
-
-  text=
-    text
-      .replace(
-        /\b(jawabannya|jawaban|adalah|yaitu|pilih|pilihan|nomor)\b/g,
-        ""
-      )
-      .replace(/\s+/g," ")
-      .trim();
-
-  const letters={
-    "a":"0",
-    "b":"1",
-    "c":"2",
-    "d":"3"
-  };
-
-  if(
-    Object.prototype.hasOwnProperty.call(
-      letters,
-      text
-    )
-  ){
-
-    return letters[text];
+  if(!app){
+    return;
   }
 
-  return text;
+  let html = "";
+
+  if(currentView === "home"){
+    html = renderHome();
+
+  }else if(currentView === "subjects"){
+    html = renderSubjects();
+
+  }else if(currentView === "chapters"){
+    html = renderChapters();
+
+  }else if(currentView === "lesson"){
+    html = renderLesson();
+
+  }else if(currentView === "quiz"){
+    html = renderQuiz();
+
+  }else if(currentView === "voice"){
+    html = renderVoiceCenter();
+
+  }else if(currentView === "progress"){
+    html = renderProgress();
+
+  }else if(currentView === "settings"){
+    html = renderSettings();
+
+  }else{
+    currentView = "home";
+    html = renderHome();
+  }
+
+  app.innerHTML = shellHTML(html);
+
+  updateStats();
+
+  bindActions();
+
+  if(currentView === "lesson"){
+    setupLessonSpeechButtons();
+  }
+
+  if(currentView === "voice"){
+    setupVoiceQuestion();
+  }
 }
 
-function voiceMatches(
-  spoken,
-  option,
-  index
-){
+function shellHTML(content){
 
-  const normalizedSpoken=
-    normalizeAnswer(spoken);
+  return `
+    <div class="shell">
 
-  const normalizedOption=
-    normalizeAnswer(option);
+      <header class="topbar">
 
-  if(
-    normalizedSpoken===
-    normalizedOption
-  ){
-    return true;
-  }
+        <div class="brand">
+          REZA // V10
+        </div>
 
-  if(
-    normalizedSpoken===
-    String(index+1)
-  ){
-    return true;
-  }
+        <div class="stats">
 
-  const letter=
-    ["a","b","c","d"][index];
+          <div class="stat">
+            LV <b id="levelValue">${state.level}</b>
+          </div>
 
-  if(
-    normalizedSpoken===letter
-  ){
-    return true;
-  }
+          <div class="stat">
+            EXP <b id="expValue">
+              ${state.exp}/${requiredExp()}
+            </b>
+          </div>
 
-  if(
-    normalizedSpoken.length>=3 &&
-    (
-      normalizedSpoken.includes(
-        normalizedOption
-      ) ||
-      normalizedOption.includes(
-        normalizedSpoken
-      )
-    )
-  ){
-    return true;
-  }
+          <div class="stat">
+            COIN <b id="coinValue">
+              ${state.coins}
+            </b>
+          </div>
 
-  return false;
+          <div class="stat">
+            STREAK <b id="streakValue">
+              ${state.streak}
+            </b>
+          </div>
+
+        </div>
+
+      </header>
+
+      <div class="progress-wrap">
+        <div class="progress">
+          <div
+            id="topExpFill"
+            class="progress-fill"
+          ></div>
+        </div>
+      </div>
+
+      <main class="screen">
+        ${content}
+      </main>
+
+      ${controlsHTML()}
+
+      <div class="footer">
+        REZA PIXEL SCHOOL ACADEMY V10<br>
+        BLACK EDITION • INTERACTIVE LEARNING
+      </div>
+
+    </div>
+  `;
+}
+
+function controlsHTML(){
+
+  return `
+    <div class="controls">
+
+      <div class="dpad">
+        <button class="up" data-action="noop">▲</button>
+        <button class="left" data-action="back">◀</button>
+        <button class="center" data-action="home">●</button>
+        <button class="right" data-action="noop">▶</button>
+        <button class="down" data-action="noop">▼</button>
+      </div>
+
+      <div class="action-buttons">
+        <button data-action="back">B</button>
+        <button data-action="select">A</button>
+      </div>
+
+      <div class="start-select">
+        <button data-action="home">START</button>
+        <button data-action="settings">SELECT</button>
+      </div>
+
+    </div>
+  `;
 }
 
 /* =========================================================
@@ -2111,126 +2997,82 @@ function voiceMatches(
 
 function renderHome(){
 
-  screen.innerHTML=`
+  return `
+    <div class="screen-title">
+      ▶ PIXEL SCHOOL ACADEMY
+    </div>
 
-    <div class="home-logo">
+    <div class="screen-subtitle">
+      BELAJAR • LATIHAN • VOICE QUIZ • LEVEL UP
+    </div>
 
-      <h1>REZA</h1>
+    <div class="hud">
 
-      <p>
-        PIXEL LEARNING ACADEMY
-      </p>
+      <div class="hud-item">
+        MODE: <b>BLACK PIXEL</b>
+      </div>
 
-      <p>
-        STUDY • PRACTICE • VOICE • MASTER
-      </p>
+      <div class="hud-item">
+        SUBJECT: <b>12</b>
+      </div>
+
+      <div class="hud-item">
+        MUSIC: <b>${state.settings.music ? "ON" : "OFF"}</b>
+      </div>
+
+      <div class="hud-item">
+        VOICE: <b>${state.settings.voice ? "ON" : "ON/OFF"}</b>
+      </div>
 
     </div>
 
-    <button
-      type="button"
-      class="pixel-btn"
-      data-action="subjects">
+    <div class="pixel-line"></div>
 
-      <span class="cursor">▶</span>
-      START BELAJAR
+    <div class="menu">
 
-    </button>
-
-    <button
-      type="button"
-      class="pixel-btn"
-      data-action="progress">
-
-      <span class="cursor">▶</span>
-      MY PROGRESS
-
-    </button>
-
-    <button
-      type="button"
-      class="pixel-btn"
-      data-action="voice">
-
-      <span class="cursor">▶</span>
-      VOICE CENTER
-
-    </button>
-
-    <button
-      type="button"
-      class="pixel-btn"
-      data-action="settings">
-
-      <span class="cursor">▶</span>
-      SETTINGS
-
-    </button>
-
-    <button
-      type="button"
-      class="pixel-btn"
-      data-action="music">
-
-      <span class="cursor">▶</span>
-      MUSIC ${musicOn?"ON ♪":"OFF"}
-
-    </button>
-
-    <button
-      type="button"
-      class="pixel-btn"
-      data-action="save">
-
-      <span class="cursor">▶</span>
-      SAVE GAME
-
-    </button>
-
-    <div class="feedback">
-
-      A = SELECT<br>
-      B = BACK<br>
-      START = BELAJAR<br>
-      SELECT = PROGRESS<br>
-      🎤 = JAWAB SOAL DENGAN SUARA
-
-    </div>
-
-    <div class="controller">
-
-      <button
-        type="button"
-        class="ctrl"
-        data-action="a">
-        A
+      <button class="menu-btn" data-action="subjects">
+        <span class="cursor">▶</span>
+        START LEARNING
       </button>
 
-      <button
-        type="button"
-        class="ctrl"
-        data-action="b">
-        B
+      <button class="menu-btn" data-action="voice">
+        <span class="cursor">▶</span>
+        VOICE QUIZ CENTER
       </button>
 
-      <button
-        type="button"
-        class="ctrl"
-        data-action="start">
-        START
+      <button class="menu-btn" data-action="quiz">
+        <span class="cursor">▶</span>
+        QUICK QUIZ
       </button>
 
-      <button
-        type="button"
-        class="ctrl"
-        data-action="select">
-        SELECT
+      <button class="menu-btn" data-action="progress">
+        <span class="cursor">▶</span>
+        MY PROGRESS
+      </button>
+
+      <button class="menu-btn" data-action="music">
+        <span class="cursor">▶</span>
+        PIXEL MUSIC:
+        ${state.settings.music ? "ON" : "OFF"}
+      </button>
+
+      <button class="menu-btn" data-action="settings">
+        <span class="cursor">▶</span>
+        SETTINGS
+      </button>
+
+      <button class="menu-btn" data-action="save">
+        <span class="cursor">▶</span>
+        SAVE GAME
+      </button>
+
+      <button class="menu-btn" data-action="reset">
+        <span class="cursor">▶</span>
+        RESET PROGRESS
       </button>
 
     </div>
   `;
-
-  bindActions();
 }
 
 /* =========================================================
@@ -2239,84 +3081,88 @@ function renderHome(){
 
 function renderSubjects(){
 
-  const cards=
-    Object.entries(subjects)
-      .map(([key,subject])=>`
+  const cards = Object.keys(SUBJECTS)
+    .map(function(id){
 
-        <div
-          class="card"
-          data-subject="${key}">
+      const s = SUBJECTS[id];
 
-          <div class="card-title">
-            ${subject.icon}
-            ${subject.title}
+      const total =
+        s.chapters.length;
+
+      const done =
+        s.chapters.filter(function(ch){
+          return chapterComplete(id,ch.id);
+        }).length;
+
+      const percent =
+        Math.round((done / total) * 100);
+
+      return `
+        <div class="card subject-card">
+
+          <div>
+            <div class="subject-icon">
+              ${s.icon}
+            </div>
+
+            <h3>${escapeHTML(s.name)}</h3>
+
+            <p>
+              ${total} BAB •
+              ${s.questions.length} SOAL
+            </p>
           </div>
 
-          <div class="card-text">
-            ${subject.desc}
-          </div>
+          <div>
 
-          <div class="card-text">
-            ${subject.lessons.length}
-            CHAPTER
+            <div class="progress-label">
+              <span>PROGRESS</span>
+              <span>${percent}%</span>
+            </div>
+
+            <div class="progress">
+              <div
+                class="progress-fill"
+                style="width:${percent}%"
+              ></div>
+            </div>
+
+            <div class="action-row">
+              <button
+                class="btn"
+                data-action="subject"
+                data-id="${id}"
+              >
+                OPEN
+              </button>
+            </div>
+
           </div>
 
         </div>
+      `;
+    })
+    .join("");
 
-      `)
-      .join("");
+  return `
+    <div class="screen-title">
+      ▶ SELECT SUBJECT
+    </div>
 
-  screen.innerHTML=`
+    <div class="screen-subtitle">
+      PILIH MATA PELAJARAN UNTUK MASUK KE PIXEL CLASS.
+    </div>
 
-    <div class="panel">
+    <div class="grid">
+      ${cards}
+    </div>
 
-      <div class="title">
-        ▶ SELECT SUBJECT
-      </div>
-
-      <div class="subtitle">
-        PILIH MATERI YANG MAU KAMU PELAJARI.
-      </div>
-
-      <br>
-
-      <div class="grid">
-        ${cards}
-      </div>
-
-      <button
-        type="button"
-        class="pixel-btn"
-        data-action="home">
-
-        ◀ BACK
-
+    <div class="action-row">
+      <button class="btn secondary" data-action="home">
+        B BACK
       </button>
-
     </div>
   `;
-
-  document
-    .querySelectorAll("[data-subject]")
-    .forEach(card=>{
-
-      card.addEventListener(
-        "click",
-        ()=>{
-
-          clickSound();
-
-          state.subject=
-            card.dataset.subject;
-
-          renderChapters();
-
-        }
-      );
-
-    });
-
-  bindActions();
 }
 
 /* =========================================================
@@ -2325,89 +3171,98 @@ function renderSubjects(){
 
 function renderChapters(){
 
-  const subject=
-    subjects[state.subject];
+  const subject =
+    SUBJECTS[currentSubject];
 
   if(!subject){
-
-    renderSubjects();
-    return;
+    currentView = "subjects";
+    return renderSubjects();
   }
 
-  const chapters=
-    subject.lessons
-      .map((lesson,index)=>`
+  const cards =
+    subject.chapters.map(function(ch,index){
 
-        <button
-          type="button"
-          class="pixel-btn"
-          data-lesson="${index}">
+      const done =
+        chapterComplete(
+          currentSubject,
+          ch.id
+        );
 
-          <span class="cursor">▶</span>
+      return `
+        <div class="card chapter-card ${
+          done ? "completed" : ""
+        }">
 
-          CHAPTER
-          ${String(index+1).padStart(2,"0")}
+          <div>
 
-          —
-          ${lesson.title}
+            <div class="meta">
+              BAB ${index + 1}
+            </div>
 
-        </button>
+            <h3>
+              ${escapeHTML(ch.title)}
+            </h3>
 
-      `)
-      .join("");
+            <p>
+              ${escapeHTML(ch.summary)}
+            </p>
 
-  screen.innerHTML=`
+          </div>
 
-    <div class="panel">
+          <div>
 
-      <div class="title">
-        ${subject.icon}
-        ${subject.title}
-      </div>
+            <span class="badge ${
+              done ? "done" : ""
+            }">
+              ${done ? "✓ SELESAI" : "BELUM"}
+            </span>
 
-      <div class="subtitle">
-        ${subject.desc}
-      </div>
+            <div class="action-row">
 
-      <br>
+              <button
+                class="btn"
+                data-action="chapter"
+                data-id="${ch.id}"
+              >
+                STUDY
+              </button>
 
-      ${chapters}
+              <button
+                class="btn secondary"
+                data-action="chapterQuiz"
+                data-id="${ch.id}"
+              >
+                QUIZ
+              </button>
 
-      <button
-        type="button"
-        class="pixel-btn"
-        data-action="subjects">
+            </div>
 
-        ◀ BACK
+          </div>
 
+        </div>
+      `;
+    })
+    .join("");
+
+  return `
+    <div class="screen-title">
+      ▶ ${escapeHTML(subject.name)}
+    </div>
+
+    <div class="screen-subtitle">
+      PIXEL CLASS / SELECT CHAPTER
+    </div>
+
+    <div class="grid">
+      ${cards}
+    </div>
+
+    <div class="action-row">
+      <button class="btn secondary" data-action="subjects">
+        B BACK
       </button>
-
     </div>
   `;
-
-  document
-    .querySelectorAll("[data-lesson]")
-    .forEach(button=>{
-
-      button.addEventListener(
-        "click",
-        ()=>{
-
-          clickSound();
-
-          state.lessonIndex=
-            Number(
-              button.dataset.lesson
-            );
-
-          renderLesson();
-
-        }
-      );
-
-    });
-
-  bindActions();
 }
 
 /* =========================================================
@@ -2416,340 +3271,653 @@ function renderChapters(){
 
 function renderLesson(){
 
-  const subject=
-    subjects[state.subject];
+  const subject =
+    SUBJECTS[currentSubject];
 
-  if(!subject){
+  const chapter =
+    subject &&
+    subject.chapters.find(function(ch){
+      return ch.id === currentChapter;
+    });
 
-    renderSubjects();
-    return;
+  if(!subject || !chapter){
+
+    currentView = "subjects";
+    return renderSubjects();
   }
 
-  const lesson=
-    subject.lessons[
-      state.lessonIndex
-    ];
+  const sections =
+    chapter.sections.map(function(section){
 
-  if(!lesson){
+      const bullets =
+        (section.bullets || [])
+          .map(function(item){
+            return "<li>" +
+              escapeHTML(item) +
+              "</li>";
+          })
+          .join("");
 
-    renderChapters();
-    return;
-  }
+      return `
+        <section class="lesson-section">
 
-  screen.innerHTML=`
+          <h3>
+            ${escapeHTML(section.title)}
+          </h3>
 
-    <div class="panel">
+          <p>
+            ${escapeHTML(section.text)}
+          </p>
 
-      <div class="title">
-        ${subject.icon}
-        ${lesson.title}
+          ${
+            bullets
+            ? `<ul>${bullets}</ul>`
+            : ""
+          }
+
+        </section>
+      `;
+
+    }).join("");
+
+  const key =
+    currentSubject + "::" + currentChapter;
+
+  const done =
+    state.completedLessons.includes(key);
+
+  return `
+    <div class="lesson">
+
+      <div class="lesson-header">
+
+        <h2>
+          ${escapeHTML(chapter.title)}
+        </h2>
+
+        <p>
+          ${escapeHTML(chapter.summary)}
+        </p>
+
+        <span class="badge ${
+          done ? "done" : ""
+        }">
+          ${done ? "✓ LESSON COMPLETE" : "STUDY MODE"}
+        </span>
+
       </div>
 
-      <div class="lesson">
-        ${lesson.content}
-      </div>
-
-      <button
-        type="button"
-        class="pixel-btn center"
-        data-action="readLesson">
-
-        🔊 LISTEN TO LESSON
-
-      </button>
-
-      <button
-        type="button"
-        class="pixel-btn center"
-        data-action="practice">
-
-        ▶ PRACTICE
-
-      </button>
-
-      <button
-        type="button"
-        class="pixel-btn center"
-        data-action="quiz">
-
-        ⚔ START QUIZ
-
-      </button>
-
-      <button
-        type="button"
-        class="pixel-btn"
-        data-action="chapters">
-
-        ◀ BACK
-
-      </button>
-
-    </div>
-  `;
-
-  bindActions();
-}
-
-function readCurrentLesson(){
-
-  const subject=
-    subjects[state.subject];
-
-  if(!subject)return;
-
-  const lesson=
-    subject.lessons[
-      state.lessonIndex
-    ];
-
-  if(!lesson)return;
-
-  const temporary=
-    document.createElement("div");
-
-  temporary.innerHTML=
-    lesson.content;
-
-  const text=
-    temporary.innerText
-      .replace(/\s+/g," ")
-      .trim();
-
-  speak(
-    lesson.title+
-    ". "+
-    text
-  );
-}
-
-/* =========================================================
-   PRACTICE
-========================================================= */
-
-function renderPractice(){
-
-  const subject=
-    subjects[state.subject];
-
-  if(!subject){
-    renderSubjects();
-    return;
-  }
-
-  const lesson=
-    subject.lessons[
-      state.lessonIndex
-    ];
-
-  screen.innerHTML=`
-
-    <div class="panel">
-
-      <div class="title">
-        ▶ PRACTICE MODE
-      </div>
-
-      <div class="subtitle">
-        BACA MATERI, LALU TULIS
-        KEMBALI HAL PENTING YANG KAMU INGAT.
-      </div>
+      ${sections}
 
       <div class="example">
 
-        <strong>
-          QUICK TASK
-        </strong>
+        <b>EXAMPLE</b><br><br>
 
-        Tuliskan konsep penting dari:
-
-        <br><br>
-
-        ${lesson.title}
+        ${escapeHTML(chapter.example)}
 
       </div>
 
-      <input
-        id="practiceInput"
-        type="text"
-        autocomplete="off"
-        placeholder="Ketik jawaban..."
-      >
+      <div class="tip">
 
-      <button
-        type="button"
-        class="pixel-btn center"
-        data-action="checkPractice">
+        <b>PIXEL TIP</b><br><br>
 
-        CHECK ANSWER
+        ${escapeHTML(chapter.tip)}
 
-      </button>
+      </div>
 
-      <div id="practiceFeedback"></div>
+      <div class="action-row">
 
-      <button
-        type="button"
-        class="pixel-btn"
-        data-action="lesson">
+        <button
+          class="btn secondary lesson-speak"
+          data-text="${escapeHTML(
+            chapter.summary + ". " +
+            chapter.example
+          )}"
+        >
+          🔊 LISTEN
+        </button>
 
-        ◀ BACK TO LESSON
+        <button
+          class="btn gold"
+          data-action="completeLesson"
+        >
+          ✓ COMPLETE
+        </button>
 
-      </button>
+        <button
+          class="btn"
+          data-action="chapterQuiz"
+          data-id="${chapter.id}"
+        >
+          START QUIZ
+        </button>
+
+      </div>
+
+      <div class="action-row">
+
+        <button
+          class="btn secondary"
+          data-action="chapters"
+        >
+          B BACK
+        </button>
+
+      </div>
 
     </div>
   `;
-
-  bindActions();
 }
 
-function checkPractice(){
+function setupLessonSpeechButtons(){
 
-  const input=
-    document.getElementById(
-      "practiceInput"
-    );
+  document
+    .querySelectorAll(".lesson-speak")
+    .forEach(function(button){
 
-  const feedback=
-    document.getElementById(
-      "practiceFeedback"
-    );
+      button.addEventListener(
+        "click",
+        function(){
 
-  if(!input || !feedback){
+          clickSound();
+
+          const text =
+            button.getAttribute("data-text") || "";
+
+          speak(text);
+        }
+      );
+
+    });
+}
+
+function completeCurrentLesson(){
+
+  if(!currentSubject || !currentChapter){
     return;
   }
 
-  const value=
-    input.value.trim();
+  const key =
+    currentSubject + "::" + currentChapter;
 
-  if(!value){
+  if(!state.completedLessons.includes(key)){
 
-    feedback.innerHTML=`
+    state.completedLessons.push(key);
 
-      <div class="feedback">
-        TULIS JAWABAN DULU BOS.
-      </div>
+    addReward(25,10);
 
-    `;
+    showToast(
+      "LESSON SELESAI! +25 EXP +10 COINS"
+    );
 
-    return;
+    const subject =
+      SUBJECTS[currentSubject];
+
+    const allDone =
+      subject.chapters.every(function(ch){
+        return lessonComplete(
+          currentSubject,
+          ch.id
+        );
+      });
+
+    if(allDone){
+      markChapterComplete(
+        currentSubject,
+        currentChapter
+      );
+    }
+
+  }else{
+
+    showToast("LESSON SUDAH SELESAI.");
   }
 
-  addReward(5,2);
-
-  feedback.innerHTML=`
-
-    <div class="feedback">
-
-      ✓ LATIHAN TERCATAT!<br><br>
-
-      JAWABAN:
-      ${escapeHTML(value)}<br><br>
-
-      +5 EXP<br>
-      +2 COINS
-
-    </div>
-  `;
-
-  speak(
-    "Bagus. Latihan kamu sudah dicatat. "+
-    "Sekarang lanjut ke quiz."
-  );
+  saveState();
+  render();
 }
 
 /* =========================================================
    QUIZ
 ========================================================= */
 
-function startQuiz(){
+function makeQuiz(subjectId){
 
-  state.quizIndex=0;
-  state.quizScore=0;
+  const subject =
+    SUBJECTS[subjectId];
 
-  renderQuiz();
+  if(!subject){
+    return [];
+  }
+
+  const copy =
+    subject.questions.slice();
+
+  for(let i = copy.length - 1; i > 0; i--){
+
+    const j =
+      Math.floor(Math.random() * (i + 1));
+
+    const temp = copy[i];
+
+    copy[i] = copy[j];
+    copy[j] = temp;
+  }
+
+  return copy.slice(
+    0,
+    Math.min(5,copy.length)
+  );
+}
+
+function startSubjectQuiz(subjectId){
+
+  currentSubject = subjectId;
+  quizQuestions = makeQuiz(subjectId);
+  quizIndex = 0;
+  quizScore = 0;
+  quizLocked = false;
+  currentView = "quiz";
+
+  render();
+}
+
+function startChapterQuiz(subjectId,chapterId){
+
+  currentSubject = subjectId;
+  currentChapter = chapterId;
+
+  quizQuestions =
+    makeQuiz(subjectId);
+
+  quizIndex = 0;
+  quizScore = 0;
+  quizLocked = false;
+
+  currentView = "quiz";
+
+  render();
 }
 
 function renderQuiz(){
 
-  const subject=
-    subjects[state.subject];
+  if(!quizQuestions.length){
 
-  if(!subject){
-    renderSubjects();
-    return;
+    return `
+      <div class="empty">
+        BELUM ADA SOAL.
+      </div>
+    `;
   }
 
-  const lesson=
-    subject.lessons[
-      state.lessonIndex
-    ];
+  const q =
+    quizQuestions[quizIndex];
 
-  if(!lesson){
-    renderChapters();
-    return;
-  }
-
-  const total=
-    lesson.questions.length;
-
-  if(
-    state.quizIndex>=total
-  ){
+  if(!q){
 
     finishQuiz();
+
+    return "";
+  }
+
+  return `
+    <div class="screen-title">
+      ▶ PIXEL QUIZ
+    </div>
+
+    <div class="hud">
+
+      <div class="hud-item">
+        SOAL:
+        <b>${quizIndex + 1}/${quizQuestions.length}</b>
+      </div>
+
+      <div class="hud-item">
+        SCORE:
+        <b>${quizScore}</b>
+      </div>
+
+      <div class="hud-item">
+        SUBJECT:
+        <b>${escapeHTML(
+          SUBJECTS[currentSubject].name
+        )}</b>
+      </div>
+
+    </div>
+
+    <div class="question">
+
+      <div class="question-number">
+        QUESTION ${quizIndex + 1}
+      </div>
+
+      <div class="question-text">
+        ${escapeHTML(q.q)}
+      </div>
+
+      <div class="options">
+
+        ${q.a.map(function(answer,index){
+
+          return `
+            <button
+              class="option"
+              data-action="quizAnswer"
+              data-index="${index}"
+            >
+              ${String.fromCharCode(65 + index)}
+             . ${escapeHTML(answer)}
+            </button>
+          `;
+
+        }).join("")}
+
+      </div>
+
+    </div>
+
+    <div class="voice-box">
+
+      <div class="voice-status">
+        🎤 VOICE QUIZ AVAILABLE
+      </div>
+
+      <button
+        class="mic-btn"
+        data-action="voiceStart"
+      >
+        🎤 JAWAB DENGAN SUARA
+      </button>
+
+      <div class="voice-transcript">
+        Voice aktif melalui browser.
+      </div>
+
+    </div>
+
+    <div class="action-row">
+
+      <button
+        class="btn secondary"
+        data-action="home"
+      >
+        B EXIT
+      </button>
+
+    </div>
+  `;
+}
+
+function answerQuiz(index){
+
+  if(quizLocked){
     return;
   }
 
-  const question=
-    lesson.questions[
-      state.quizIndex
-    ];
+  const q =
+    quizQuestions[quizIndex];
 
-  screen.innerHTML=`
+  if(!q){
+    return;
+  }
 
-    <div class="panel">
+  quizLocked = true;
 
-      <div class="title">
+  const options =
+    document.querySelectorAll(".option");
 
-        QUIZ
-        ${state.quizIndex+1}
-        /
-        ${total}
+  options.forEach(function(button){
+    button.disabled = true;
+  });
+
+  state.totalAnswered++;
+
+  const selected =
+    q.a[index] || "";
+
+  const correct =
+    index === q.c ||
+    voiceMatches(selected,[q.a[0]]);
+
+  if(correct){
+
+    quizScore++;
+    state.totalCorrect++;
+    state.streak++;
+
+    addReward(20,8);
+    correctSound();
+
+    showToast(
+      "BENAR! +20 EXP +8 COINS"
+    );
+
+  }else{
+
+    state.streak = 0;
+    wrongSound();
+
+    showToast(
+      "BELUM TEPAT. Jawaban: " +
+      q.a[0]
+    );
+  }
+
+  saveState();
+
+  setTimeout(function(){
+
+    quizIndex++;
+    quizLocked = false;
+
+    if(quizIndex >= quizQuestions.length){
+
+      finishQuiz();
+
+    }else{
+
+      render();
+    }
+
+  },1200);
+}
+
+function finishQuiz(){
+
+  stopRecognition();
+
+  const total =
+    quizQuestions.length;
+
+  const percent =
+    total
+    ? Math.round((quizScore / total) * 100)
+    : 0;
+
+  const bonus =
+    quizScore * 10;
+
+  state.coins += bonus;
+
+  if(quizScore === total && total > 0){
+
+    state.streak++;
+    state.exp += 30;
+
+  }
+
+  saveState();
+
+  currentView = "home";
+
+  render();
+
+  showToast(
+    "QUIZ SELESAI: " +
+    quizScore + "/" +
+    total +
+    " (" + percent + "%)"
+  );
+}
+
+/* =========================================================
+   VOICE CENTER
+========================================================= */
+
+function renderVoiceCenter(){
+
+  return `
+    <div class="screen-title">
+      ▶ VOICE QUIZ CENTER
+    </div>
+
+    <div class="screen-subtitle">
+      PILIH PELAJARAN, DENGARKAN SOAL,
+      LALU JAWAB DENGAN SUARA.
+    </div>
+
+    <div class="grid">
+
+      ${Object.keys(SUBJECTS)
+        .map(function(id){
+
+          return `
+            <div class="card">
+
+              <div class="subject-icon">
+                ${SUBJECTS[id].icon}
+              </div>
+
+              <h3>
+                ${escapeHTML(
+                  SUBJECTS[id].name
+                )}
+              </h3>
+
+              <p>
+                ${SUBJECTS[id].questions.length}
+                soal tersedia.
+              </p>
+
+              <div class="action-row">
+
+                <button
+                  class="btn secondary"
+                  data-action="voiceSubject"
+                  data-id="${id}"
+                >
+                  VOICE START
+                </button>
+
+              </div>
+
+            </div>
+          `;
+
+        }).join("")}
+
+    </div>
+
+    <div class="action-row">
+
+      <button
+        class="btn"
+        data-action="settings"
+      >
+        VOICE SETTINGS
+      </button>
+
+      <button
+        class="btn secondary"
+        data-action="home"
+      >
+        B BACK
+      </button>
+
+    </div>
+  `;
+}
+
+function startVoiceQuiz(subjectId){
+
+  currentSubject = subjectId;
+
+  quizQuestions =
+    makeQuiz(subjectId);
+
+  quizIndex = 0;
+  quizScore = 0;
+  quizLocked = false;
+
+  currentView = "voice";
+
+  render();
+}
+
+function renderVoiceQuizQuestion(){
+
+  const app =
+    $("app");
+
+  if(!app){
+    return;
+  }
+
+  const subject =
+    SUBJECTS[currentSubject];
+
+  const q =
+    quizQuestions[quizIndex];
+
+  if(!subject || !q){
+    finishVoiceQuiz();
+    return;
+  }
+
+  app.innerHTML =
+    shellHTML(`
+
+      <div class="screen-title">
+        ▶ VOICE QUIZ
+      </div>
+
+      <div class="hud">
+
+        <div class="hud-item">
+          SOAL:
+          <b>
+            ${quizIndex + 1}/${quizQuestions.length}
+          </b>
+        </div>
+
+        <div class="hud-item">
+          SCORE:
+          <b>${quizScore}</b>
+        </div>
 
       </div>
 
       <div class="question">
 
-        ${question.text}
+        <div class="question-number">
+          ${escapeHTML(subject.name)}
+        </div>
 
-      </div>
+        <div class="question-text">
+          ${escapeHTML(q.q)}
+        </div>
 
-      <button
-        type="button"
-        class="pixel-btn center"
-        data-action="readQuestion">
+        <div class="action-row">
 
-        🔊 READ QUESTION
+          <button
+            class="btn secondary"
+            data-action="speakQuestion"
+          >
+            🔊 BACA SOAL
+          </button>
 
-      </button>
-
-      <div id="quizOptions">
-
-        ${question.options
-          .map((option,index)=>`
-
-            <button
-              type="button"
-              class="option"
-              data-option="${index}">
-
-              ${String.fromCharCode(65+index)}.
-              ${option}
-
-            </button>
-
-          `)
-          .join("")}
+        </div>
 
       </div>
 
@@ -2757,408 +3925,109 @@ function renderQuiz(){
 
         <div
           id="voiceStatus"
-          class="voice-status">
-
-          JAWAB DENGAN SUARA
-
+          class="voice-status"
+        >
+          🎤 Tekan MIC lalu jawab.
         </div>
 
-        <div
-          id="micButton"
-          class="mic"
-          role="button"
-          tabindex="0"
-          data-action="voiceAnswer">
-
-          🎤
-
-        </div>
+        <button
+          class="mic-btn"
+          data-action="voiceStart"
+        >
+          🎤 TEKAN UNTUK MENJAWAB
+        </button>
 
         <div
-          id="transcript"
-          class="transcript">
-
-          Tekan microphone
-          lalu jawab.
-
+          id="voiceTranscript"
+          class="voice-transcript"
+        >
+          >> READY
         </div>
 
       </div>
 
-      <button
-        type="button"
-        class="pixel-btn"
-        data-action="lesson">
+      <div class="action-row">
 
-        ◀ BACK
+        <button
+          class="btn secondary"
+          data-action="voiceBack"
+        >
+          B EXIT
+        </button>
 
-      </button>
+      </div>
+    `);
 
-    </div>
-  `;
-
-  document
-    .querySelectorAll("[data-option]")
-    .forEach(button=>{
-
-      button.addEventListener(
-        "click",
-        ()=>{
-
-          const index=
-            Number(
-              button.dataset.option
-            );
-
-          answerQuiz(index);
-
-        }
-      );
-
-    });
-
+  updateStats();
   bindActions();
 
-  setupRecognition();
+  setupVoiceQuestion();
 }
 
-function readQuestion(){
+function setupVoiceQuestion(){
 
-  const subject=
-    subjects[state.subject];
-
-  const lesson=
-    subject.lessons[
-      state.lessonIndex
-    ];
-
-  const question=
-    lesson.questions[
-      state.quizIndex
-    ];
-
-  let text=
-    "Pertanyaan. "+
-    question.text+
-    ". ";
-
-  question.options
-    .forEach((option,index)=>{
-
-      text+=
-        "Pilihan "+
-        String.fromCharCode(65+index)+
-        ". "+
-        option+
-        ". ";
-
-    });
-
-  speak(text);
-}
-
-function answerQuiz(index){
-
-  const subject=
-    subjects[state.subject];
-
-  const lesson=
-    subject.lessons[
-      state.lessonIndex
-    ];
-
-  const question=
-    lesson.questions[
-      state.quizIndex
-    ];
-
-  const buttons=
-    document.querySelectorAll(
-      "[data-option]"
-    );
-
-  buttons.forEach(button=>{
-    button.disabled=true;
-  });
-
-  const correctIndex=
-    question.answer;
-
-  const correct=
-    index===correctIndex;
-
-  buttons.forEach(
-    (button,buttonIndex)=>{
-
-      if(
-        buttonIndex===
-        correctIndex
-      ){
-
-        button.classList.add(
-          "correct"
-        );
-      }
-
-      if(
-        buttonIndex===index &&
-        !correct
-      ){
-
-        button.classList.add(
-          "wrong"
-        );
-      }
-
-    }
-  );
-
-  if(correct){
-
-    state.quizScore++;
-
-    correctSound();
-
-    addReward(20,5);
-
-    showToast(
-      "CORRECT! +20 EXP"
-    );
-
-    speak(
-      "Benar! Jawaban kamu tepat."
-    );
-
-  }else{
-
-    wrongSound();
-
-    speak(
-      "Belum tepat. "+
-      "Jawaban yang benar adalah "+
-      question.options[
-        correctIndex
-      ]
-    );
-  }
-
-  setTimeout(()=>{
-
-    state.quizIndex++;
-
-    renderQuiz();
-
-  },1400);
-}
-
-/* =========================================================
-   VOICE QUIZ
-========================================================= */
-
-function processVoiceAnswer(
-  spokenText
-){
-
-  const subject=
-    subjects[state.subject];
-
-  if(!subject){
+  if(currentView !== "voice"){
     return;
   }
 
-  const lesson=
-    subject.lessons[
-      state.lessonIndex
-    ];
+  const q =
+    quizQuestions[quizIndex];
 
-  const question=
-    lesson.questions[
-      state.quizIndex
-    ];
-
-  let selectedIndex=-1;
-
-  question.options.forEach(
-    (option,index)=>{
-
-      if(
-        voiceMatches(
-          spokenText,
-          option,
-          index
-        )
-      ){
-
-        selectedIndex=index;
-      }
-
-    }
-  );
-
-  if(selectedIndex===-1){
-
-    const status=
-      document.getElementById(
-        "voiceStatus"
-      );
-
-    if(status){
-
-      status.textContent=
-        "JAWABAN BELUM TERBACA. COBA LAGI.";
-    }
-
-    speak(
-      "Saya belum menangkap jawabanmu. "+
-      "Coba jawab lagi."
-    );
-
+  if(!q){
     return;
   }
 
-  answerQuiz(
-    selectedIndex
-  );
-}
-
-/* =========================================================
-   FINISH QUIZ
-========================================================= */
-
-function finishQuiz(){
-
-  const subject=
-    subjects[state.subject];
-
-  const lesson=
-    subject.lessons[
-      state.lessonIndex
-    ];
-
-  const total=
-    lesson.questions.length;
-
-  const score=
-    state.quizScore;
-
-  const percentage=
-    Math.round(
-      score/total*100
+  const speakButton =
+    document.querySelector(
+      '[data-action="speakQuestion"]'
     );
 
-  const key=
-    state.subject+
-    "_" +
-    state.lessonIndex;
+  if(speakButton){
 
-  state.progress[key]={
-    score:score,
-    total:total,
-    percentage:percentage,
-    date:new Date().toISOString()
-  };
+    speakButton.addEventListener(
+      "click",
+      function(){
 
-  state.streak++;
+        clickSound();
+        speak(q.q);
+      }
+    );
+  }
+}
 
-  saveGame(false);
+function finishVoiceQuiz(){
 
-  let message=
-    "TERUS BERLATIH!";
+  stopRecognition();
 
-  if(percentage===100){
-    message=
-      "PERFECT! ★★★";
-  }else if(percentage>=50){
-    message=
-      "GOOD JOB! ★★";
+  const total =
+    quizQuestions.length;
+
+  const percent =
+    total
+    ? Math.round((quizScore / total) * 100)
+    : 0;
+
+  const bonus =
+    quizScore * 12;
+
+  state.coins += bonus;
+
+  if(quizScore === total && total > 0){
+    state.streak++;
+    addReward(35,0);
   }
 
-  screen.innerHTML=`
+  saveState();
 
-    <div class="panel">
+  currentView = "home";
 
-      <div class="title">
-        QUIZ COMPLETE
-      </div>
+  render();
 
-      <div class="question"
-           style="text-align:center">
-
-        ${message}
-
-        <br><br>
-
-        SCORE
-        ${score}/${total}
-
-        <br>
-
-        ${percentage}%
-
-      </div>
-
-      <div class="feedback">
-
-        SUBJECT:<br>
-        ${subject.title}
-
-        <br><br>
-
-        CHAPTER:<br>
-        ${lesson.title}
-
-        <br><br>
-
-        PROGRESS SUDAH DISIMPAN.
-
-      </div>
-
-      <button
-        type="button"
-        class="pixel-btn"
-        data-action="lesson">
-
-        ↻ ULANG / KEMBALI
-
-      </button>
-
-      <button
-        type="button"
-        class="pixel-btn"
-        data-action="chapters">
-
-        CHAPTER SELECT
-
-      </button>
-
-      <button
-        type="button"
-        class="pixel-btn"
-        data-action="subjects">
-
-        SUBJECT SELECT
-
-      </button>
-
-      <button
-        type="button"
-        class="pixel-btn"
-        data-action="home">
-
-        MAIN MENU
-
-      </button>
-
-    </div>
-  `;
-
-  bindActions();
-
-  speak(
-    "Quiz selesai. "+
-    "Nilai kamu "+
-    percentage+
-    " persen."
+  showToast(
+    "VOICE QUIZ: " +
+    quizScore + "/" +
+    total +
+    " • " + percent + "%"
   );
 }
 
@@ -3168,238 +4037,110 @@ function finishQuiz(){
 
 function renderProgress(){
 
-  const entries=
-    Object.entries(
-      state.progress
-    );
+  const subjectCards =
+    Object.keys(SUBJECTS)
+      .map(function(id){
 
-  let content="";
+        const s =
+          SUBJECTS[id];
 
-  if(entries.length===0){
+        const done =
+          s.chapters.filter(function(ch){
+            return chapterComplete(id,ch.id);
+          }).length;
 
-    content=`
+        const percent =
+          Math.round(
+            (done / s.chapters.length) * 100
+          );
 
-      <div class="feedback">
+        return `
+          <div class="card">
 
-        BELUM ADA DATA BELAJAR.
+            <h3>
+              ${escapeHTML(s.name)}
+            </h3>
 
-        <br><br>
+            <p>
+              ${done}/${s.chapters.length}
+              bab selesai.
+            </p>
 
-        MULAI SATU MATERI
-        UNTUK MEMBUAT PROGRESS.
-
-      </div>
-    `;
-
-  }else{
-
-    content=
-      entries
-        .map(([key,data])=>{
-
-          const parts=
-            key.split("_");
-
-          const subject=
-            subjects[parts[0]];
-
-          const lesson=
-            subject &&
-            subject.lessons[
-              Number(parts[1])
-            ];
-
-          return`
-
-            <div class="card">
-
-              <div class="card-title">
-                ${subject
-                  ? subject.title
-                  : "SUBJECT"}
-              </div>
-
-              <div class="card-text">
-                ${lesson
-                  ? lesson.title
-                  : "CHAPTER"}
-              </div>
-
-              <div class="card-text">
-                SCORE
-                ${data.score}/${data.total}
-              </div>
-
-              <div class="progress">
-
-                <div
-                  class="progress-fill"
-                  style="
-                    width:${data.percentage}%;
-                  ">
-                </div>
-
-              </div>
-
-              <div class="card-text">
-                ${data.percentage}%
-              </div>
-
+            <div class="progress-label">
+              <span>PROGRESS</span>
+              <span>${percent}%</span>
             </div>
-          `;
 
-        })
-        .join("");
-  }
+            <div class="progress">
+              <div
+                class="progress-fill"
+                style="width:${percent}%"
+              ></div>
+            </div>
 
-  screen.innerHTML=`
+          </div>
+        `;
+      })
+      .join("");
 
-    <div class="panel">
+  const accuracy =
+    state.totalAnswered
+    ? Math.round(
+        (state.totalCorrect /
+         state.totalAnswered) * 100
+      )
+    : 0;
 
-      <div class="title">
-        MY PROGRESS
+  return `
+    <div class="screen-title">
+      ▶ MY PROGRESS
+    </div>
+
+    <div class="grid">
+
+      <div class="card">
+        <h3>LEVEL</h3>
+        <p>Lv.${state.level}</p>
       </div>
 
-      <div class="feedback">
-
-        LEVEL ${state.level}<br>
-
-        EXP ${state.exp}<br>
-
-        COINS ${state.coins}<br>
-
-        STREAK ${state.streak}
-
+      <div class="card">
+        <h3>QUIZ ACCURACY</h3>
+        <p>${accuracy}%</p>
       </div>
 
-      <br>
-
-      <div class="grid">
-        ${content}
+      <div class="card">
+        <h3>TOTAL CORRECT</h3>
+        <p>${state.totalCorrect}</p>
       </div>
+
+      <div class="card">
+        <h3>TOTAL ANSWERED</h3>
+        <p>${state.totalAnswered}</p>
+      </div>
+
+    </div>
+
+    <div class="pixel-line"></div>
+
+    <div class="screen-subtitle">
+      SUBJECT PROGRESS
+    </div>
+
+    <div class="grid">
+      ${subjectCards}
+    </div>
+
+    <div class="action-row">
 
       <button
-        type="button"
-        class="pixel-btn"
-        data-action="home">
-
-        ◀ MAIN MENU
-
+        class="btn secondary"
+        data-action="home"
+      >
+        B BACK
       </button>
 
     </div>
   `;
-
-  bindActions();
-}
-
-/* =========================================================
-   VOICE CENTER
-========================================================= */
-
-function renderVoiceCenter(){
-
-  const supported=
-    Boolean(
-      getRecognitionClass()
-    );
-
-  screen.innerHTML=`
-
-    <div class="panel">
-
-      <div class="title">
-        🎤 VOICE CENTER
-      </div>
-
-      <div class="feedback">
-
-        TEXT TO SPEECH:
-        ${
-          "speechSynthesis" in window
-          ? "READY ✓"
-          : "NOT AVAILABLE ✕"
-        }
-
-        <br><br>
-
-        SPEECH RECOGNITION:
-        ${
-          supported
-          ? "READY ✓"
-          : "BROWSER LIMITED ✕"
-        }
-
-      </div>
-
-      <button
-        type="button"
-        class="pixel-btn center"
-        data-action="testVoice">
-
-        🔊 TEST VOICE
-
-      </button>
-
-      <button
-        type="button"
-        class="pixel-btn center"
-        data-action="testMic">
-
-        🎤 TEST MICROPHONE
-
-      </button>
-
-      <button
-        type="button"
-        class="pixel-btn"
-        data-action="settings">
-
-        ⚙ VOICE SETTINGS
-
-      </button>
-
-      <button
-        type="button"
-        class="pixel-btn"
-        data-action="home">
-
-        ◀ BACK
-
-      </button>
-
-    </div>
-  `;
-
-  bindActions();
-}
-
-function testVoice(){
-
-  speak(
-    state.settings.lang==="id-ID"
-    ? "Halo! Saya Reza Pixel Learning Academy. Mari belajar bersama."
-    : "Hello! I am Reza Pixel Learning Academy. Let's study together."
-  );
-}
-
-function testMicrophone(){
-
-  if(!recognition){
-    recognition=
-      setupRecognition();
-  }
-
-  if(!recognition){
-
-    showToast(
-      "VOICE INPUT TIDAK DIDUKUNG BROWSER"
-    );
-
-    return;
-  }
-
-  startVoice();
 }
 
 /* =========================================================
@@ -3408,271 +4149,401 @@ function testMicrophone(){
 
 function renderSettings(){
 
-  screen.innerHTML=`
+  return `
+    <div class="screen-title">
+      ▶ SETTINGS
+    </div>
 
-    <div class="panel">
+    <div class="lesson-section">
 
-      <div class="title">
-        ⚙ SETTINGS
-      </div>
+      <h3>VOICE LANGUAGE</h3>
 
-      <label>
-        VOICE LANGUAGE
-      </label>
-
-      <select id="voiceLang">
+      <select
+        id="voiceLang"
+        style="
+          width:100%;
+          background:#020303;
+          border:3px solid #263238;
+          color:#e8fff2;
+          padding:14px;
+          font-family:inherit;
+          font-size:9px;
+        "
+      >
 
         <option
           value="id-ID"
-          ${
-            state.settings.lang==="id-ID"
-            ? "selected"
-            : ""
-          }>
-
-          INDONESIAN — ID
-
+          ${state.settings.lang === "id-ID" ? "selected" : ""}
+        >
+          INDONESIAN
         </option>
 
         <option
           value="en-US"
-          ${
-            state.settings.lang==="en-US"
-            ? "selected"
-            : ""
-          }>
-
-          ENGLISH — US
-
+          ${state.settings.lang === "en-US" ? "selected" : ""}
+        >
+          ENGLISH US
         </option>
 
       </select>
 
-      <label>
-        VOICE SPEED
-      </label>
+    </div>
 
-      <select id="voiceRate">
+    <div class="lesson-section">
 
-        <option
-          value="0.7"
-          ${
-            state.settings.rate===0.7
-            ? "selected"
-            : ""
-          }>
+      <h3>VOICE SPEED</h3>
 
-          SLOW
+      <input
+        id="voiceRate"
+        type="range"
+        min="0.6"
+        max="1.3"
+        step="0.1"
+        value="${state.settings.rate}"
+        style="width:100%"
+      >
 
-        </option>
+      <div class="small">
+        Speed:
+        <span id="voiceRateValue">
+          ${state.settings.rate}
+        </span>
+      </div>
 
-        <option
-          value="0.9"
-          ${
-            state.settings.rate===0.9
-            ? "selected"
-            : ""
-          }>
+    </div>
 
-          NORMAL
+    <div class="lesson-section">
 
-        </option>
-
-        <option
-          value="1.05"
-          ${
-            state.settings.rate===1.05
-            ? "selected"
-            : ""
-          }>
-
-          FAST
-
-        </option>
-
-      </select>
+      <h3>MUSIC</h3>
 
       <button
-        type="button"
-        class="pixel-btn center"
-        data-action="saveSettings">
+        class="btn"
+        data-action="music"
+      >
+        PIXEL MUSIC:
+        ${state.settings.music ? "ON" : "OFF"}
+      </button>
 
+    </div>
+
+    <div class="lesson-section">
+
+      <h3>VOICE</h3>
+
+      <button
+        class="btn secondary"
+        data-action="toggleVoice"
+      >
+        VOICE TTS:
+        ${state.settings.voice ? "ON" : "OFF"}
+      </button>
+
+    </div>
+
+    <div class="action-row">
+
+      <button
+        class="btn gold"
+        data-action="saveSettings"
+      >
         SAVE SETTINGS
-
       </button>
 
       <button
-        type="button"
-        class="pixel-btn center"
-        data-action="testVoice">
-
-        🔊 TEST VOICE
-
-      </button>
-
-      <button
-        type="button"
-        class="pixel-btn"
-        data-action="home">
-
-        ◀ BACK
-
+        class="btn secondary"
+        data-action="home"
+      >
+        B BACK
       </button>
 
     </div>
   `;
+}
 
-  bindActions();
+function setupSettings(){
+
+  const lang =
+    $("voiceLang");
+
+  const rate =
+    $("voiceRate");
+
+  const rateValue =
+    $("voiceRateValue");
+
+  if(lang){
+
+    lang.addEventListener(
+      "change",
+      function(){
+
+        state.settings.lang =
+          lang.value;
+
+      }
+    );
+  }
+
+  if(rate){
+
+    rate.addEventListener(
+      "input",
+      function(){
+
+        state.settings.rate =
+          Number(rate.value);
+
+        if(rateValue){
+          rateValue.textContent =
+            rate.value;
+        }
+      }
+    );
+  }
 }
 
 function saveSettings(){
 
-  const language=
-    document.getElementById(
-      "voiceLang"
-    );
+  const lang =
+    $("voiceLang");
 
-  const rate=
-    document.getElementById(
-      "voiceRate"
-    );
+  const rate =
+    $("voiceRate");
 
-  if(language){
-    state.settings.lang=
-      language.value;
+  if(lang){
+    state.settings.lang =
+      lang.value;
   }
 
   if(rate){
-    state.settings.rate=
+    state.settings.rate =
       Number(rate.value);
   }
 
-  setupRecognition();
+  saveState();
 
-  saveGame(false);
+  showToast("SETTINGS SAVED");
 
-  showToast(
-    "VOICE SETTINGS SAVED ✓"
-  );
+  setTimeout(function(){
+    render();
+  },500);
 }
 
-/* =========================================================
-   ESCAPE HTML
-========================================================= */
+function toggleVoice(){
 
-function escapeHTML(value){
+  state.settings.voice =
+    !state.settings.voice;
 
-  return String(value)
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
+  saveState();
+
+  showToast(
+    "VOICE TTS: " +
+    (state.settings.voice ? "ON" : "OFF")
+  );
+
+  render();
 }
 
 /* =========================================================
    ACTION ROUTER
 ========================================================= */
 
-function handleAction(action){
-
-  if(!action){
-    return;
-  }
+function handleAction(action,id,index){
 
   clickSound();
 
   switch(action){
 
     case "home":
-      renderHome();
+
+      stopRecognition();
+      currentView = "home";
+      render();
+      break;
+
+    case "back":
+
+      if(currentView === "home"){
+        return;
+      }
+
+      if(currentView === "lesson" ||
+         currentView === "quiz"){
+
+        currentView = "chapters";
+
+      }else if(currentView === "chapters"){
+
+        currentView = "subjects";
+
+      }else{
+
+        currentView = "home";
+      }
+
+      stopRecognition();
+      render();
       break;
 
     case "subjects":
-      renderSubjects();
+
+      currentView = "subjects";
+      render();
+      break;
+
+    case "subject":
+
+      if(SUBJECTS[id]){
+
+        currentSubject = id;
+        currentView = "chapters";
+        render();
+      }
+
       break;
 
     case "chapters":
-      renderChapters();
+
+      currentView = "chapters";
+      render();
       break;
 
-    case "lesson":
-      renderLesson();
+    case "chapter":
+
+      if(
+        SUBJECTS[currentSubject] &&
+        SUBJECTS[currentSubject]
+          .chapters
+          .some(function(ch){
+            return ch.id === id;
+          })
+      ){
+
+        currentChapter = id;
+        currentView = "lesson";
+        render();
+      }
+
       break;
 
-    case "practice":
-      renderPractice();
+    case "completeLesson":
+
+      completeCurrentLesson();
       break;
 
-    case "checkPractice":
-      checkPractice();
+    case "chapterQuiz":
+
+      startChapterQuiz(
+        currentSubject,
+        id || currentChapter
+      );
       break;
 
     case "quiz":
-      startQuiz();
+
+      if(!currentSubject){
+        currentSubject = "matematika";
+      }
+
+      startSubjectQuiz(
+        currentSubject
+      );
       break;
 
-    case "readQuestion":
-      readQuestion();
-      break;
+    case "quizAnswer":
 
-    case "readLesson":
-      readCurrentLesson();
-      break;
-
-    case "voiceAnswer":
-      startVoice();
-      break;
-
-    case "progress":
-      renderProgress();
+      answerQuiz(
+        Number(index)
+      );
       break;
 
     case "voice":
-      renderVoiceCenter();
+
+      currentView = "voice";
+      render();
       break;
 
-    case "testVoice":
-      testVoice();
+    case "voiceSubject":
+
+      startVoiceQuiz(id);
       break;
 
-    case "testMic":
-      testMicrophone();
+    case "voiceStart":
+
+      startVoice();
+      break;
+
+    case "voiceBack":
+
+      stopRecognition();
+      currentView = "voice";
+      render();
+      break;
+
+    case "speakQuestion":
+
+      if(quizQuestions[quizIndex]){
+        speak(
+          quizQuestions[quizIndex].q
+        );
+      }
+
+      break;
+
+    case "progress":
+
+      currentView = "progress";
+      render();
       break;
 
     case "settings":
-      renderSettings();
+
+      currentView = "settings";
+      render();
+      setTimeout(
+        setupSettings,
+        0
+      );
       break;
 
     case "saveSettings":
+
       saveSettings();
       break;
 
+    case "toggleVoice":
+
+      toggleVoice();
+      break;
+
     case "music":
+
       toggleMusic();
       break;
 
     case "save":
-      saveGame();
+
+      saveState();
+      showToast("GAME SAVED!");
       break;
 
-    case "a":
-      renderSubjects();
-      break;
+    case "reset":
 
-    case "b":
-      renderHome();
-      break;
-
-    case "start":
-      renderSubjects();
+      resetGame();
       break;
 
     case "select":
-      renderProgress();
+
+      showToast("A = SELECT");
+      break;
+
+    case "noop":
+
+      beep(250,.04,"square",.02);
       break;
 
     default:
+
       console.warn(
         "Unknown action:",
         action
@@ -3681,43 +4552,75 @@ function handleAction(action){
 }
 
 /* =========================================================
-   UNIVERSAL CLICK ENGINE
+   EVENT BINDING
 ========================================================= */
 
 function bindActions(){
 
-  const elements=
-    document.querySelectorAll(
-      "[data-action]"
+  document
+    .querySelectorAll("[data-action]")
+    .forEach(function(element){
+
+      element.addEventListener(
+        "click",
+        function(){
+
+          const action =
+            element.getAttribute(
+              "data-action"
+            );
+
+          const id =
+            element.getAttribute(
+              "data-id"
+            );
+
+          const index =
+            element.getAttribute(
+              "data-index"
+            );
+
+          handleAction(
+            action,
+            id,
+            index
+          );
+
+        }
+      );
+
+    });
+}
+
+/* =========================================================
+   RESET
+========================================================= */
+
+function resetGame(){
+
+  const ok =
+    window.confirm(
+      "RESET SEMUA PROGRESS REZA?"
     );
 
-  elements.forEach(element=>{
+  if(!ok){
+    return;
+  }
 
-    if(
-      element.dataset.clickBound==="1"
-    ){
-      return;
-    }
+  state =
+    cloneDefault();
 
-    element.dataset.clickBound="1";
+  saveState();
 
-    element.addEventListener(
-      "click",
-      function(event){
+  currentView = "home";
+  currentSubject = null;
+  currentChapter = null;
 
-        event.preventDefault();
-        event.stopPropagation();
+  showToast(
+    "PROGRESS DIRESET."
+  );
 
-        handleAction(
-          this.getAttribute(
-            "data-action"
-          )
-        );
-
-      }
-    );
-
-  });
+  render();
 }
 
 /* =========================================================
@@ -3728,50 +4631,22 @@ document.addEventListener(
   "keydown",
   function(event){
 
-    const key=
-      event.key.toLowerCase();
+    if(event.key === "Escape"){
 
-    if(key==="escape"){
-
-      event.preventDefault();
-
-      renderHome();
-
-      return;
+      handleAction("back");
     }
 
-    if(
-      key==="b" &&
-      !["input","textarea","select"]
-        .includes(
-          document.activeElement.tagName
-            .toLowerCase()
-        )
-    ){
+    if(event.key === "Enter"){
 
-      event.preventDefault();
-
-      renderHome();
-
-      return;
-    }
-
-    if(key==="enter"){
-
-      const focused=
+      const active =
         document.activeElement;
 
       if(
-        focused &&
-        focused.dataset &&
-        focused.dataset.action
+        active &&
+        active.tagName === "BUTTON"
       ){
 
-        event.preventDefault();
-
-        handleAction(
-          focused.dataset.action
-        );
+        active.click();
       }
     }
 
@@ -3779,87 +4654,122 @@ document.addEventListener(
 );
 
 /* =========================================================
-   GLOBAL AUDIO UNLOCK
+   AUDIO UNLOCK
 ========================================================= */
 
 document.addEventListener(
   "pointerdown",
   function(){
 
-    initAudio();
+    ensureAudio();
+
+    if(
+      state.settings.music &&
+      !musicTimer
+    ){
+      startMusic();
+    }
 
   },
-  {
-    once:true,
-    passive:true
-  }
+  {once:true}
 );
 
 /* =========================================================
    INITIALIZE
 ========================================================= */
 
-function initializeGame(){
+function initialize(){
 
-  loadGame();
+  updateStats();
+  render();
 
-  setupRecognition();
-
-  renderHome();
-
-  /*
-    Musik dimulai setelah user
-    berinteraksi agar tidak diblokir
-    browser.
-  */
-
-  document.addEventListener(
-    "pointerdown",
-    function(){
-
-      if(musicOn){
-        startMusic();
-      }
-
-    },
-    {
-      once:true,
-      passive:true
-    }
-  );
+  if(state.settings.music){
+    startMusic();
+  }
 }
 
 /* =========================================================
    BOOT
 ========================================================= */
 
-window.addEventListener(
-  "load",
-  function(){
+function boot(){
 
-    setTimeout(
-      function(){
+  const fill =
+    $("bootFill");
 
-        boot.style.opacity="0";
+  const status =
+    $("bootStatus");
 
-        setTimeout(
-          function(){
+  const bootSteps = [
+    "LOADING PIXEL ENGINE...",
+    "LOADING SCHOOL DATABASE...",
+    "LOADING SMP MATERIAL...",
+    "LOADING VOICE ENGINE...",
+    "LOADING MUSIC ENGINE...",
+    "CHECKING SAVE DATA...",
+    "SYSTEM READY."
+  ];
 
-            boot.style.display="none";
+  let progress = 0;
+  let step = 0;
 
-            initializeGame();
+  const timer =
+    setInterval(function(){
 
-          },
-          400
-        );
+      progress += 4;
 
-      },
-      2300
-    );
+      if(fill){
+        fill.style.width =
+          Math.min(100,progress) + "%";
+      }
 
-  }
-);
+      if(
+        progress % 14 === 0 &&
+        step < bootSteps.length
+      ){
 
+        if(status){
+          status.textContent =
+            bootSteps[step];
+        }
+
+        step++;
+      }
+
+      if(progress >= 100){
+
+        clearInterval(timer);
+
+        setTimeout(function(){
+
+          const bootScreen =
+            $("boot");
+
+          const app =
+            $("app");
+
+          if(bootScreen){
+            bootScreen.style.display =
+              "none";
+          }
+
+          if(app){
+            app.style.display =
+              "block";
+          }
+
+          initialize();
+
+        },300);
+      }
+
+    },45);
+}
+
+/* Start */
+boot();
+
+})();
 </script>
 
 </body>
