@@ -2,12 +2,28 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta name="theme-color" content="#111827">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#070b18">
 
 <title>REZA | Pixel School RPG</title>
 
 <style>
+:root{
+  --bg:#070b18;
+  --panel:#10182b;
+  --panel2:#17233d;
+  --line:#33476f;
+  --cyan:#48eaff;
+  --blue:#4f7cff;
+  --green:#5dff9a;
+  --yellow:#ffe45e;
+  --red:#ff5577;
+  --purple:#b46cff;
+  --white:#f4f7ff;
+  --muted:#9caed0;
+  --shadow:0 0 25px rgba(72,234,255,.14);
+}
+
 *{
   box-sizing:border-box;
   margin:0;
@@ -17,31 +33,21 @@
 html,body{
   width:100%;
   min-height:100%;
+  background:var(--bg);
+  color:var(--white);
+  font-family:"Courier New",monospace;
 }
 
 body{
-  font-family:
-    "Courier New",
-    monospace;
-  background:#050505;
-  color:#fff;
   overflow-x:hidden;
-  image-rendering:pixelated;
 }
 
 button{
   font-family:inherit;
-  cursor:pointer;
 }
 
-.screen{
-  min-height:100vh;
-  display:none;
-  position:relative;
-}
-
-.screen.active{
-  display:flex;
+.hidden{
+  display:none!important;
 }
 
 /* =========================
@@ -49,501 +55,941 @@ button{
 ========================= */
 
 #bootScreen{
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  background:
+    radial-gradient(circle at center,#101d38 0,#070b18 55%,#02040a 100%);
+  display:flex;
   align-items:center;
   justify-content:center;
-  background:
-    radial-gradient(
-      circle,
-      #202020 0%,
-      #090909 45%,
-      #000 100%
-    );
-  text-align:center;
   overflow:hidden;
 }
 
-.scanlines{
+#bootScreen::before{
+  content:"";
   position:absolute;
   inset:0;
-  pointer-events:none;
   background:
     repeating-linear-gradient(
-      to bottom,
-      rgba(255,255,255,.035) 0px,
-      rgba(255,255,255,.035) 1px,
+      0deg,
+      rgba(255,255,255,.025) 0,
+      rgba(255,255,255,.025) 1px,
       transparent 1px,
       transparent 4px
     );
+  pointer-events:none;
 }
 
-.bootBox{
-  width:min(92%,650px);
+.boot-grid{
+  position:absolute;
+  inset:0;
+  opacity:.18;
+  background-image:
+    linear-gradient(rgba(72,234,255,.12) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(72,234,255,.12) 1px,transparent 1px);
+  background-size:35px 35px;
+  transform:perspective(500px) rotateX(55deg) scale(1.8);
+  transform-origin:center bottom;
+  animation:gridMove 5s linear infinite;
+}
+
+@keyframes gridMove{
+  from{background-position:0 0,0 0}
+  to{background-position:0 35px,35px 0}
+}
+
+.boot-box{
+  width:min(680px,90%);
+  text-align:center;
   position:relative;
   z-index:2;
-  padding:30px 20px;
-  border:4px solid #fff;
+  border:3px solid var(--cyan);
+  padding:34px 24px;
+  background:rgba(7,11,24,.9);
   box-shadow:
-    8px 8px 0 #555,
-    0 0 0 6px #111;
-  background:#080808;
+    0 0 10px var(--cyan),
+    0 0 45px rgba(72,234,255,.18),
+    inset 0 0 35px rgba(72,234,255,.06);
 }
 
-.pixelLogo{
-  font-size:
-    clamp(48px,14vw,100px);
+.logo-pixel{
+  font-size:clamp(34px,8vw,76px);
   font-weight:900;
   letter-spacing:8px;
+  color:var(--cyan);
   text-shadow:
-    5px 5px 0 #333;
+    4px 4px 0 #243c75,
+    0 0 20px var(--cyan);
+  margin-bottom:10px;
 }
 
-.pixelSub{
-  margin-top:8px;
-  font-size:14px;
-  color:#aaa;
+.boot-sub{
+  color:var(--yellow);
+  font-size:13px;
   letter-spacing:3px;
+  margin-bottom:28px;
 }
 
-.loadingText{
-  margin-top:45px;
-  color:#bbb;
+.boot-status{
+  color:var(--green);
+  font-size:13px;
+  min-height:20px;
+  margin-bottom:10px;
 }
 
-.progress{
-  width:100%;
-  height:25px;
-  margin-top:12px;
-  border:3px solid #fff;
+.progress-wrap{
+  height:18px;
+  border:2px solid var(--line);
+  background:#050812;
   padding:3px;
+  margin:12px auto 24px;
+  max-width:520px;
 }
 
-.progressBar{
+#progressBar{
   width:0%;
   height:100%;
-  background:#fff;
-  transition:width .12s linear;
+  background:var(--cyan);
+  box-shadow:0 0 12px var(--cyan);
+  transition:width .15s linear;
 }
 
-.pressStart{
-  margin-top:35px;
+.start-button{
+  border:3px solid var(--yellow);
+  background:#12192c;
+  color:var(--yellow);
+  padding:14px 25px;
+  font-weight:900;
+  font-size:16px;
+  letter-spacing:2px;
+  cursor:pointer;
+  box-shadow:5px 5px 0 #6f6020;
+  transition:.15s;
+}
+
+.start-button:hover{
+  transform:translate(-2px,-2px);
+  box-shadow:7px 7px 0 #6f6020;
+  background:#1a2540;
+}
+
+.start-button:active{
+  transform:translate(3px,3px);
+  box-shadow:2px 2px 0 #6f6020;
+}
+
+/* =========================
+   APP
+========================= */
+
+#app{
+  min-height:100vh;
+  background:
+    radial-gradient(circle at 15% 10%,rgba(79,124,255,.10),transparent 25%),
+    radial-gradient(circle at 85% 20%,rgba(180,108,255,.09),transparent 25%),
+    var(--bg);
+}
+
+.topbar{
+  position:sticky;
+  top:0;
+  z-index:100;
+  min-height:74px;
+  padding:12px 18px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  border-bottom:2px solid var(--line);
+  background:rgba(7,11,24,.94);
+  backdrop-filter:blur(10px);
+  box-shadow:0 4px 20px rgba(0,0,0,.25);
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.brand-icon{
+  width:45px;
+  height:45px;
+  display:grid;
+  place-items:center;
+  border:3px solid var(--cyan);
+  color:var(--cyan);
+  background:#0b1224;
+  font-size:20px;
+  box-shadow:0 0 15px rgba(72,234,255,.2);
+}
+
+.brand-title{
   font-size:18px;
-  animation:blink 1s steps(2,end) infinite;
+  font-weight:900;
+  color:var(--cyan);
 }
 
-@keyframes blink{
-  50%{
-    opacity:0;
-  }
+.brand-small{
+  font-size:10px;
+  color:var(--muted);
+  margin-top:3px;
+}
+
+.stats{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  justify-content:flex-end;
+}
+
+.stat{
+  border:2px solid var(--line);
+  background:#0d1427;
+  padding:8px 11px;
+  font-size:11px;
+  min-width:70px;
+  text-align:center;
+}
+
+.stat b{
+  display:block;
+  font-size:14px;
+  margin-top:2px;
+}
+
+.stat.level{
+  color:var(--yellow);
+  border-color:#655b28;
+}
+
+.stat.exp{
+  color:var(--green);
+  border-color:#285d45;
+}
+
+.stat.coin{
+  color:var(--yellow);
+  border-color:#655b28;
 }
 
 /* =========================
    MAIN MENU
 ========================= */
 
-#menuScreen{
-  align-items:center;
-  justify-content:center;
+.menu-screen{
+  width:min(1050px,94%);
+  margin:35px auto;
+}
+
+.hero-panel{
+  border:3px solid var(--cyan);
   background:
-    linear-gradient(
-      180deg,
-      #101827 0%,
-      #070b12 60%,
-      #030405 100%
-    );
-  padding:20px;
+    linear-gradient(135deg,rgba(72,234,255,.07),transparent 45%),
+    var(--panel);
+  padding:32px;
+  box-shadow:var(--shadow);
+  position:relative;
+  overflow:hidden;
 }
 
-.menuWrap{
-  width:min(100%,900px);
-  text-align:center;
+.hero-panel::after{
+  content:"REZA";
+  position:absolute;
+  right:-25px;
+  bottom:-50px;
+  font-size:150px;
+  font-weight:900;
+  color:rgba(72,234,255,.035);
+  pointer-events:none;
 }
 
-.menuTitle{
-  font-size:
-    clamp(42px,10vw,90px);
-  text-shadow:
-    6px 6px 0 #000;
-}
-
-.menuSubtitle{
-  margin:10px 0 30px;
-  color:#aaa;
+.hero-label{
+  color:var(--green);
+  font-size:11px;
   letter-spacing:3px;
+  margin-bottom:12px;
 }
 
-.menu{
+.hero-title{
+  font-size:clamp(28px,6vw,54px);
+  color:var(--white);
+  line-height:1;
+  text-shadow:4px 4px 0 #1c2c51;
+}
+
+.hero-title span{
+  color:var(--cyan);
+}
+
+.hero-text{
+  max-width:650px;
+  color:var(--muted);
+  margin-top:15px;
+  line-height:1.7;
+  font-size:13px;
+}
+
+.menu-grid{
   display:grid;
-  gap:12px;
-  max-width:500px;
-  margin:auto;
+  grid-template-columns:repeat(2,1fr);
+  gap:15px;
+  margin-top:20px;
 }
 
-.menuBtn{
-  min-height:58px;
-  border:4px solid #fff;
-  background:#111;
-  color:#fff;
-  font-size:17px;
-  font-weight:bold;
+.menu-btn{
+  min-height:90px;
   text-align:left;
-  padding:12px 18px;
-  box-shadow:6px 6px 0 #000;
-  transition:.08s;
+  padding:18px;
+  cursor:pointer;
+  border:3px solid var(--line);
+  background:var(--panel);
+  color:var(--white);
+  box-shadow:5px 5px 0 #080c18;
+  transition:.15s;
 }
 
-.menuBtn:hover,
-.menuBtn:focus{
-  background:#fff;
-  color:#000;
+.menu-btn:hover{
+  transform:translate(-2px,-2px);
+  border-color:var(--cyan);
+  box-shadow:7px 7px 0 #080c18;
+}
+
+.menu-btn:active{
   transform:translate(3px,3px);
-  box-shadow:3px 3px 0 #000;
-  outline:none;
+  box-shadow:2px 2px 0 #080c18;
 }
 
-.menuBtn::before{
-  content:"▶ ";
+.menu-btn.primary{
+  border-color:var(--cyan);
+  background:linear-gradient(135deg,#112640,#10182b);
+}
+
+.menu-btn .icon{
+  font-size:27px;
+  margin-bottom:8px;
+}
+
+.menu-btn strong{
+  display:block;
+  color:var(--cyan);
+  font-size:14px;
+}
+
+.menu-btn small{
+  color:var(--muted);
+  display:block;
+  margin-top:5px;
+  font-size:10px;
 }
 
 /* =========================
-   GAME WORLD
+   GAME
 ========================= */
 
-#gameScreen{
-  display:none;
-  flex-direction:column;
-  background:
-    linear-gradient(
-      #142238 0 35%,
-      #28442b 35% 65%,
-      #18271a 65%
-    );
+.game-screen{
+  width:min(1100px,94%);
+  margin:25px auto 60px;
 }
 
-#gameScreen.active{
-  display:flex;
-}
-
-.hud{
-  position:sticky;
-  top:0;
-  z-index:20;
+.back-row{
   display:flex;
   justify-content:space-between;
+  align-items:center;
+  margin-bottom:15px;
   gap:10px;
-  flex-wrap:wrap;
-  padding:12px;
-  border-bottom:4px solid #fff;
-  background:#080808;
 }
 
-.hudItem{
-  padding:7px 10px;
-  border:2px solid #fff;
-  background:#111;
-  font-size:12px;
+.back-btn{
+  border:2px solid var(--line);
+  background:#0d1427;
+  color:var(--muted);
+  padding:9px 13px;
+  cursor:pointer;
 }
 
-.world{
-  flex:1;
-  padding:25px 15px 50px;
+.back-btn:hover{
+  border-color:var(--cyan);
+  color:var(--cyan);
 }
 
-.worldTitle{
-  text-align:center;
-  font-size:
-    clamp(28px,7vw,55px);
-  text-shadow:4px 4px #000;
+.location{
+  color:var(--green);
+  font-size:11px;
 }
 
-.worldHint{
-  text-align:center;
-  color:#ddd;
-  margin:8px 0 25px;
-}
-
-.schoolGrid{
-  width:min(100%,1000px);
-  margin:auto;
+.subject-grid{
   display:grid;
-  grid-template-columns:
-    repeat(auto-fit,minmax(180px,1fr));
-  gap:16px;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
 }
 
-.building{
-  min-height:190px;
-  padding:16px;
-  border:4px solid #fff;
-  background:#111;
-  box-shadow:7px 7px #000;
-  transition:.1s;
+.subject-card{
+  border:3px solid var(--line);
+  background:var(--panel);
+  padding:20px;
+  cursor:pointer;
+  min-height:150px;
+  position:relative;
+  overflow:hidden;
+  transition:.15s;
+  box-shadow:5px 5px 0 #080c18;
 }
 
-.building:hover{
-  transform:translate(3px,3px);
-  box-shadow:4px 4px #000;
+.subject-card:hover{
+  transform:translate(-3px,-3px);
+  border-color:var(--cyan);
+  box-shadow:8px 8px 0 #080c18;
 }
 
-.buildingIcon{
-  font-size:50px;
+.subject-card::before{
+  content:"";
+  position:absolute;
+  width:80px;
+  height:80px;
+  right:-30px;
+  bottom:-30px;
+  border:2px solid rgba(72,234,255,.12);
+  transform:rotate(45deg);
 }
 
-.buildingTitle{
-  margin-top:12px;
-  font-size:18px;
+.subject-icon{
+  font-size:32px;
+  margin-bottom:14px;
 }
 
-.buildingText{
-  margin-top:7px;
-  font-size:12px;
-  color:#aaa;
+.subject-name{
+  font-weight:900;
+  color:var(--cyan);
+  font-size:15px;
+}
+
+.subject-desc{
+  color:var(--muted);
+  font-size:10px;
   line-height:1.5;
-}
-
-.playBtn{
-  margin-top:15px;
-  width:100%;
-  padding:10px;
-  border:3px solid #fff;
-  background:#222;
-  color:#fff;
-  font-weight:bold;
-}
-
-.playBtn:hover{
-  background:#fff;
-  color:#000;
+  margin-top:7px;
 }
 
 /* =========================
-   MODAL
+   BATTLE
+========================= */
+
+.battle-screen{
+  width:min(1050px,94%);
+  margin:25px auto 60px;
+}
+
+.battle-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin-bottom:15px;
+}
+
+.battle-title{
+  color:var(--yellow);
+  font-weight:900;
+  letter-spacing:2px;
+}
+
+.combo{
+  color:var(--purple);
+  font-weight:900;
+  font-size:12px;
+}
+
+.arena{
+  border:3px solid var(--cyan);
+  background:
+    radial-gradient(circle at 50% 30%,rgba(72,234,255,.10),transparent 30%),
+    linear-gradient(#0b1427,#07101f);
+  min-height:340px;
+  padding:25px;
+  position:relative;
+  overflow:hidden;
+}
+
+.arena::before{
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:0;
+  height:90px;
+  background:
+    linear-gradient(135deg,transparent 25%,rgba(72,234,255,.06) 25%,rgba(72,234,255,.06) 50%,transparent 50%),
+    linear-gradient(45deg,transparent 25%,rgba(72,234,255,.04) 25%,rgba(72,234,255,.04) 50%,transparent 50%);
+  background-size:40px 40px;
+  opacity:.5;
+}
+
+.battle-monsters{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  align-items:center;
+  gap:20px;
+  position:relative;
+  z-index:2;
+}
+
+.monster-side{
+  min-width:0;
+}
+
+.enemy{
+  text-align:right;
+}
+
+.monster-name{
+  font-size:14px;
+  font-weight:900;
+  color:var(--white);
+  margin-bottom:8px;
+}
+
+.hp-wrap{
+  height:17px;
+  border:2px solid var(--line);
+  background:#050812;
+  padding:2px;
+  width:min(260px,100%);
+  margin-left:auto;
+}
+
+.player-side .hp-wrap{
+  margin-left:0;
+}
+
+.hp{
+  width:100%;
+  height:100%;
+  background:var(--green);
+  transition:.3s;
+}
+
+.enemy .hp{
+  background:var(--red);
+}
+
+.monster-art{
+  font-size:90px;
+  margin-top:15px;
+  filter:drop-shadow(0 0 15px rgba(72,234,255,.25));
+  animation:floatMonster 1.7s ease-in-out infinite;
+}
+
+.enemy .monster-art{
+  animation-delay:.3s;
+}
+
+@keyframes floatMonster{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-8px)}
+}
+
+.question-panel{
+  position:relative;
+  z-index:3;
+  margin-top:20px;
+  border:3px solid var(--yellow);
+  background:#0e172b;
+  padding:20px;
+  box-shadow:0 0 25px rgba(255,228,94,.08);
+}
+
+.question-number{
+  color:var(--green);
+  font-size:10px;
+  margin-bottom:9px;
+}
+
+.question-text{
+  font-size:17px;
+  line-height:1.5;
+  font-weight:900;
+}
+
+.answers{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+  margin-top:18px;
+}
+
+.answer-btn{
+  min-height:54px;
+  border:2px solid var(--line);
+  background:#111b30;
+  color:var(--white);
+  text-align:left;
+  padding:12px;
+  cursor:pointer;
+  font-size:12px;
+  transition:.12s;
+}
+
+.answer-btn:hover{
+  border-color:var(--cyan);
+  background:#172642;
+}
+
+.answer-btn.correct{
+  border-color:var(--green);
+  background:rgba(93,255,154,.13);
+  color:var(--green);
+}
+
+.answer-btn.wrong{
+  border-color:var(--red);
+  background:rgba(255,85,119,.13);
+  color:var(--red);
+}
+
+.answer-btn:disabled{
+  cursor:not-allowed;
+  opacity:.9;
+}
+
+.battle-message{
+  min-height:25px;
+  margin-top:14px;
+  color:var(--yellow);
+  font-size:12px;
+  font-weight:900;
+}
+
+.reward{
+  text-align:center;
+  color:var(--green);
+  margin-top:8px;
+  min-height:22px;
+  font-weight:900;
+}
+
+.float-reward{
+  position:fixed;
+  left:50%;
+  top:50%;
+  z-index:999;
+  transform:translate(-50%,-50%);
+  font-size:30px;
+  font-weight:900;
+  color:var(--yellow);
+  text-shadow:0 0 15px rgba(255,228,94,.7);
+  pointer-events:none;
+  animation:rewardUp .9s ease-out forwards;
+}
+
+@keyframes rewardUp{
+  from{
+    opacity:1;
+    transform:translate(-50%,-50%) scale(1);
+  }
+  to{
+    opacity:0;
+    transform:translate(-50%,-110%) scale(1.4);
+  }
+}
+
+/* =========================
+   MODALS
 ========================= */
 
 .modal{
   position:fixed;
   inset:0;
-  z-index:100;
-  display:none;
+  z-index:500;
+  background:rgba(0,0,0,.78);
+  display:flex;
   align-items:center;
   justify-content:center;
-  padding:15px;
-  background:rgba(0,0,0,.82);
+  padding:18px;
 }
 
-.modal.active{
-  display:flex;
-}
-
-.modalBox{
-  width:min(100%,650px);
-  max-height:90vh;
+.modal-box{
+  width:min(720px,100%);
+  max-height:85vh;
   overflow:auto;
-  border:5px solid #fff;
-  background:#0a0a0a;
-  box-shadow:10px 10px #000;
-  padding:20px;
+  border:3px solid var(--cyan);
+  background:#0b1224;
+  padding:25px;
+  box-shadow:0 0 45px rgba(72,234,255,.16);
 }
 
-.modalTitle{
-  font-size:28px;
-  margin-bottom:15px;
+.modal-title{
+  color:var(--cyan);
+  font-size:22px;
+  font-weight:900;
+  margin-bottom:18px;
 }
 
-.closeBtn{
+.close-btn{
   float:right;
-  padding:6px 10px;
-  background:#fff;
-  color:#000;
-  border:0;
-  font-weight:bold;
+  border:2px solid var(--red);
+  color:var(--red);
+  background:#150c17;
+  padding:5px 9px;
+  cursor:pointer;
 }
-
-/* =========================
-   QUIZ
-========================= */
-
-.question{
-  font-size:21px;
-  line-height:1.5;
-  margin:20px 0;
-}
-
-.answers{
-  display:grid;
-  gap:10px;
-}
-
-.answer{
-  padding:13px;
-  border:3px solid #fff;
-  background:#111;
-  color:#fff;
-  text-align:left;
-}
-
-.answer:hover{
-  background:#fff;
-  color:#000;
-}
-
-.answer.correct{
-  background:#164e22;
-}
-
-.answer.wrong{
-  background:#5b1111;
-}
-
-.quizInfo{
-  color:#aaa;
-  font-size:12px;
-  margin-top:10px;
-}
-
-.reward{
-  margin-top:18px;
-  padding:15px;
-  border:3px dashed #fff;
-  text-align:center;
-}
-
-/* =========================
-   PROFILE
-========================= */
 
 .profile{
   display:grid;
-  gap:12px;
+  grid-template-columns:130px 1fr;
+  gap:20px;
+  align-items:center;
 }
 
-.stat{
-  padding:14px;
-  border:3px solid #fff;
-  background:#111;
-}
-
-.statBar{
-  height:18px;
-  margin-top:8px;
-  border:2px solid #fff;
-  padding:2px;
-}
-
-.statFill{
-  height:100%;
-  width:0%;
-  background:#fff;
-}
-
-/* =========================
-   MONSTERS
-========================= */
-
-.monsterGrid{
+.avatar{
+  width:120px;
+  height:120px;
+  border:3px solid var(--cyan);
   display:grid;
-  grid-template-columns:
-    repeat(auto-fit,minmax(130px,1fr));
+  place-items:center;
+  font-size:55px;
+  background:#101b31;
+  box-shadow:0 0 20px rgba(72,234,255,.15);
+}
+
+.info-line{
+  border-bottom:1px dashed var(--line);
+  padding:10px 0;
+  font-size:12px;
+}
+
+.info-line span{
+  color:var(--muted);
+}
+
+.collection-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
   gap:12px;
 }
 
-.monster{
+.monster-card{
+  border:2px solid var(--line);
+  background:#10192d;
   padding:15px;
   text-align:center;
-  border:3px solid #fff;
-  background:#111;
 }
 
-.monsterIcon{
-  font-size:50px;
+.monster-card.unlocked{
+  border-color:var(--cyan);
+  box-shadow:0 0 15px rgba(72,234,255,.08);
 }
 
-.locked{
-  opacity:.35;
-  filter:grayscale(1);
+.monster-card.locked{
+  opacity:.45;
 }
 
-/* =========================
-   ACHIEVEMENT
-========================= */
+.monster-card .m-art{
+  font-size:42px;
+  margin-bottom:8px;
+}
 
-.achievementGrid{
-  display:grid;
-  gap:10px;
+.monster-card strong{
+  display:block;
+  color:var(--cyan);
+  font-size:12px;
+}
+
+.monster-card small{
+  display:block;
+  color:var(--muted);
+  margin-top:5px;
+  font-size:9px;
 }
 
 .achievement{
-  padding:14px;
-  border:3px solid #fff;
-  background:#111;
+  display:flex;
+  gap:12px;
+  align-items:center;
+  border:2px solid var(--line);
+  padding:13px;
+  margin-bottom:10px;
+  background:#10182b;
 }
 
-.achievement.locked{
-  color:#777;
+.achievement.done{
+  border-color:var(--yellow);
+}
+
+.achievement-icon{
+  font-size:28px;
+}
+
+.achievement strong{
+  color:var(--white);
+  display:block;
+  font-size:12px;
+}
+
+.achievement small{
+  color:var(--muted);
+  font-size:9px;
+}
+
+.notice{
+  padding:15px;
+  border:2px solid var(--line);
+  color:var(--muted);
+  line-height:1.7;
+  font-size:11px;
+}
+
+.danger-btn{
+  border:2px solid var(--red);
+  color:var(--red);
+  background:#170b13;
+  padding:11px 15px;
+  cursor:pointer;
+  margin-top:15px;
 }
 
 /* =========================
-   BACK BUTTON
+   LEVEL UP
 ========================= */
 
-.backBtn{
+.levelup{
   position:fixed;
-  left:15px;
-  bottom:15px;
-  z-index:50;
-  padding:12px 16px;
-  border:3px solid #fff;
-  background:#000;
-  color:#fff;
-  font-weight:bold;
+  inset:0;
+  z-index:2000;
+  background:rgba(3,5,12,.9);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
 }
 
-.backBtn:hover{
-  background:#fff;
-  color:#000;
+.levelup-box{
+  border:4px solid var(--yellow);
+  padding:40px;
+  background:#10182b;
+  box-shadow:
+    0 0 15px var(--yellow),
+    0 0 80px rgba(255,228,94,.15);
+  animation:levelPop .45s ease-out;
+}
+
+.levelup-box h2{
+  color:var(--yellow);
+  font-size:clamp(28px,7vw,55px);
+  text-shadow:4px 4px 0 #5e531f;
+}
+
+.levelup-box p{
+  color:var(--green);
+  margin-top:12px;
+}
+
+@keyframes levelPop{
+  from{transform:scale(.5);opacity:0}
+  to{transform:scale(1);opacity:1}
 }
 
 /* =========================
-   MOBILE
+   TOAST
 ========================= */
 
-@media(max-width:600px){
-
-  .bootBox{
-    padding:25px 12px;
-  }
-
-  .menuBtn{
-    font-size:15px;
-  }
-
-  .schoolGrid{
-    grid-template-columns:1fr 1fr;
-  }
-
-  .building{
-    min-height:175px;
-  }
-
-  .buildingIcon{
-    font-size:40px;
-  }
-
-  .buildingTitle{
-    font-size:14px;
-  }
-
-  .hud{
-    font-size:10px;
-  }
-
+.toast{
+  position:fixed;
+  left:50%;
+  bottom:25px;
+  transform:translateX(-50%) translateY(100px);
+  z-index:3000;
+  border:2px solid var(--cyan);
+  background:#0c1427;
+  color:var(--white);
+  padding:12px 18px;
+  font-size:11px;
+  box-shadow:0 0 20px rgba(72,234,255,.18);
+  opacity:0;
+  transition:.25s;
+  pointer-events:none;
 }
 
-@media(max-width:400px){
+.toast.show{
+  transform:translateX(-50%) translateY(0);
+  opacity:1;
+}
 
-  .schoolGrid{
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:800px){
+  .topbar{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+
+  .stats{
+    width:100%;
+    justify-content:flex-start;
+  }
+
+  .subject-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .collection-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+}
+
+@media(max-width:560px){
+  .hero-panel{
+    padding:22px 17px;
+  }
+
+  .menu-grid{
     grid-template-columns:1fr;
   }
 
+  .subject-grid{
+    grid-template-columns:1fr;
+  }
+
+  .battle-monsters{
+    grid-template-columns:1fr;
+  }
+
+  .enemy{
+    text-align:left;
+    order:1;
+  }
+
+  .player-side{
+    order:2;
+  }
+
+  .enemy .hp-wrap,
+  .player-side .hp-wrap{
+    margin-left:0;
+  }
+
+  .monster-art{
+    font-size:65px;
+  }
+
+  .answers{
+    grid-template-columns:1fr;
+  }
+
+  .profile{
+    grid-template-columns:1fr;
+  }
+
+  .avatar{
+    margin:auto;
+  }
+
+  .collection-grid{
+    grid-template-columns:1fr 1fr;
+  }
 }
 </style>
 </head>
@@ -554,413 +1000,975 @@ button{
      BOOT
 ========================= -->
 
-<section
-  id="bootScreen"
-  class="screen active">
+<section id="bootScreen">
+  <div class="boot-grid"></div>
 
-  <div class="scanlines"></div>
+  <div class="boot-box">
+    <div class="logo-pixel">REZA</div>
+    <div class="boot-sub">PIXEL SCHOOL RPG</div>
 
-  <div class="bootBox">
-
-    <div class="pixelLogo">
-      REZA
+    <div id="bootStatus" class="boot-status">
+      SYSTEM INITIALIZING...
     </div>
 
-    <div class="pixelSub">
-      PIXEL SCHOOL RPG
+    <div class="progress-wrap">
+      <div id="progressBar"></div>
     </div>
 
-    <div class="loadingText">
-      LOADING STUDENT SYSTEM...
-    </div>
-
-    <div class="progress">
-      <div
-        id="progressBar"
-        class="progressBar">
-      </div>
-    </div>
-
-    <div
-      id="loadingPercent"
-      class="pixelSub">
-      0%
-    </div>
-
-    <div
-      id="pressStart"
-      class="pressStart"
-      style="display:none;">
+    <button id="startButton" class="start-button hidden">
       ▶ PRESS START
-    </div>
-
+    </button>
   </div>
-
 </section>
 
-
 <!-- =========================
-     MAIN MENU
+     APP
 ========================= -->
 
-<section
-  id="menuScreen"
-  class="screen">
+<div id="app" class="hidden">
 
-  <div class="menuWrap">
+  <header class="topbar">
 
-    <div class="menuTitle">
-      REZA
+    <div class="brand">
+      <div class="brand-icon">R</div>
+
+      <div>
+        <div class="brand-title">REZA</div>
+        <div class="brand-small">PIXEL SCHOOL RPG</div>
+      </div>
     </div>
 
-    <div class="menuSubtitle">
-      PIXEL SCHOOL RPG
-    </div>
+    <div class="stats">
 
-    <div class="menu">
+      <div class="stat level">
+        LEVEL
+        <b id="levelValue">1</b>
+      </div>
 
-      <button
-        class="menuBtn"
-        id="startAdventureBtn">
-        START ADVENTURE
-      </button>
+      <div class="stat exp">
+        EXP
+        <b id="expValue">0</b>
+      </div>
 
-      <button
-        class="menuBtn"
-        id="profileBtn">
-        PLAYER PROFILE
-      </button>
-
-      <button
-        class="menuBtn"
-        id="monsterBtn">
-        MONSTER COLLECTION
-      </button>
-
-      <button
-        class="menuBtn"
-        id="achievementBtn">
-        ACHIEVEMENTS
-      </button>
-
-      <button
-        class="menuBtn"
-        id="resetBtn">
-        RESET DATA
-      </button>
+      <div class="stat coin">
+        COINS
+        <b id="coinValue">0</b>
+      </div>
 
     </div>
 
-    <div
-      style="
-      margin-top:30px;
-      color:#777;
-      font-size:11px;">
-      REZA EDU SYSTEM • V1.0
+  </header>
+
+  <!-- =========================
+       MAIN MENU
+  ========================= -->
+
+  <main id="mainMenu" class="menu-screen">
+
+    <section class="hero-panel">
+
+      <div class="hero-label">
+        SYSTEM ONLINE // STUDENT ADVENTURE
+      </div>
+
+      <h1 class="hero-title">
+        WELCOME TO <span>REZA</span>
+      </h1>
+
+      <p class="hero-text">
+        Belajar, jawab soal, kumpulkan EXP, naik level,
+        dan buka monster baru dalam dunia sekolah pixel.
+      </p>
+
+    </section>
+
+    <section class="menu-grid">
+
+      <button id="startAdventureBtn" class="menu-btn primary">
+        <div class="icon">▶️</div>
+        <strong>START ADVENTURE</strong>
+        <small>Masuk ke Pixel School</small>
+      </button>
+
+      <button id="profileBtn" class="menu-btn">
+        <div class="icon">👤</div>
+        <strong>PLAYER PROFILE</strong>
+        <small>Lihat level dan statistikmu</small>
+      </button>
+
+      <button id="collectionBtn" class="menu-btn">
+        <div class="icon">👾</div>
+        <strong>MONSTER COLLECTION</strong>
+        <small>Lihat monster yang sudah ditemukan</small>
+      </button>
+
+      <button id="achievementBtn" class="menu-btn">
+        <div class="icon">🏆</div>
+        <strong>ACHIEVEMENTS</strong>
+        <small>Cek pencapaian belajar</small>
+      </button>
+
+      <button id="resetBtn" class="menu-btn">
+        <div class="icon">♻️</div>
+        <strong>RESET DATA</strong>
+        <small>Mulai perjalanan dari awal</small>
+      </button>
+
+    </section>
+
+  </main>
+
+  <!-- =========================
+       SUBJECT SCREEN
+  ========================= -->
+
+  <main id="gameScreen" class="game-screen hidden">
+
+    <div class="back-row">
+
+      <button id="backMenuBtn" class="back-btn">
+        ◀ MENU
+      </button>
+
+      <div class="location">
+        LOCATION: PIXEL SCHOOL
+      </div>
+
     </div>
 
-  </div>
+    <section class="hero-panel" style="margin-bottom:18px">
 
-</section>
+      <div class="hero-label">
+        SELECT TRAINING AREA
+      </div>
 
+      <h2 class="hero-title" style="font-size:32px">
+        PILIH <span>PELAJARAN</span>
+      </h2>
+
+      <p class="hero-text">
+        Pilih pelajaran untuk memulai quiz battle.
+      </p>
+
+    </section>
+
+    <section id="subjectGrid" class="subject-grid"></section>
+
+  </main>
+
+  <!-- =========================
+       BATTLE SCREEN
+  ========================= -->
+
+  <main id="battleScreen" class="battle-screen hidden">
+
+    <div class="battle-header">
+
+      <button id="backSubjectBtn" class="back-btn">
+        ◀ SUBJECTS
+      </button>
+
+      <div id="battleTitle" class="battle-title">
+        QUIZ BATTLE
+      </div>
+
+      <div id="comboValue" class="combo">
+        COMBO x0
+      </div>
+
+    </div>
+
+    <section class="arena">
+
+      <div class="battle-monsters">
+
+        <div class="monster-side enemy">
+
+          <div class="monster-name">
+            WILD <span id="enemyName">FLAMO</span>
+          </div>
+
+          <div class="hp-wrap">
+            <div id="enemyHp" class="hp"></div>
+          </div>
+
+          <div id="enemyArt" class="monster-art">
+            🔥
+          </div>
+
+        </div>
+
+        <div class="monster-side player-side">
+
+          <div class="monster-name">
+            PLAYER • <span id="playerMonsterName">VOLT</span>
+          </div>
+
+          <div class="hp-wrap">
+            <div id="playerHp" class="hp"></div>
+          </div>
+
+          <div id="playerArt" class="monster-art">
+            ⚡
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="question-panel">
+
+        <div id="questionNumber" class="question-number">
+          QUESTION 1
+        </div>
+
+        <div id="questionText" class="question-text">
+          Loading question...
+        </div>
+
+        <div id="answers" class="answers"></div>
+
+        <div id="battleMessage" class="battle-message"></div>
+
+        <div id="rewardText" class="reward"></div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+</div>
 
 <!-- =========================
-     GAME
+     PROFILE MODAL
 ========================= -->
 
-<section
-  id="gameScreen"
-  class="screen">
+<div id="profileModal" class="modal hidden">
 
-  <div class="hud">
+  <div class="modal-box">
 
-    <div class="hudItem">
-      PLAYER: REZA
-    </div>
-
-    <div class="hudItem">
-      LV <span id="levelText">1</span>
-    </div>
-
-    <div class="hudItem">
-      EXP <span id="expText">0</span>
-    </div>
-
-    <div class="hudItem">
-      🪙 <span id="coinsText">0</span>
-    </div>
-
-  </div>
-
-  <div class="world">
-
-    <h1 class="worldTitle">
-      🏫 PIXEL SCHOOL
-    </h1>
-
-    <p class="worldHint">
-      Pilih pelajaran untuk memulai misi belajar.
-    </p>
-
-    <div class="schoolGrid">
-
-      <div class="building">
-        <div class="buildingIcon">📐</div>
-        <div class="buildingTitle">
-          MATEMATIKA
-        </div>
-        <div class="buildingText">
-          Pecahkan soal dan dapatkan EXP.
-        </div>
-        <button
-          class="playBtn"
-          data-subject="math">
-          START LEVEL
-        </button>
-      </div>
-
-      <div class="building">
-        <div class="buildingIcon">🔬</div>
-        <div class="buildingTitle">
-          IPA
-        </div>
-        <div class="buildingText">
-          Jelajahi dunia sains.
-        </div>
-        <button
-          class="playBtn"
-          data-subject="science">
-          START LEVEL
-        </button>
-      </div>
-
-      <div class="building">
-        <div class="buildingIcon">🌎</div>
-        <div class="buildingTitle">
-          IPS
-        </div>
-        <div class="buildingText">
-          Jelajahi sejarah dan dunia sosial.
-        </div>
-        <button
-          class="playBtn"
-          data-subject="social">
-          START LEVEL
-        </button>
-      </div>
-
-      <div class="building">
-        <div class="buildingIcon">🇮🇩</div>
-        <div class="buildingTitle">
-          BAHASA INDONESIA
-        </div>
-        <div class="buildingText">
-          Tantangan bahasa dan literasi.
-        </div>
-        <button
-          class="playBtn"
-          data-subject="indo">
-          START LEVEL
-        </button>
-      </div>
-
-      <div class="building">
-        <div class="buildingIcon">🇬🇧</div>
-        <div class="buildingTitle">
-          ENGLISH
-        </div>
-        <div class="buildingText">
-          English vocabulary challenge.
-        </div>
-        <button
-          class="playBtn"
-          data-subject="english">
-          START LEVEL
-        </button>
-      </div>
-
-      <div class="building">
-        <div class="buildingIcon">💻</div>
-        <div class="buildingTitle">
-          INFORMATIKA
-        </div>
-        <div class="buildingText">
-          Belajar teknologi dan komputer.
-        </div>
-        <button
-          class="playBtn"
-          data-subject="computer">
-          START LEVEL
-        </button>
-      </div>
-
-    </div>
-
-  </div>
-
-  <button
-    class="backBtn"
-    id="menuBackBtn">
-    ◀ MENU
-  </button>
-
-</section>
-
-
-<!-- =========================
-     MODAL
-========================= -->
-
-<div
-  id="modal"
-  class="modal">
-
-  <div class="modalBox">
-
-    <button
-      id="closeModalBtn"
-      class="closeBtn">
+    <button class="close-btn" data-close="profileModal">
       X
     </button>
 
-    <div
-      id="modalContent">
+    <div class="modal-title">
+      PLAYER PROFILE
+    </div>
+
+    <div class="profile">
+
+      <div class="avatar">
+        🎓
+      </div>
+
+      <div>
+
+        <div class="info-line">
+          <span>PLAYER:</span>
+          REZA
+        </div>
+
+        <div class="info-line">
+          <span>LEVEL:</span>
+          <b id="profileLevel">1</b>
+        </div>
+
+        <div class="info-line">
+          <span>EXP:</span>
+          <b id="profileExp">0</b>
+        </div>
+
+        <div class="info-line">
+          <span>COINS:</span>
+          <b id="profileCoins">0</b>
+        </div>
+
+        <div class="info-line">
+          <span>QUESTIONS ANSWERED:</span>
+          <b id="profileQuestions">0</b>
+        </div>
+
+        <div class="info-line">
+          <span>CORRECT:</span>
+          <b id="profileCorrect">0</b>
+        </div>
+
+      </div>
+
     </div>
 
   </div>
 
 </div>
 
+<!-- =========================
+     COLLECTION MODAL
+========================= -->
+
+<div id="collectionModal" class="modal hidden">
+
+  <div class="modal-box">
+
+    <button class="close-btn" data-close="collectionModal">
+      X
+    </button>
+
+    <div class="modal-title">
+      MONSTER COLLECTION
+    </div>
+
+    <div id="collectionGrid" class="collection-grid"></div>
+
+  </div>
+
+</div>
+
+<!-- =========================
+     ACHIEVEMENT MODAL
+========================= -->
+
+<div id="achievementModal" class="modal hidden">
+
+  <div class="modal-box">
+
+    <button class="close-btn" data-close="achievementModal">
+      X
+    </button>
+
+    <div class="modal-title">
+      ACHIEVEMENTS
+    </div>
+
+    <div id="achievementList"></div>
+
+  </div>
+
+</div>
+
+<!-- =========================
+     LEVEL UP
+========================= -->
+
+<div id="levelUpScreen" class="levelup hidden">
+
+  <div class="levelup-box">
+
+    <h2>LEVEL UP!</h2>
+
+    <p>
+      LEVEL <span id="newLevelValue">2</span>
+    </p>
+
+  </div>
+
+</div>
+
+<div id="toast" class="toast"></div>
 
 <script>
 "use strict";
 
 /* =========================
-   REZA GAME DATA
+   STORAGE
 ========================= */
 
-const STORAGE_KEY =
-  "reza_pixel_school_v1";
+const STORAGE_KEY = "reza_pixel_school_v2";
 
-let player = {
+/* =========================
+   PLAYER
+========================= */
+
+const defaultPlayer = {
   level:1,
   exp:0,
   coins:0,
-  monsters:["volt"],
-  achievements:[]
+  questions:0,
+  correct:0,
+  combo:0,
+  monsters:["Volt"]
 };
 
-const quizData = {
+let player = loadPlayer();
 
-  math:[
-    {
-      q:"25 + 37 = ?",
-      a:["52","62","72","82"],
-      c:1
-    },
-    {
-      q:"12 × 5 = ?",
-      a:["50","60","70","80"],
-      c:1
-    },
-    {
-      q:"100 ÷ 4 = ?",
-      a:["20","25","30","35"],
-      c:1
+function loadPlayer(){
+  try{
+    const saved = localStorage.getItem(STORAGE_KEY);
+
+    if(saved){
+      const parsed = JSON.parse(saved);
+
+      return {
+        ...defaultPlayer,
+        ...parsed,
+        monsters:Array.isArray(parsed.monsters)
+          ? parsed.monsters
+          : ["Volt"]
+      };
     }
-  ],
+  }catch(error){
+    console.warn("Storage load failed:",error);
+  }
 
-  science:[
+  return {...defaultPlayer,monsters:["Volt"]};
+}
+
+function savePlayer(){
+  localStorage.setItem(STORAGE_KEY,JSON.stringify(player));
+  updateStats();
+}
+
+/* =========================
+   DOM HELPER
+========================= */
+
+const $ = id => document.getElementById(id);
+
+/* =========================
+   SOUND
+========================= */
+
+let audioContext = null;
+
+function beep(type="click"){
+
+  try{
+
+    if(!audioContext){
+      audioContext =
+        new (window.AudioContext || window.webkitAudioContext)();
+    }
+
+    const oscillator = audioContext.createOscillator();
+    const gain = audioContext.createGain();
+
+    oscillator.connect(gain);
+    gain.connect(audioContext.destination);
+
+    const now = audioContext.currentTime;
+
+    if(type==="correct"){
+      oscillator.frequency.setValueAtTime(520,now);
+      oscillator.frequency.exponentialRampToValueAtTime(880,now+.12);
+    }else if(type==="wrong"){
+      oscillator.frequency.setValueAtTime(180,now);
+      oscillator.frequency.exponentialRampToValueAtTime(90,now+.18);
+    }else if(type==="level"){
+      oscillator.frequency.setValueAtTime(440,now);
+      oscillator.frequency.exponentialRampToValueAtTime(1100,now+.35);
+    }else{
+      oscillator.frequency.setValueAtTime(420,now);
+    }
+
+    oscillator.type="square";
+
+    gain.gain.setValueAtTime(.0001,now);
+    gain.gain.exponentialRampToValueAtTime(.055,now+.01);
+    gain.gain.exponentialRampToValueAtTime(.0001,now+.18);
+
+    oscillator.start(now);
+    oscillator.stop(now+.2);
+
+  }catch(error){
+    // Sound is optional.
+  }
+}
+
+/* =========================
+   BOOT
+========================= */
+
+const bootStatus = $("bootStatus");
+const progressBar = $("progressBar");
+const startButton = $("startButton");
+const bootScreen = $("bootScreen");
+const app = $("app");
+
+let progress = 0;
+
+const bootMessages = [
+  "SYSTEM INITIALIZING...",
+  "LOADING PIXEL SCHOOL...",
+  "CHECKING PLAYER DATA...",
+  "LOADING MONSTER DATABASE...",
+  "PREPARING QUIZ ENGINE...",
+  "SYSTEM READY."
+];
+
+const bootTimer = setInterval(()=>{
+
+  progress += Math.floor(Math.random()*8)+4;
+
+  if(progress > 100){
+    progress = 100;
+  }
+
+  progressBar.style.width = progress + "%";
+
+  const index = Math.min(
+    bootMessages.length-1,
+    Math.floor(progress / 18)
+  );
+
+  bootStatus.textContent = bootMessages[index];
+
+  if(progress >= 100){
+
+    clearInterval(bootTimer);
+
+    setTimeout(()=>{
+      startButton.classList.remove("hidden");
+      beep("click");
+    },300);
+
+  }
+
+},130);
+
+startButton.addEventListener("click",startGame);
+
+bootScreen.addEventListener("click",event=>{
+
+  if(event.target===bootScreen && progress>=100){
+    startGame();
+  }
+
+});
+
+document.addEventListener("keydown",event=>{
+
+  if(event.key==="Enter" && progress>=100){
+    startGame();
+  }
+
+  if(event.key==="Escape"){
+    closeAllModals();
+  }
+
+});
+
+function startGame(){
+
+  if(bootScreen.classList.contains("hidden")){
+    return;
+  }
+
+  beep("click");
+
+  bootScreen.classList.add("hidden");
+  app.classList.remove("hidden");
+
+  updateStats();
+  renderCollection();
+  renderAchievements();
+
+}
+
+/* =========================
+   STATS
+========================= */
+
+function updateStats(){
+
+  $("levelValue").textContent = player.level;
+  $("expValue").textContent = player.exp;
+  $("coinValue").textContent = player.coins;
+
+  $("profileLevel").textContent = player.level;
+  $("profileExp").textContent = player.exp;
+  $("profileCoins").textContent = player.coins;
+  $("profileQuestions").textContent = player.questions;
+  $("profileCorrect").textContent = player.correct;
+}
+
+/* =========================
+   SCREENS
+========================= */
+
+function showScreen(screen){
+
+  $("mainMenu").classList.add("hidden");
+  $("gameScreen").classList.add("hidden");
+  $("battleScreen").classList.add("hidden");
+
+  screen.classList.remove("hidden");
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+}
+
+/* =========================
+   MENU BUTTONS
+========================= */
+
+$("startAdventureBtn").addEventListener("click",()=>{
+
+  beep("click");
+  renderSubjects();
+  showScreen($("gameScreen"));
+
+});
+
+$("backMenuBtn").addEventListener("click",()=>{
+
+  beep("click");
+  showScreen($("mainMenu"));
+
+});
+
+$("profileBtn").addEventListener("click",()=>{
+
+  beep("click");
+  updateStats();
+  $("profileModal").classList.remove("hidden");
+
+});
+
+$("collectionBtn").addEventListener("click",()=>{
+
+  beep("click");
+  renderCollection();
+  $("collectionModal").classList.remove("hidden");
+
+});
+
+$("achievementBtn").addEventListener("click",()=>{
+
+  beep("click");
+  renderAchievements();
+  $("achievementModal").classList.remove("hidden");
+
+});
+
+$("resetBtn").addEventListener("click",()=>{
+
+  const yes = confirm(
+    "Reset semua progress REZA?\n\nLevel, EXP, coins dan collection akan kembali ke awal."
+  );
+
+  if(!yes){
+    return;
+  }
+
+  player = {
+    ...defaultPlayer,
+    monsters:["Volt"]
+  };
+
+  savePlayer();
+
+  renderCollection();
+  renderAchievements();
+
+  showToast("DATA REZA BERHASIL DI-RESET");
+
+  beep("wrong");
+
+});
+
+/* =========================
+   CLOSE MODALS
+========================= */
+
+document.querySelectorAll("[data-close]").forEach(button=>{
+
+  button.addEventListener("click",()=>{
+
+    const id = button.dataset.close;
+
+    $(id).classList.add("hidden");
+
+  });
+
+});
+
+document.querySelectorAll(".modal").forEach(modal=>{
+
+  modal.addEventListener("click",event=>{
+
+    if(event.target===modal){
+      modal.classList.add("hidden");
+    }
+
+  });
+
+});
+
+function closeAllModals(){
+
+  document.querySelectorAll(".modal").forEach(modal=>{
+    modal.classList.add("hidden");
+  });
+
+}
+
+/* =========================
+   SUBJECTS
+========================= */
+
+const subjects = [
+  {
+    id:"matematika",
+    name:"Matematika",
+    icon:"➗",
+    desc:"Angka, operasi, pecahan dan logika."
+  },
+  {
+    id:"ipa",
+    name:"IPA",
+    icon:"🔬",
+    desc:"Sains, tubuh, energi dan alam."
+  },
+  {
+    id:"ips",
+    name:"IPS",
+    icon:"🌍",
+    desc:"Geografi, ekonomi dan kehidupan sosial."
+  },
+  {
+    id:"bahasa",
+    name:"Bahasa Indonesia",
+    icon:"📖",
+    desc:"Teks, kata, kalimat dan bahasa."
+  },
+  {
+    id:"english",
+    name:"English",
+    icon:"🇺🇸",
+    desc:"Vocabulary dan basic English."
+  },
+  {
+    id:"informatika",
+    name:"Informatika",
+    icon:"💻",
+    desc:"Komputer, internet dan teknologi."
+  }
+];
+
+function renderSubjects(){
+
+  const grid = $("subjectGrid");
+
+  grid.innerHTML = "";
+
+  subjects.forEach(subject=>{
+
+    const card = document.createElement("button");
+
+    card.className = "subject-card";
+
+    card.innerHTML = `
+      <div class="subject-icon">${subject.icon}</div>
+      <div class="subject-name">${subject.name}</div>
+      <div class="subject-desc">${subject.desc}</div>
+    `;
+
+    card.addEventListener("click",()=>{
+
+      beep("click");
+      startBattle(subject.id);
+
+    });
+
+    grid.appendChild(card);
+
+  });
+
+}
+
+/* =========================
+   QUESTIONS
+========================= */
+
+const questions = {
+
+  matematika:[
     {
-      q:"Organ tubuh yang digunakan untuk bernapas adalah...",
-      a:["Jantung","Paru-paru","Lambung","Ginjal"],
+      q:"Berapakah hasil dari 12 × 8?",
+      a:["86","96","108","112"],
       c:1
     },
     {
-      q:"Planet tempat manusia hidup adalah...",
-      a:["Mars","Venus","Bumi","Jupiter"],
+      q:"Berapakah hasil dari 144 ÷ 12?",
+      a:["10","11","12","14"],
+      c:2
+    },
+    {
+      q:"Jika x + 7 = 15, maka x = ...",
+      a:["6","7","8","9"],
+      c:2
+    },
+    {
+      q:"Berapakah 25% dari 200?",
+      a:["25","40","50","75"],
+      c:2
+    },
+    {
+      q:"Hasil dari 3² + 4² adalah...",
+      a:["12","20","25","49"],
       c:2
     }
   ],
 
-  social:[
+  ipa:[
     {
-      q:"Indonesia berada di benua...",
-      a:["Asia","Eropa","Afrika","Australia"],
+      q:"Organ tubuh yang memompa darah adalah...",
+      a:["Paru-paru","Jantung","Lambung","Ginjal"],
+      c:1
+    },
+    {
+      q:"Tumbuhan membuat makanan melalui proses...",
+      a:["Respirasi","Fotosintesis","Evaporasi","Fermentasi"],
+      c:1
+    },
+    {
+      q:"Satuan SI untuk gaya adalah...",
+      a:["Joule","Watt","Newton","Pascal"],
+      c:2
+    },
+    {
+      q:"Planet yang dikenal sebagai Planet Merah adalah...",
+      a:["Venus","Mars","Jupiter","Merkurius"],
+      c:1
+    },
+    {
+      q:"Air mendidih pada tekanan normal pada suhu...",
+      a:["50°C","75°C","100°C","150°C"],
+      c:2
+    }
+  ],
+
+  ips:[
+    {
+      q:"Ibu kota Indonesia saat ini adalah...",
+      a:["Bandung","Jakarta","Surabaya","Medan"],
+      c:1
+    },
+    {
+      q:"Kegiatan menjual barang ke luar negeri disebut...",
+      a:["Impor","Ekspor","Konsumsi","Produksi"],
+      c:1
+    },
+    {
+      q:"Peta digunakan terutama untuk menunjukkan...",
+      a:["Lokasi dan wilayah","Rasa makanan","Suara","Suhu tubuh"],
       c:0
     },
     {
-      q:"Ibu kota Indonesia saat ini adalah...",
-      a:["Bandung","Surabaya","Jakarta","Medan"],
+      q:"Kegiatan menggunakan barang atau jasa disebut...",
+      a:["Produksi","Distribusi","Konsumsi","Investasi"],
       c:2
+    },
+    {
+      q:"Garis khatulistiwa melewati wilayah...",
+      a:["Indonesia","Jepang","Inggris","Mesir"],
+      c:0
     }
   ],
 
-  indo:[
+  bahasa:[
     {
-      q:"Lawan kata 'besar' adalah...",
-      a:["Tinggi","Kecil","Lebar","Panjang"],
+      q:"Lawan kata dari 'besar' adalah...",
+      a:["Tinggi","Kecil","Panjang","Lebar"],
       c:1
     },
     {
-      q:"Kalimat tanya biasanya diakhiri tanda...",
-      a:[".","!","?",","],
+      q:"Kalimat tanya biasanya diakhiri dengan tanda...",
+      a:[".","!", "?", ":"],
       c:2
+    },
+    {
+      q:"Kata 'berlari' termasuk jenis kata...",
+      a:["Kata kerja","Kata benda","Kata sifat","Kata bilangan"],
+      c:0
+    },
+    {
+      q:"Sinonim dari kata 'cerdas' adalah...",
+      a:["Malas","Pandai","Lambat","Lemah"],
+      c:1
+    },
+    {
+      q:"Paragraf yang ide pokoknya berada di awal disebut...",
+      a:["Induktif","Deduktif","Campuran","Naratif"],
+      c:1
     }
   ],
 
   english:[
     {
       q:"What is the meaning of 'book'?",
-      a:["Buku","Meja","Rumah","Sekolah"],
+      a:["Buku","Meja","Rumah","Pintu"],
       c:0
     },
     {
-      q:"What is 'merah' in English?",
-      a:["Blue","Green","Red","Black"],
+      q:"Choose the correct sentence.",
+      a:[
+        "She are happy.",
+        "She is happy.",
+        "She am happy.",
+        "She be happy."
+      ],
+      c:1
+    },
+    {
+      q:"The opposite of 'hot' is...",
+      a:["Warm","Cold","Big","Fast"],
+      c:1
+    },
+    {
+      q:"'Apple' means...",
+      a:["Jeruk","Apel","Mangga","Pisang"],
+      c:1
+    },
+    {
+      q:"What is the plural of 'child'?",
+      a:["Childs","Childes","Children","Child"],
       c:2
     }
   ],
 
-  computer:[
+  informatika:[
     {
-      q:"HTML digunakan terutama untuk...",
+      q:"CPU adalah singkatan dari...",
       a:[
-        "Membuat struktur halaman web",
-        "Memasak",
-        "Menggambar di kertas",
-        "Mengisi baterai"
+        "Central Processing Unit",
+        "Computer Personal Unit",
+        "Central Program Utility",
+        "Control Processing User"
       ],
       c:0
     },
     {
-      q:"CPU adalah bagian komputer yang berfungsi sebagai...",
+      q:"HTML digunakan terutama untuk...",
       a:[
-        "Pemroses",
-        "Monitor",
-        "Keyboard",
-        "Speaker"
+        "Membuat struktur halaman web",
+        "Mengedit video",
+        "Menggambar 3D",
+        "Menghapus virus"
       ],
       c:0
+    },
+    {
+      q:"Contoh sistem operasi adalah...",
+      a:["Windows","HTML","Google","Wi-Fi"],
+      c:0
+    },
+    {
+      q:"Keyboard termasuk perangkat...",
+      a:["Input","Output","Storage","Network"],
+      c:0
+    },
+    {
+      q:"Internet adalah jaringan komputer yang bersifat...",
+      a:["Lokal saja","Global","Offline","Pribadi saja"],
+      c:1
     }
   ]
 
 };
-
-
-/* =========================
-   SUBJECT NAMES
-========================= */
-
-const subjectNames = {
-  math:"MATEMATIKA",
-  science:"IPA",
-  social:"IPS",
-  indo:"BAHASA INDONESIA",
-  english:"ENGLISH",
-  computer:"INFORMATIKA"
-};
-
 
 /* =========================
    MONSTERS
@@ -969,1001 +1977,665 @@ const subjectNames = {
 const monsters = [
 
   {
-    id:"volt",
-    name:"VOLT",
-    icon:"⚡",
-    type:"ELECTRIC",
-    unlock:0
+    name:"Volt",
+    art:"⚡",
+    type:"Electric",
+    desc:"Monster energi listrik."
   },
 
   {
-    id:"flamo",
-    name:"FLAMO",
-    icon:"🔥",
-    type:"FIRE",
-    unlock:300
+    name:"Flamo",
+    art:"🔥",
+    type:"Fire",
+    desc:"Monster api pemberani."
   },
 
   {
-    id:"aqua",
-    name:"AQUA",
-    icon:"💧",
-    type:"WATER",
-    unlock:600
+    name:"Aqua",
+    art:"💧",
+    type:"Water",
+    desc:"Monster air yang tenang."
   },
 
   {
-    id:"leafy",
-    name:"LEAFY",
-    icon:"🌿",
-    type:"NATURE",
-    unlock:900
+    name:"Leafy",
+    art:"🌿",
+    type:"Nature",
+    desc:"Monster energi alam."
   },
 
   {
-    id:"lumio",
-    name:"LUMIO",
-    icon:"⭐",
-    type:"LIGHT",
-    unlock:1500
+    name:"Lumio",
+    art:"✨",
+    type:"Light",
+    desc:"Monster cahaya."
   },
 
   {
-    id:"shadow",
-    name:"SHADOW",
-    icon:"🌑",
-    type:"DARK",
-    unlock:2500
+    name:"Shadow",
+    art:"🌑",
+    type:"Dark",
+    desc:"Monster bayangan misterius."
   }
 
 ];
 
-
 /* =========================
-   ACHIEVEMENTS
+   BATTLE STATE
 ========================= */
 
-const achievements = [
-
-  {
-    id:"first",
-    title:"FIRST LESSON",
-    desc:"Selesaikan 1 quiz.",
-    condition:()=>{
-      return player.exp >= 100;
-    }
-  },
-
-  {
-    id:"level5",
-    title:"RISING STUDENT",
-    desc:"Mencapai Level 5.",
-    condition:()=>{
-      return player.level >= 5;
-    }
-  },
-
-  {
-    id:"collector",
-    title:"MONSTER COLLECTOR",
-    desc:"Memiliki 3 monster.",
-    condition:()=>{
-      return player.monsters.length >= 3;
-    }
-  },
-
-  {
-    id:"master",
-    title:"PIXEL MASTER",
-    desc:"Mencapai 1000 EXP.",
-    condition:()=>{
-      return player.exp >= 1000;
-    }
-  }
-
-];
-
+let currentSubject = null;
+let currentQuestions = [];
+let currentQuestionIndex = 0;
+let currentEnemy = null;
+let enemyHP = 100;
+let playerHP = 100;
+let answerLocked = false;
 
 /* =========================
-   DOM HELPER
+   START BATTLE
 ========================= */
 
-function $(id){
-  return document.getElementById(id);
-}
+function startBattle(subjectId){
 
+  currentSubject = subjects.find(s=>s.id===subjectId);
 
-/* =========================
-   SAVE
-========================= */
+  currentQuestions = shuffle([
+    ...questions[subjectId]
+  ]);
 
-function savePlayer(){
+  currentQuestionIndex = 0;
+  playerHP = 100;
+  enemyHP = 100;
+  player.combo = 0;
 
-  localStorage.setItem(
-    STORAGE_KEY,
-    JSON.stringify(player)
-  );
+  currentEnemy =
+    monsters[
+      Math.floor(Math.random()*monsters.length)
+    ];
 
-}
+  $("battleTitle").textContent =
+    currentSubject.name.toUpperCase()+" BATTLE";
 
+  $("enemyName").textContent =
+    currentEnemy.name.toUpperCase();
 
-function loadPlayer(){
+  $("enemyArt").textContent =
+    currentEnemy.art;
 
-  try{
+  $("playerMonsterName").textContent =
+    player.monsters[0].toUpperCase();
 
-    const saved =
-      localStorage.getItem(
-        STORAGE_KEY
-      );
+  const playerMonster =
+    monsters.find(m=>m.name===player.monsters[0])
+    || monsters[0];
 
-    if(saved){
+  $("playerArt").textContent =
+    playerMonster.art;
 
-      const parsed =
-        JSON.parse(saved);
-
-      if(parsed){
-
-        player = {
-          ...player,
-          ...parsed
-        };
-
-      }
-
-    }
-
-  }catch(error){
-
-    console.warn(
-      "Save data error",
-      error
-    );
-
-  }
-
-}
-
-
-/* =========================
-   HUD
-========================= */
-
-function updateHUD(){
-
-  $("levelText").textContent =
-    player.level;
-
-  $("expText").textContent =
-    player.exp;
-
-  $("coinsText").textContent =
-    player.coins;
-
-}
-
-
-/* =========================
-   SCREEN
-========================= */
-
-function showScreen(id){
-
-  document
-    .querySelectorAll(".screen")
-    .forEach(function(screen){
-
-      screen.classList.remove(
-        "active"
-      );
-
-    });
-
-  const target =
-    $(id);
-
-  if(target){
-
-    target.classList.add(
-      "active"
-    );
-
-  }
-
-}
-
-
-/* =========================
-   BOOT
-========================= */
-
-let bootProgress = 0;
-
-function runBoot(){
-
-  const bar =
-    $("progressBar");
-
-  const percent =
-    $("loadingPercent");
-
-  const timer =
-    setInterval(function(){
-
-      bootProgress +=
-        Math.floor(
-          Math.random()*8
-        ) + 3;
-
-      if(bootProgress >= 100){
-
-        bootProgress = 100;
-
-        clearInterval(timer);
-
-        bar.style.width =
-          "100%";
-
-        percent.textContent =
-          "100%";
-
-        $("pressStart").style.display =
-          "block";
-
-        return;
-
-      }
-
-      bar.style.width =
-        bootProgress + "%";
-
-      percent.textContent =
-        bootProgress + "%";
-
-    },100);
-
-}
-
-
-$("bootScreen").addEventListener(
-  "click",
-  function(){
-
-    if(bootProgress >= 100){
-
-      showScreen(
-        "menuScreen"
-      );
-
-    }
-
-  }
-);
-
-
-/* =========================
-   START ADVENTURE
-========================= */
-
-$("startAdventureBtn")
-  .addEventListener(
-    "click",
-    function(){
-
-      updateHUD();
-
-      showScreen(
-        "gameScreen"
-      );
-
-    }
-  );
-
-
-/* =========================
-   MENU BACK
-========================= */
-
-$("menuBackBtn")
-  .addEventListener(
-    "click",
-    function(){
-
-      showScreen(
-        "menuScreen"
-      );
-
-    }
-  );
-
-
-/* =========================
-   MODAL
-========================= */
-
-function openModal(content){
-
-  $("modalContent").innerHTML =
-    content;
-
-  $("modal").classList.add(
-    "active"
-  );
-
-}
-
-
-function closeModal(){
-
-  $("modal").classList.remove(
-    "active"
-  );
-
-}
-
-
-$("closeModalBtn")
-  .addEventListener(
-    "click",
-    closeModal
-  );
-
-
-$("modal")
-  .addEventListener(
-    "click",
-    function(event){
-
-      if(
-        event.target ===
-        $("modal")
-      ){
-
-        closeModal();
-
-      }
-
-    }
-  );
-
-
-/* =========================
-   QUIZ
-========================= */
-
-function startQuiz(subject){
-
-  const questions =
-    quizData[subject];
-
-  if(
-    !questions ||
-    !questions.length
-  ){
-
-    return;
-
-  }
-
-  let index = 0;
-
-  function renderQuestion(){
-
-    const item =
-      questions[index];
-
-    openModal(`
-
-      <div class="modalTitle">
-        ${subjectNames[subject]}
-      </div>
-
-      <div class="quizInfo">
-        QUESTION ${index+1}
-        / ${questions.length}
-      </div>
-
-      <div class="question">
-        ${item.q}
-      </div>
-
-      <div class="answers">
-
-        ${item.a.map(
-          function(answer,i){
-
-            return `
-              <button
-                class="answer"
-                data-answer="${i}">
-                ${String.fromCharCode(65+i)}.
-                ${answer}
-              </button>
-            `;
-
-          }
-        ).join("")}
-
-      </div>
-
-    `);
-
-    document
-      .querySelectorAll(
-        ".answer"
-      )
-      .forEach(function(button){
-
-        button.addEventListener(
-          "click",
-          function(){
-
-            const chosen =
-              Number(
-                button.dataset.answer
-              );
-
-            if(
-              chosen === item.c
-            ){
-
-              button.classList.add(
-                "correct"
-              );
-
-              player.exp += 100;
-              player.coins += 20;
-
-              checkLevelUp();
-              checkAchievements();
-              checkMonsterUnlocks();
-
-              savePlayer();
-              updateHUD();
-
-              setTimeout(
-                function(){
-
-                  index++;
-
-                  if(
-                    index >=
-                    questions.length
-                  ){
-
-                    showReward(
-                      subject
-                    );
-
-                  }else{
-
-                    renderQuestion();
-
-                  }
-
-                },
-                500
-              );
-
-            }else{
-
-              button.classList.add(
-                "wrong"
-              );
-
-              setTimeout(
-                function(){
-
-                  alert(
-                    "Jawaban belum tepat, coba lagi! 💪"
-                  );
-
-                  button.classList.remove(
-                    "wrong"
-                  );
-
-                },
-                250
-              );
-
-            }
-
-          }
-        );
-
-      });
-
-  }
-
+  updateBattleBars();
+  showScreen($("battleScreen"));
   renderQuestion();
 
 }
 
-
 /* =========================
-   REWARD
+   QUESTION
 ========================= */
 
-function showReward(subject){
+function renderQuestion(){
 
-  checkAchievements();
-  checkMonsterUnlocks();
+  if(currentQuestionIndex >= currentQuestions.length){
 
-  savePlayer();
+    finishBattle();
+    return;
 
-  openModal(`
+  }
 
-    <div class="modalTitle">
-      🎉 LEVEL CLEAR!
-    </div>
+  const question =
+    currentQuestions[currentQuestionIndex];
 
-    <div class="reward">
+  answerLocked = false;
 
-      <div style="font-size:40px;">
-        🏆
-      </div>
+  $("questionNumber").textContent =
+    `QUESTION ${currentQuestionIndex+1}/${currentQuestions.length}`;
 
-      <p>
-        ${subjectNames[subject]}
-        selesai!
-      </p>
+  $("questionText").textContent =
+    question.q;
 
-      <p style="margin-top:10px;">
-        + EXP
-      </p>
+  $("battleMessage").textContent =
+    "Pilih jawaban yang benar untuk menyerang!";
 
-      <p style="margin-top:10px;">
-        Total EXP:
-        ${player.exp}
-      </p>
+  $("rewardText").textContent = "";
 
-      <p style="margin-top:10px;">
-        Level:
-        ${player.level}
-      </p>
+  $("comboValue").textContent =
+    `COMBO x${player.combo}`;
 
-    </div>
+  const answers = $("answers");
 
-    <button
-      class="playBtn"
-      id="rewardClose">
-      CONTINUE
-    </button>
+  answers.innerHTML = "";
 
-  `);
+  question.a.forEach((answer,index)=>{
 
-  $("rewardClose")
-    .addEventListener(
-      "click",
-      closeModal
-    );
+    const button = document.createElement("button");
+
+    button.className = "answer-btn";
+
+    button.textContent =
+      String.fromCharCode(65+index)+". "+answer;
+
+    button.addEventListener("click",()=>{
+
+      answerQuestion(index,button);
+
+    });
+
+    answers.appendChild(button);
+
+  });
 
 }
 
-
 /* =========================
-   LEVEL UP
+   ANSWER
 ========================= */
 
-function checkLevelUp(){
+function answerQuestion(selected,clickedButton){
 
-  const required =
-    player.level * 300;
+  if(answerLocked){
+    return;
+  }
 
-  while(
-    player.exp >= required
-  ){
+  answerLocked = true;
 
-    player.level++;
+  const question =
+    currentQuestions[currentQuestionIndex];
 
-    alert(
-      "🎉 LEVEL UP!\n\n" +
-      "REZA sekarang Level " +
-      player.level
-    );
+  const buttons =
+    document.querySelectorAll(".answer-btn");
 
-    break;
+  buttons.forEach(button=>{
+    button.disabled = true;
+  });
+
+  player.questions++;
+
+  if(selected === question.c){
+
+    clickedButton.classList.add("correct");
+
+    player.correct++;
+    player.combo++;
+
+    const damage =
+      Math.min(
+        35,
+        18 + player.combo*3
+      );
+
+    enemyHP =
+      Math.max(0,enemyHP-damage);
+
+    const earnedExp =
+      50 + Math.min(50,player.combo*10);
+
+    const earnedCoins =
+      10 + player.combo*2;
+
+    player.exp += earnedExp;
+    player.coins += earnedCoins;
+
+    $("battleMessage").textContent =
+      `✓ CORRECT! VOLT menyerang ${damage} DMG!`;
+
+    $("rewardText").textContent =
+      `+${earnedExp} EXP   +${earnedCoins} COINS`;
+
+    beep("correct");
+    showFloatingReward(`+${earnedExp} EXP`);
+
+    checkMonsterUnlock();
+
+    updateStats();
+    savePlayer();
+    updateBattleBars();
+
+    if(enemyHP<=0){
+
+      setTimeout(finishBattle,650);
+
+    }else{
+
+      setTimeout(()=>{
+
+        currentQuestionIndex++;
+        renderQuestion();
+
+      },900);
+
+    }
+
+  }else{
+
+    clickedButton.classList.add("wrong");
+
+    buttons[question.c].classList.add("correct");
+
+    player.combo = 0;
+
+    playerHP =
+      Math.max(0,playerHP-20);
+
+    $("battleMessage").textContent =
+      "✗ SALAH! Jawaban yang benar ditandai hijau.";
+
+    $("rewardText").textContent =
+      "HP PLAYER -20";
+
+    beep("wrong");
+
+    updateStats();
+    savePlayer();
+    updateBattleBars();
+
+    if(playerHP<=0){
+
+      setTimeout(()=>{
+
+        $("battleMessage").textContent =
+          "💥 PLAYER KALAH! Coba lagi.";
+
+        setTimeout(()=>{
+
+          playerHP=100;
+          enemyHP=100;
+          player.combo=0;
+
+          currentQuestionIndex++;
+
+          updateBattleBars();
+          renderQuestion();
+
+        },1200);
+
+      },600);
+
+    }else{
+
+      setTimeout(()=>{
+
+        currentQuestionIndex++;
+        renderQuestion();
+
+      },1200);
+
+    }
 
   }
 
 }
 
+/* =========================
+   BATTLE BARS
+========================= */
+
+function updateBattleBars(){
+
+  $("enemyHp").style.width =
+    enemyHP+"%";
+
+  $("playerHp").style.width =
+    playerHP+"%";
+
+  $("comboValue").textContent =
+    `COMBO x${player.combo}`;
+
+}
+
+/* =========================
+   FINISH
+========================= */
+
+function finishBattle(){
+
+  player.combo=0;
+
+  savePlayer();
+
+  $("rewardText").textContent =
+    "BATTLE COMPLETE!";
+
+  checkLevelUp();
+
+  showToast(
+    `PELAJARAN ${currentSubject.name.toUpperCase()} SELESAI!`
+  );
+
+  setTimeout(()=>{
+
+    playerHP=100;
+    enemyHP=100;
+
+    updateBattleBars();
+
+    renderQuestion();
+
+  },700);
+
+}
+
+/* =========================
+   LEVEL SYSTEM
+========================= */
+
+function checkLevelUp(){
+
+  let leveled=false;
+
+  while(true){
+
+    const required =
+      player.level * 300;
+
+    if(player.exp < required){
+      break;
+    }
+
+    player.exp -= required;
+    player.level++;
+    leveled=true;
+
+  }
+
+  if(leveled){
+
+    $("newLevelValue").textContent =
+      player.level;
+
+    $("levelUpScreen").classList.remove("hidden");
+
+    beep("level");
+
+    setTimeout(()=>{
+
+      $("levelUpScreen").classList.add("hidden");
+
+    },1700);
+
+    showToast(
+      `LEVEL UP! SEKARANG LEVEL ${player.level}`
+    );
+
+  }
+
+  savePlayer();
+  renderAchievements();
+
+}
 
 /* =========================
    MONSTER UNLOCK
 ========================= */
 
-function checkMonsterUnlocks(){
+function checkMonsterUnlock(){
 
-  monsters.forEach(
-    function(monster){
+  const milestones = [
 
-      if(
-        player.exp >=
-        monster.unlock &&
-        !player.monsters.includes(
-          monster.id
-        )
-      ){
+    {count:5,name:"Flamo"},
+    {count:10,name:"Aqua"},
+    {count:20,name:"Leafy"},
+    {count:35,name:"Lumio"},
+    {count:50,name:"Shadow"}
 
-        player.monsters.push(
-          monster.id
-        );
+  ];
 
-        alert(
-          "🐲 MONSTER UNLOCKED!\n\n" +
-          monster.name
-        );
+  milestones.forEach(item=>{
 
-      }
+    if(
+      player.correct >= item.count &&
+      !player.monsters.includes(item.name)
+    ){
+
+      player.monsters.push(item.name);
+
+      showToast(
+        `NEW MONSTER UNLOCKED: ${item.name}!`
+      );
 
     }
-  );
+
+  });
 
 }
 
+/* =========================
+   COLLECTION
+========================= */
+
+function renderCollection(){
+
+  const grid =
+    $("collectionGrid");
+
+  grid.innerHTML = "";
+
+  monsters.forEach(monster=>{
+
+    const unlocked =
+      player.monsters.includes(monster.name);
+
+    const card =
+      document.createElement("div");
+
+    card.className =
+      "monster-card "+
+      (unlocked ? "unlocked":"locked");
+
+    card.innerHTML = `
+
+      <div class="m-art">
+        ${unlocked ? monster.art : "❓"}
+      </div>
+
+      <strong>
+        ${unlocked ? monster.name : "LOCKED"}
+      </strong>
+
+      <small>
+        ${unlocked
+          ? monster.type+" • "+monster.desc
+          : "Terus belajar untuk membuka."}
+      </small>
+
+    `;
+
+    grid.appendChild(card);
+
+  });
+
+}
 
 /* =========================
    ACHIEVEMENTS
 ========================= */
 
-function checkAchievements(){
+const achievementData = [
 
-  achievements.forEach(
-    function(item){
+  {
+    icon:"🌱",
+    name:"First Step",
+    desc:"Jawab 1 soal dengan benar.",
+    check:()=>player.correct>=1
+  },
 
-      if(
-        item.condition() &&
-        !player.achievements.includes(
-          item.id
-        )
-      ){
+  {
+    icon:"🔥",
+    name:"Quiz Fighter",
+    desc:"Jawab 10 soal dengan benar.",
+    check:()=>player.correct>=10
+  },
 
-        player.achievements.push(
-          item.id
-        );
+  {
+    icon:"⚡",
+    name:"Speed Learner",
+    desc:"Capai Level 3.",
+    check:()=>player.level>=3
+  },
 
-        setTimeout(
-          function(){
+  {
+    icon:"👾",
+    name:"Monster Trainer",
+    desc:"Buka minimal 3 monster.",
+    check:()=>player.monsters.length>=3
+  },
 
-            alert(
-              "🏆 ACHIEVEMENT UNLOCKED!\n\n" +
-              item.title
-            );
+  {
+    icon:"🏆",
+    name:"Pixel Scholar",
+    desc:"Jawab 50 soal dengan benar.",
+    check:()=>player.correct>=50
+  }
 
-          },
-          100
-        );
+];
 
-      }
+function renderAchievements(){
 
-    }
-  );
+  const list =
+    $("achievementList");
 
-}
+  list.innerHTML = "";
 
+  achievementData.forEach(item=>{
 
-/* =========================
-   SUBJECT BUTTONS
-========================= */
+    const done =
+      item.check();
 
-document
-  .querySelectorAll(
-    ".playBtn[data-subject]"
-  )
-  .forEach(function(button){
+    const element =
+      document.createElement("div");
 
-    button.addEventListener(
-      "click",
-      function(){
+    element.className =
+      "achievement "+
+      (done ? "done":"");
 
-        startQuiz(
-          button.dataset.subject
-        );
+    element.innerHTML = `
 
-      }
-    );
+      <div class="achievement-icon">
+        ${item.icon}
+      </div>
+
+      <div>
+        <strong>
+          ${done ? "✓ ":""}${item.name}
+        </strong>
+
+        <small>
+          ${item.desc}
+        </small>
+      </div>
+
+    `;
+
+    list.appendChild(element);
 
   });
 
+}
 
 /* =========================
-   PROFILE
+   BACK SUBJECT
 ========================= */
 
-$("profileBtn")
-  .addEventListener(
-    "click",
-    function(){
+$("backSubjectBtn").addEventListener("click",()=>{
 
-      const required =
-        player.level * 300;
+  beep("click");
 
-      const progress =
-        Math.min(
-          100,
-          Math.round(
-            (player.exp /
-              required) * 100
-          )
-        );
+  playerHP=100;
+  enemyHP=100;
 
-      openModal(`
+  renderSubjects();
 
-        <div class="modalTitle">
-          👤 PLAYER PROFILE
-        </div>
+  showScreen($("gameScreen"));
 
-        <div class="profile">
-
-          <div class="stat">
-            PLAYER
-            <br><br>
-            REZA
-          </div>
-
-          <div class="stat">
-            LEVEL
-            <br><br>
-            ${player.level}
-          </div>
-
-          <div class="stat">
-            EXP
-            <br>
-            ${player.exp}
-            /
-            ${required}
-
-            <div class="statBar">
-              <div
-                class="statFill"
-                style="width:${progress}%">
-              </div>
-            </div>
-
-          </div>
-
-          <div class="stat">
-            🪙 COINS
-            <br><br>
-            ${player.coins}
-          </div>
-
-        </div>
-
-      `);
-
-    }
-  );
-
+});
 
 /* =========================
-   MONSTER COLLECTION
+   SHUFFLE
 ========================= */
 
-$("monsterBtn")
-  .addEventListener(
-    "click",
-    function(){
+function shuffle(array){
 
-      const html =
-        monsters.map(
-          function(monster){
+  for(let i=array.length-1;i>0;i--){
 
-            const unlocked =
-              player.monsters.includes(
-                monster.id
-              );
+    const j =
+      Math.floor(Math.random()*(i+1));
 
-            return `
-
-              <div
-                class="monster ${
-                  unlocked
-                    ? ""
-                    : "locked"
-                }">
-
-                <div class="monsterIcon">
-                  ${
-                    unlocked
-                      ? monster.icon
-                      : "?"
-                  }
-                </div>
-
-                <strong>
-                  ${
-                    unlocked
-                      ? monster.name
-                      : "LOCKED"
-                  }
-                </strong>
-
-                <div
-                  style="
-                  margin-top:7px;
-                  font-size:11px;">
-                  ${
-                    unlocked
-                      ? monster.type
-                      : "EXP " +
-                        monster.unlock
-                  }
-                </div>
-
-              </div>
-
-            `;
-
-          }
-        ).join("");
-
-      openModal(`
-
-        <div class="modalTitle">
-          🐲 MONSTER COLLECTION
-        </div>
-
-        <div class="monsterGrid">
-          ${html}
-        </div>
-
-      `);
-
-    }
-  );
-
-
-/* =========================
-   ACHIEVEMENTS UI
-========================= */
-
-$("achievementBtn")
-  .addEventListener(
-    "click",
-    function(){
-
-      const html =
-        achievements.map(
-          function(item){
-
-            const unlocked =
-              player.achievements.includes(
-                item.id
-              );
-
-            return `
-
-              <div
-                class="achievement ${
-                  unlocked
-                    ? ""
-                    : "locked"
-                }">
-
-                <strong>
-                  ${
-                    unlocked
-                      ? "🏆 "
-                      : "🔒 "
-                  }
-                  ${item.title}
-                </strong>
-
-                <div
-                  style="
-                  margin-top:6px;
-                  font-size:12px;">
-                  ${item.desc}
-                </div>
-
-              </div>
-
-            `;
-
-          }
-        ).join("");
-
-      openModal(`
-
-        <div class="modalTitle">
-          🏆 ACHIEVEMENTS
-        </div>
-
-        <div class="achievementGrid">
-          ${html}
-        </div>
-
-      `);
-
-    }
-  );
-
-
-/* =========================
-   RESET
-========================= */
-
-$("resetBtn")
-  .addEventListener(
-    "click",
-    function(){
-
-      const yes =
-        confirm(
-          "Reset semua progress REZA?"
-        );
-
-      if(!yes){
-        return;
-      }
-
-      player = {
-        level:1,
-        exp:0,
-        coins:0,
-        monsters:["volt"],
-        achievements:[]
-      };
-
-      savePlayer();
-
-      updateHUD();
-
-      alert(
-        "Data REZA sudah di-reset."
-      );
-
-    }
-  );
-
-
-/* =========================
-   KEYBOARD
-========================= */
-
-document.addEventListener(
-  "keydown",
-  function(event){
-
-    if(
-      event.key === "Escape"
-    ){
-
-      closeModal();
-
-    }
-
-    if(
-      event.key === "Enter" &&
-      $("bootScreen")
-        .classList
-        .contains("active") &&
-      bootProgress >= 100
-    ){
-
-      showScreen(
-        "menuScreen"
-      );
-
-    }
+    [array[i],array[j]] =
+      [array[j],array[i]];
 
   }
-);
 
+  return array;
+
+}
 
 /* =========================
-   START
+   FLOATING REWARD
 ========================= */
 
-loadPlayer();
-updateHUD();
-runBoot();
+function showFloatingReward(text){
 
-console.log(
-  "🎮 REZA PIXEL SCHOOL RPG V1 READY"
-);
+  const element =
+    document.createElement("div");
+
+  element.className =
+    "float-reward";
+
+  element.textContent =
+    text;
+
+  document.body.appendChild(element);
+
+  setTimeout(()=>{
+    element.remove();
+  },950);
+
+}
+
+/* =========================
+   TOAST
+========================= */
+
+let toastTimer;
+
+function showToast(message){
+
+  const toast =
+    $("toast");
+
+  toast.textContent =
+    message;
+
+  toast.classList.add("show");
+
+  clearTimeout(toastTimer);
+
+  toastTimer =
+    setTimeout(()=>{
+
+      toast.classList.remove("show");
+
+    },2200);
+
+}
+
+/* =========================
+   INIT
+========================= */
+
+updateStats();
+renderSubjects();
+renderCollection();
+renderAchievements();
 
 </script>
 
